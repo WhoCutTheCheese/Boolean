@@ -1,4 +1,5 @@
 import { Client, Collection, PermissionsBitField, Routes } from "discord.js";
+import Maintenance from "../schemas/Maintenance";
 import path from "path";
 import fs from "fs";
 import { REST } from "@discordjs/rest";
@@ -67,6 +68,18 @@ export class RegisterCommands {
         
             try {
                 if(!interaction.guild?.members.me?.permissions.has([PermissionsBitField.Flags.SendMessages, PermissionsBitField.Flags.EmbedLinks])) return;
+                const devs = ["493453098199547905", "648598769449041946", "585731185083285504"]
+                const maintenance = await Maintenance.findOne({
+                    botID: client.user?.id
+                })
+                if (maintenance) {
+                    if (maintenance.maintenance == true) {
+                        if (!devs.includes(interaction.user.id)) {
+                            interaction.reply({ content: `**Uh Oh!** Boolean is currently under maintenance!\n**__Details:__** ${maintenance.maintainDetails}`, ephemeral: true })
+                            return;
+                        }
+                    }
+                }
                 await command.execute(interaction, client);
             } catch (error) {
                 console.error(error);

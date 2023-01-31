@@ -2,6 +2,7 @@ import { ActionRowBuilder, ButtonBuilder, ButtonStyle, Client, EmbedBuilder, Mes
 
 module.exports = {
     commands: ['invite', 'add', 'support'],
+    commandCategory: "User",
     callback: async (client: Client, message: Message, args: string[]) => {
 
         const row = new ActionRowBuilder<ButtonBuilder>()

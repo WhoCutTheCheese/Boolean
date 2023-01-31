@@ -7,6 +7,7 @@ module.exports = {
     maxArgs: 1,
     expectedArgs: "(@User/User ID)",
     cooldown: 1,
+    commandCategory: "User",
     callback: async (client: Client, message: Message, args: string[]) => {
 
         const settings = await Settings.findOne({

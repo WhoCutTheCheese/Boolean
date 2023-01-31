@@ -4,6 +4,7 @@ import { createFile } from "../../../utils/CreateFile";
 
 module.exports = {
     commands: ['stats', 'ram'],
+    commandCategory: "User",
     cooldown: 3,
     callback: async (client: Client, message: Message, args: string[]) => {
 

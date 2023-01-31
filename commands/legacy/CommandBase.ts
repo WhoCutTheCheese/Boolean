@@ -2,6 +2,7 @@ import { Client, ColorResolvable, EmbedBuilder, Message, PermissionsBitField, Te
 import Settings from "../../schemas/Settings";
 let prefix: string | undefined
 import Maintenance from "../../schemas/Maintenance";
+import { createFile } from "../../utils/CreateFile";
 
 const allCommands = {} as {
     [key: string]: any
@@ -32,7 +33,11 @@ module.exports.listen = (client: Client) => {
             const settings = await Settings.findOne({
                 guildID: message.guild?.id
             })
-            if (!settings) return;
+            if (!settings) {
+                createFile({ guild: message.guild! });
+                message.channel.send({ content: "Sorry, your settings file doesn't exist! If this error persists contact support" });
+                return;
+            }
             
             let color: ColorResolvable = "5865F2" as ColorResolvable;
             if (settings.guildSettings?.embedColor) color = settings.guildSettings.embedColor as ColorResolvable;

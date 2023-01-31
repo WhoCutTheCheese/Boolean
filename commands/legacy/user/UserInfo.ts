@@ -6,6 +6,7 @@ module.exports = {
     commands: ['userinfo', 'ui', 'uinfo', 'memberinfo', 'whois'],
     maxArgs: 1,
     cooldown: 2,
+    commandCategory: "User",
     callback: async (client: Client, message: Message, args: string[]) => {
 
         const settings = await Settings.findOne({

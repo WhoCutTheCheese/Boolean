@@ -6,6 +6,7 @@ const bot = require("../../../package.json");
 module.exports = {
     commands: ['botinfo', 'bot', 'info'],
     cooldown: 2,
+    commandCategory: "User",
     callback: async (client: Client, message: Message, args: string[]) => {
 
         const settings = await Settings.findOne({
