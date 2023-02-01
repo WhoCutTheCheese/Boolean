@@ -1,7 +1,6 @@
 import { GatewayIntentBits, Client } from "discord.js";
 import dotENV from "dotenv";
-import { RegisterEvents } from "./utils/RegisterEvents";
-import { RegisterCommands } from "./utils/RegisterCommands";
+import { Utilities } from "./utils/Utilities";
 dotENV.config();
 const token = process.env.token;
 
@@ -17,7 +16,15 @@ const client = new Client({
     ]
 });
 
-new RegisterEvents({ client: client, eventFolder: "events", typescript: true });
-new RegisterCommands({ client: client, commandsFolder: "commands/slash", typescript: true, token: token! })
+export class Main {
+    
+    getClient() {
+        return client;
+    }
+
+}
+
+new Utilities().registerCommands({ commandsFolder: "commands/slash", typescript: true, token: token! });
+new Utilities().registerEvents({ eventFolder: "events", typescript: true });
 
 client.login(token);

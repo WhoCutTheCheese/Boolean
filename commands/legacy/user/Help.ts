@@ -67,7 +67,7 @@ module.exports = {
         const helpEmbed = new EmbedBuilder()
             .setTitle("<:tasklist:967443053063327774> Help\n")
             .setThumbnail(message.guild?.iconURL() || null)
-            .setDescription("<a:coin:893603823459905536> **[Premium](https://google.com)** | :newspaper: **[Features](https://google.com/)** | <:bughuntergold:967441675507105842> **[Support Server](https://discord.gg/VD4sf98hKd)**")
+            .setDescription("<a:coin:893603823459905536> **[Premium](https://google.com)** | :newspaper: **[Features](https://google.com/)** | <:BugHunderLv2:1044190719943913502> **[Support Server](https://discord.gg/VD4sf98hKd)**")
             .addFields(
                 { name: "Current Guild Settings", value: `Prefix: \`${prefix}\`\nEmbed Color: \`#${color}\`\nPremium Status: \`${premium}\`` },
                 { name: "User Commands", value: `${user}`, inline: false },
