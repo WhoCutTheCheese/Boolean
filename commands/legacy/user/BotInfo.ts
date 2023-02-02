@@ -9,17 +9,7 @@ module.exports = {
     commandCategory: "User",
     callback: async (client: Client, message: Message, args: string[]) => {
 
-        const settings = await Settings.findOne({
-            guildID: message.guild?.id
-        })
-        if (!settings) {
-            new Utilities().createFile({ guild: message.guild! });
-            message.channel.send({ content: "Sorry, your settings file doesn't exist! If this error persists contact support" });
-            return;
-        }
-
-        let color: ColorResolvable = "5865F2" as ColorResolvable;
-        if (settings.guildSettings?.embedColor) color = settings.guildSettings.embedColor as ColorResolvable;
+        let color: ColorResolvable = await new Utilities().getEmbedColor(message.guild!)
 
         const row = new ActionRowBuilder<ButtonBuilder>()
             .addComponents(
@@ -34,7 +24,7 @@ module.exports = {
             .setColor(color)
             .addFields(
                 { name: "<:discovery:996115763842785370> Name:", value: `\`${client.user?.tag}\``, inline: true },
-                { name: "<:stage:996115761703702528> Team:", value: `\`Creator:\` TehCheese#1075\nContributors:\`${bot.contributors.join("`, `").trim()}\``, inline: true },
+                { name: "<:stage:996115761703702528> Team:", value: `\`Creator:\` TehCheese#1075\n\`Contributors:\` ${bot.contributors.join(", ").trim()}`, inline: true },
                 { name: "<:CertifiedModerator:1044190723798478870> Guilds:", value: `\`${client.guilds.cache.size.toLocaleString()}\``, inline: true },
                 { name: "<:gears:996115762848747530> Created:", value: `<t:${Math.floor(client.user!.createdAt.getTime() / 1000)}:D>`, inline: true },
                 { name: "<:staff:996115760579620974> Version:", value: `\`v${bot.version}\``, inline: true },

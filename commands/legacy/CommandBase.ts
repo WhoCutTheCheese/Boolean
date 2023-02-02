@@ -1,10 +1,10 @@
-import { Client, ColorResolvable, EmbedBuilder, Message, PermissionsBitField, TextChannel } from "discord.js"
+import { Client, ColorResolvable, EmbedBuilder, Message, PermissionResolvable, PermissionsBitField, TextChannel } from "discord.js"
 import Settings from "../../schemas/Settings";
 let prefix: string | undefined
 import Maintenance from "../../schemas/Maintenance";
 import { Utilities } from "../../utils/Utilities";
 
-const devs = ["493453098199547905", "648598769449041946", "585731185083285504", "296823576156307467"]
+const devs = ["493453098199547905", "648598769449041946", "585731185083285504", "296823576156307467", "539280098574991370"]
 
 const allCommands = {} as {
     [key: string]: any
@@ -37,7 +37,7 @@ module.exports.listen = (client: Client) => {
             })
             if (!settings) {
                 new Utilities().createFile({ guild: message.guild! });
-                message.channel.send({ content: "Sorry, your settings file doesn't exist! If this error persists contact support" });
+                message.channel.send({ content: "Sorry, your settings file doesn't exist! If this error persists contact support." });
                 return;
             }
             
@@ -54,6 +54,7 @@ module.exports.listen = (client: Client) => {
                 const maintenance = await Maintenance.findOne({
                     botID: client.user?.id
                 })
+
                 if (maintenance) {
                     if (maintenance.maintenance == true) {
                         if (!devs.includes(message.author.id)) {
@@ -62,10 +63,12 @@ module.exports.listen = (client: Client) => {
                         }
                     }
                 }
+
                 const command = allCommands[name.replace(prefix, '')]
                 if (!command) {
                     return
                 }
+
                 let {
                     minArgs = 0,
                     maxArgs = null,
@@ -74,6 +77,8 @@ module.exports.listen = (client: Client) => {
                     devOnly = false,
                     commandCategory = null,
                     description = "",
+                    botPermissions = [],
+                    userPermissions = [],
                     callback,
                 } = command
 
@@ -84,6 +89,49 @@ module.exports.listen = (client: Client) => {
                     }
                 }
 
+                if ((botPermissions as Array<PermissionsBitField>).length > 0) {
+
+                    let missingPerm : Boolean = false 
+
+                    for (let perm of botPermissions) {
+
+                        if (!message.guild?.members?.me?.permissions.has(perm, true)) {
+                            missingPerm = true
+                        }
+
+                        if (!(message.channel as TextChannel).permissionsFor(message.guild?.members.me!)?.has(perm, true)) {
+                            missingPerm = true
+                        };
+                    }
+
+                    if (missingPerm) {
+                        message.channel.send({ content: `I am missing the permissions to run this command :(`})
+                        return;
+                    }
+                }
+
+                if ((userPermissions as Array<PermissionsBitField>).length > 0) {
+
+                    let missingPerm : Boolean = false
+                        
+                    for (let perm of botPermissions) {
+                        
+                        if (!message.member?.permissions.has(perm, true)) {
+                            missingPerm = true
+                        }
+                        
+                        if (!(message.channel as TextChannel).permissionsFor(message.member!)?.has(perm, true)) {
+                            missingPerm = true
+                        };
+                    }
+                    
+                    if (missingPerm) {
+                        message.channel.send({ content: `You do not have the correct permissions required to run this command.   `})
+                        return;
+                    }
+
+                }
+                
                 if (args.length < minArgs || (maxArgs !== null && args.length > maxArgs)) {
                     message.reply({ content: `Incorrect syntax! Use \`${name} ${expectedArgs}\`` })
                     return;

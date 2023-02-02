@@ -9,16 +9,7 @@ module.exports = {
     commandCategory: "User",
     callback: async (client: Client, message: Message, args: string[]) => {
 
-        const settings = await Settings.findOne({
-            guildID: message.guild?.id
-        })
-        if (!settings) {
-            await new Utilities().createFile({guild: message.guild!});
-            message.channel.send({ content: "Sorry, your settings file doesn't exist! If this error persists contact support" });
-            return;
-        }
-        let color: ColorResolvable = "5865F2" as ColorResolvable;
-        if (settings.guildSettings?.embedColor) color = settings.guildSettings.embedColor as ColorResolvable;
+        let color: ColorResolvable = await new Utilities().getEmbedColor(message.guild!)
 
         let member = message.mentions.members?.first() || await message.guild?.members.fetch(args[0]).catch(() => {});
         let user = await client.users.fetch(args[0]).catch(() => {});

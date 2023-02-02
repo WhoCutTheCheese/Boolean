@@ -1,5 +1,4 @@
 import { ActionRowBuilder, ButtonBuilder, ButtonStyle, ChatInputCommandInteraction, Client, ColorResolvable, EmbedBuilder, Message, SlashCommandBuilder } from "discord.js";
-import Settings from "../../../schemas/Settings";
 import { Utilities } from "../../../utils/Utilities";
 const bot = require("../../../package.json");
 
@@ -10,17 +9,8 @@ module.exports = {
         .setDMPermission(false),
     async execute(interaction: ChatInputCommandInteraction, client: Client) {
         if (!interaction.inCachedGuild()) return interaction.reply({ content: "You must be inside a cached guild to use this command!", ephemeral: true })
-
-        const settings = await Settings.findOne({
-            guildID: interaction.guild?.id
-        })
-        if (!settings) {
-            await new Utilities().createFile({ guild: interaction.guild! });
-            interaction.reply({ content: "Sorry, your settings file doesn't exist! If this error persists contact support", ephemeral: true });
-            return;
-        }
-        let color: ColorResolvable = "5865F2" as ColorResolvable;
-        if (settings.guildSettings?.embedColor) color = settings.guildSettings.embedColor as ColorResolvable;
+        
+        let color: ColorResolvable = await new Utilities().getEmbedColor(interaction.guild!)
 
         const row = new ActionRowBuilder<ButtonBuilder>()
             .addComponents(

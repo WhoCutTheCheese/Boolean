@@ -1,4 +1,4 @@
-import { Collection, Guild, PermissionsBitField, REST, Routes } from "discord.js";
+import { Collection, Guild, PermissionsBitField, REST, Routes, ColorResolvable } from "discord.js";
 import path from "path";
 import fs from "fs";
 import * as fs2 from "fs/promises";
@@ -127,7 +127,17 @@ export class Utilities {
             })
             newSettings.save().catch((err: Error) => { console.error(err) });
         }
-
     }
 
+    async getGuildSettings(guild: Guild) {
+        return await Settings.findOne({guildID: guild.id});
+    }
+
+    async getEmbedColor(guild: Guild) : Promise<ColorResolvable> {
+        const settings = await this.getGuildSettings(guild!)
+        let color: ColorResolvable = "5865F2" as ColorResolvable;
+        if (settings == null) return color;
+        if (settings.guildSettings?.embedColor) color = settings.guildSettings.embedColor as ColorResolvable;
+        return color
+    }
 }
