@@ -2,7 +2,9 @@ import { Client, ColorResolvable, EmbedBuilder, Message, PermissionsBitField, Te
 import Settings from "../../schemas/Settings";
 let prefix: string | undefined
 import Maintenance from "../../schemas/Maintenance";
-import { createFile } from "../../utils/CreateFile";
+import { Utilities } from "../../utils/Utilities";
+
+const devs = ["493453098199547905", "648598769449041946", "585731185083285504", "296823576156307467"]
 
 const allCommands = {} as {
     [key: string]: any
@@ -34,7 +36,7 @@ module.exports.listen = (client: Client) => {
                 guildID: message.guild?.id
             })
             if (!settings) {
-                createFile({ guild: message.guild! });
+                new Utilities().createFile({ guild: message.guild! });
                 message.channel.send({ content: "Sorry, your settings file doesn't exist! If this error persists contact support" });
                 return;
             }
@@ -49,7 +51,6 @@ module.exports.listen = (client: Client) => {
             const name = args.shift()!.toLowerCase();
 
             if (name.startsWith(prefix)) {
-                const devs = ["493453098199547905", "648598769449041946", "585731185083285504"]
                 const maintenance = await Maintenance.findOne({
                     botID: client.user?.id
                 })
@@ -72,6 +73,7 @@ module.exports.listen = (client: Client) => {
                     cooldown = 0,
                     devOnly = false,
                     commandCategory = null,
+                    description = "",
                     callback,
                 } = command
 

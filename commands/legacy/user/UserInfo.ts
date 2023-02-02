@@ -1,6 +1,6 @@
-import { Client, ColorResolvable, EmbedBuilder, GuildMember, Message, User } from "discord.js";
+import { Client, ColorResolvable, EmbedBuilder, Message, User } from "discord.js";
 import Settings from "../../../schemas/Settings";
-import { createFile } from "../../../utils/CreateFile";
+import { Utilities } from "../../../utils/Utilities";
 
 module.exports = {
     commands: ['userinfo', 'ui', 'uinfo', 'memberinfo', 'whois'],
@@ -13,7 +13,7 @@ module.exports = {
             guildID: message.guild?.id
         })
         if (!settings) {
-            createFile({ guild: message.guild! });
+            new Utilities().createFile({ guild: message.guild! });
             message.channel.send({ content: "Sorry, your settings file doesn't exist! If this error persists contact support" });
             return;
         }
@@ -64,7 +64,9 @@ module.exports = {
             if (badge == "CertifiedModerator") badges.push(" <:CertifiedModerator:1044190723798478870>")
             if (badge == "ActiveDeveloper") badges.push(" <:ActiveDeveloper:1044190726327631942>")
         }
-
+        if(badges.length == 0) {
+            badges.push(`None`);
+        }
         let userInfoEmbed = new EmbedBuilder()
             .setAuthor({ name: `Who is ${user!.tag}`, iconURL: user!.displayAvatarURL() || undefined })
             .setThumbnail(user!.displayAvatarURL() || null)
@@ -84,7 +86,7 @@ module.exports = {
                 { name: "📆 Joined:", value: `${joinedAt}`, inline: true }
             )
             .setFooter({ text: `Requested by ${message.author.tag}`, iconURL: message.author.displayAvatarURL() || undefined })
-        message.channel.send({ embeds: [userInfoEmbed] })
+        message.channel.send({ embeds: [userInfoEmbed] }).catch(() => {})
 
 
 

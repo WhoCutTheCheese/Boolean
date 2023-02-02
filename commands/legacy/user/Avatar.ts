@@ -1,6 +1,6 @@
 import { Client, ColorResolvable, EmbedBuilder, GuildMember, Message, User } from "discord.js";
 import Settings from "../../../schemas/Settings";
-import { createFile } from "../../../utils/CreateFile";
+import { Utilities } from "../../../utils/Utilities";
 
 module.exports = {
     commands: ['avatar', 'av', 'pfp'],
@@ -14,7 +14,7 @@ module.exports = {
             guildID: message.guild?.id
         })
         if (!settings) {
-            createFile({ guild: message.guild! });
+            new Utilities().createFile({ guild: message.guild! });
             message.channel.send({ content: "Sorry, your settings file doesn't exist! If this error persists contact support" });
             return;
         }

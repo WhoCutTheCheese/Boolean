@@ -1,6 +1,6 @@
 import { ChatInputCommandInteraction, Client, ColorResolvable, EmbedBuilder, GuildMember, GuildVerificationLevel, Message, SlashCommandBuilder, TextChannel } from "discord.js";
 import Settings from "../../../schemas/Settings";
-import { createFile } from "../../../utils/CreateFile";
+import { Utilities } from "../../../utils/Utilities";
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -14,7 +14,7 @@ module.exports = {
             guildID: interaction.guild?.id
         })
         if (!settings) {
-            createFile({ guild: interaction.guild });
+            new Utilities().createFile({ guild: interaction.guild! });
             interaction.reply({ content: "Sorry, your settings file doesn't exist! If this error persists contact support", ephemeral: true });
             return;
         }
