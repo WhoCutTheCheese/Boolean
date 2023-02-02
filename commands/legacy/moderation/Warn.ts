@@ -1,15 +1,14 @@
-import { Client, ColorResolvable, EmbedBuilder, Message, PermissionsBitField, TextChannel } from "discord.js";
+import {Client, ColorResolvable, Message} from "discord.js";
 import Settings from "../../../schemas/Settings";
 import { Utilities } from "../../../utils/Utilities";
 
-
 module.exports = {
-    commands: ["purge", "clear", "remove"],
+    commands: ["warn", "warning", "infract"],
     minArgs: 1,
-    expectedArgs: "[message amount]",
+    expectedArgs: "[@User/User ID] [Reason]",
     commandCategory: "Moderation",
     callback: async (client: Client, message: Message, args: string[]) => {
-        if(!message.guild?.members.me?.permissions.has([ PermissionsBitField.Flags.ChangeNickname ])) return message.channel.send({ content: "I am unable to edit nicknames!" })
+
         const settings = await Settings.findOne({
             guildID: message.guild?.id
         })
@@ -22,7 +21,8 @@ module.exports = {
         let color: ColorResolvable = "5865F2" as ColorResolvable;
         if (settings.guildSettings?.embedColor) color = settings.guildSettings.embedColor as ColorResolvable;
 
-        message.channel.send({ content: "This bot likes men" })
+        const user = message.mentions.members?.first() || await message.guild?.members.fetch(args[0]).catch(() => {});
+        if(!user) return message.channel.send({ content: "Unable to fetch that member! Please try again." });
 
     }
 }

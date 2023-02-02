@@ -14,7 +14,7 @@ module.exports = {
             guildID: message.guild?.id
         })
         if (!settings) {
-            new Utilities().createFile({ guild: message.guild! });
+            await new Utilities().createFile({guild: message.guild!});
             message.channel.send({ content: "Sorry, your settings file doesn't exist! If this error persists contact support" });
             return;
         }

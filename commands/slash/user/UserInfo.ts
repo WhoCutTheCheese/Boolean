@@ -19,7 +19,7 @@ module.exports = {
             guildID: interaction.guild?.id
         })
         if (!settings) {
-            new Utilities().createFile({ guild: interaction.guild! });
+            await new Utilities().createFile({ guild: interaction.guild! });
             interaction.reply({ content: "Sorry, your settings file doesn't exist! If this error persists contact support", ephemeral: true });
             return;
         }
