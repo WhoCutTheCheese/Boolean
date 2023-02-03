@@ -1,10 +1,10 @@
-import { Collection, Guild, PermissionsBitField, REST, Routes, ColorResolvable } from "discord.js";
+import { Collection, Guild, PermissionsBitField, REST, Routes, ColorResolvable, Embed, EmbedBuilder, MessageType, Message } from 'discord.js';
 import path from "path";
 import fs from "fs";
-import * as fs2 from "fs/promises";
 import Maintenance from "../schemas/Maintenance";
 import { Main } from "../index";
 import Settings from "../schemas/Settings";
+import { ImportOrExportSpecifier } from 'typescript';
 declare module "discord.js" {
     export interface Client {
         commands: Collection<unknown, any>
@@ -13,7 +13,6 @@ declare module "discord.js" {
 }
 
 export class Utilities {
-
     registerEvents(args: {
         eventFolder: string,
         typescript: boolean
@@ -114,7 +113,6 @@ export class Utilities {
         })
     }
 
-
     async createFile(args: { guild: Guild }) {
         let { guild } = args;
 
@@ -129,14 +127,15 @@ export class Utilities {
         }
     }
 
-    async getGuildSettings(guild: Guild) {
+    async getGuildSettings(guild: Guild | null) {
+        if (!guild) return null;
         return await Settings.findOne({guildID: guild.id});
     }
 
-    async getEmbedColor(guild: Guild) : Promise<ColorResolvable> {
+    async getEmbedColor(guild: Guild | null) : Promise<ColorResolvable> {
         const settings = await this.getGuildSettings(guild!)
         let color: ColorResolvable = "5865F2" as ColorResolvable;
-        if (settings == null) return color;
+        if (!settings) return color;
         if (settings.guildSettings?.embedColor) color = settings.guildSettings.embedColor as ColorResolvable;
         return color
     }

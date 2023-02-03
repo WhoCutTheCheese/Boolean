@@ -24,6 +24,7 @@ module.exports = (commandOptions: { commands: string[] }) => {
         }
     }
 }
+
 let set = new Set()
 module.exports.listen = (client: Client) => {
     client.on("messageCreate", async (message: Message) => {
@@ -77,6 +78,7 @@ module.exports.listen = (client: Client) => {
                     devOnly = false,
                     commandCategory = null,
                     description = "",
+                    subCommands = [],
                     botPermissions = [],
                     userPermissions = [],
                     callback,
@@ -160,9 +162,12 @@ module.exports.listen = (client: Client) => {
                         }
                     }
                 }
-
-                callback(client, message, args, args.join(' '))
-
+                
+                try {
+                    callback(client, message, args, args.join(' '))
+                }catch (err) {
+                    message.reply({content: "Error"});
+                }
             }
 
         } catch (err) {
