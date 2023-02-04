@@ -2,7 +2,7 @@ import { GatewayIntentBits, Client } from "discord.js";
 import dotENV from "dotenv";
 import { Utilities } from "./utils/Utilities";
 dotENV.config();
-const token = process.env.token;
+const token = process.env.beta_token;
 
 const client = new Client({
     intents: [
@@ -18,7 +18,7 @@ const client = new Client({
 
 //Since Boolean's code is public now, I just like how classes look in code. I know it's basically completely useless :D
 export class Main {
-    
+
     getClient() {
         return client;
     }

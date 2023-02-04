@@ -29,13 +29,19 @@ module.exports = {
 
             deleteMsgs(messagesToRemoveInt, message, null);
         }
+
+        switch (args[0].toString().toLowerCase().trim()) {
+            case "bot": {
+
+            }
+        }
     }
 }
 
 async function deleteMsgs(count: number, orgMessage: Message, filter: Function | null) {
     let channel: TextChannel = orgMessage.channel as TextChannel
 
-    if (count >= 500) {
+    if (count > 500) {
         new EmbedUtils().sendArgsErrorEmbed(orgMessage, 1, module.exports, { description: "Purge amount can not be over 500!" })
         return;
     }

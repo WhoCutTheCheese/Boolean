@@ -77,11 +77,11 @@ export class EmbedUtils {
         if (!settings) return
 
         let user: User = options.target?.user!;
-        if(!user) {
+        if (!user) {
             user = options.targetUser!;
         }
-        if(!user) throw new Error(`Invalid user!`)
-        
+        if (!user) throw new Error(`Invalid user!`)
+
         let mod: GuildMember = options.mod;
         if (options.targetUser) {
             user = options.targetUser;
