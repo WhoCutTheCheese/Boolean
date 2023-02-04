@@ -1,12 +1,12 @@
-import { Client, Guild } from "discord.js";
+import { Guild } from "discord.js";
 import { Utilities } from "../utils/Utilities";
 
 module.exports = {
     name: "guildCreate",
     once: false,
-    async execute(client: Client, guild: Guild) {
+    async execute(guild: Guild) {
 
-        new Utilities().createFile({ guild: guild! });
+        await new Utilities().createFile({ guild: guild })
 
     }
 }

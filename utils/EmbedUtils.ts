@@ -1,5 +1,6 @@
-import { Collection, Guild, PermissionsBitField, REST, Routes, ColorResolvable, Embed, EmbedBuilder, MessageType, Message, Channel, TextChannel } from 'discord.js';
+import { Collection, Guild, PermissionsBitField, REST, Routes, ColorResolvable, Embed, EmbedBuilder, MessageType, Message, Channel, TextChannel, GuildMember, User, Attachment } from 'discord.js';
 import { Utilities } from './Utilities';
+import { Document } from 'mongoose';
 
 export enum messageType {
     String,
@@ -54,4 +55,58 @@ export class EmbedUtils {
             .setColor(await new Utilities().getEmbedColor(message.guild) || "#FF0000" as ColorResolvable)
         ]}) 
     } // Look pretty arg errors
+
+
+    async sendModLogs(options: {
+        guild: Guild,
+        settings: any;
+        mod: GuildMember,
+        target?: GuildMember,
+        targetUser?: User,
+        action: string,
+        attachments?: Attachment;
+    }, embedDetails: {
+        title: string,
+        actionInfo: string,
+        channel?: Channel,
+    }) {
+        const { guild, settings } = options;
+
+        let user: GuildMember | User | undefined = options.target;
+        let mod: GuildMember = options.mod;
+        if(options.targetUser) {
+            user = options.targetUser;
+        }
+        let users = `<:folder:977391492790362173> **Mod:** ${mod.user.tag} (${mod.id})`
+        if(user) {
+            users = users + `\n<:user:977391493218181120> **User:** ${(user as User).tag} (${user.id})`
+        }
+        let action = `<:pencil:977391492916207636> **Action:** ${options.action}
+        > ${embedDetails.actionInfo}`
+        let theChannel = ``
+        if(embedDetails.channel) {
+            theChannel = `\n<:channel:1071217768046800966> **Channel:** <#${embedDetails.channel.id}>`
+        }
+
+        const modLogEmbed = new EmbedBuilder()
+            .setAuthor({ name: embedDetails.title, iconURL: mod.displayAvatarURL() || undefined })
+            .setDescription(`${users} ${theChannel}
+            <:clock:1071213725610151987> **Date:** <t:${Math.round(Date.now() / 1000)}:D>
+            ${action}`)
+            .setColor(await new Utilities().getEmbedColor(options.guild))
+        const channel = guild?.channels.cache.find((c: any) => c.id === settings.modSettings?.modLogChannel!);
+        let exists = true
+        if (!channel) { exists = false; }
+        if (exists == true) {
+            if (guild.members.me?.permissionsIn(channel!).has([PermissionsBitField.Flags.SendMessages, PermissionsBitField.Flags.EmbedLinks])) {
+                if(options.attachments) {
+                    await (guild.channels.cache.find((c: any) => c.id === channel?.id) as TextChannel).send({embeds: [modLogEmbed], files: [options.attachments] });
+                } else {
+                    await (guild.channels.cache.find((c: any) => c.id === channel?.id) as TextChannel).send({embeds: [modLogEmbed] });
+                }
+            }
+        }
+
+    }
+
 }
