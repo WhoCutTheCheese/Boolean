@@ -41,7 +41,7 @@ module.exports.listen = (client: Client) => {
                 message.channel.send({ content: "Sorry, your settings file doesn't exist! If this error persists contact support." });
                 return;
             }
-            
+
             let color: ColorResolvable = "5865F2" as ColorResolvable;
             if (settings.guildSettings?.embedColor) color = settings.guildSettings.embedColor as ColorResolvable;
 
@@ -51,123 +51,122 @@ module.exports.listen = (client: Client) => {
             const args = message.content.split(/[ ]+/)
             const name = args.shift()!.toLowerCase();
 
-            if (name.startsWith(prefix)) {
-                const maintenance = await Maintenance.findOne({
-                    botID: client.user?.id
-                })
+            if (!name.startsWith(prefix)) return;
+            const maintenance = await Maintenance.findOne({
+                botID: client.user?.id
+            })
 
-                if (maintenance) {
-                    if (maintenance.maintenance == true) {
-                        if (!devs.includes(message.author.id)) {
-                            message.channel.send({ content: `**Uh Oh!** Boolean is currently under maintenance!\n**__Details:__** ${maintenance.maintainDetails}` })
-                            return;
-                        }
+            if (maintenance) {
+                if (maintenance.maintenance == true) {
+                    if (!devs.includes(message.author.id)) {
+                        message.channel.send({ content: `**Uh Oh!** Boolean is currently under maintenance!\n**__Details:__** ${maintenance.maintainDetails}` })
+                        return;
                     }
                 }
+            }
 
-                const command = allCommands[name.replace(prefix, '')]
-                if (!command) {
+            const command = allCommands[name.replace(prefix, '')]
+            if (!command) {
+                return
+            }
+
+            let {
+                minArgs = 0,
+                maxArgs = null,
+                expectedArgs = "",
+                cooldown = 0,
+                devOnly = false,
+                commandCategory = null,
+                description = "",
+                subCommands = [],
+                botPermissions = [],
+                userPermissions = [],
+                callback,
+            } = command
+
+            if (devOnly == true) {
+                if (!devs.includes(message.author.id)) {
+                    message.channel.send({ content: "This command is for developers only." })
                     return
                 }
+            }
 
-                let {
-                    minArgs = 0,
-                    maxArgs = null,
-                    expectedArgs = "",
-                    cooldown = 0,
-                    devOnly = false,
-                    commandCategory = null,
-                    description = "",
-                    subCommands = [],
-                    botPermissions = [],
-                    userPermissions = [],
-                    callback,
-                } = command
+            if ((botPermissions as Array<PermissionsBitField>).length > 0) {
 
-                if (devOnly == true) {
-                    if (!devs.includes(message.author.id)) {
-                        message.channel.send({ content: "This command is for developers only." })
-                        return
+                let missingPerm: Boolean = false
+
+                for (let perm of botPermissions) {
+
+                    if (!message.guild?.members?.me?.permissions.has(perm, true)) {
+                        missingPerm = true
                     }
+
+                    if (!(message.channel as TextChannel).permissionsFor(message.guild?.members.me!)?.has(perm, true)) {
+                        missingPerm = true
+                    };
                 }
 
-                if ((botPermissions as Array<PermissionsBitField>).length > 0) {
+                if (missingPerm) {
+                    message.channel.send({ content: `I am missing the permissions to run this command :(` })
+                    return;
+                }
+            }
 
-                    let missingPerm : Boolean = false 
+            if ((userPermissions as Array<PermissionsBitField>).length > 0) {
 
-                    for (let perm of botPermissions) {
+                let missingPerm: Boolean = false
 
-                        if (!message.guild?.members?.me?.permissions.has(perm, true)) {
-                            missingPerm = true
-                        }
+                for (let perm of botPermissions) {
 
-                        if (!(message.channel as TextChannel).permissionsFor(message.guild?.members.me!)?.has(perm, true)) {
-                            missingPerm = true
-                        };
+                    if (!message.member?.permissions.has(perm, true)) {
+                        missingPerm = true
                     }
 
-                    if (missingPerm) {
-                        message.channel.send({ content: `I am missing the permissions to run this command :(`})
-                        return;
-                    }
+                    if (!(message.channel as TextChannel).permissionsFor(message.member!)?.has(perm, true)) {
+                        missingPerm = true
+                    };
                 }
 
-                if ((userPermissions as Array<PermissionsBitField>).length > 0) {
-
-                    let missingPerm : Boolean = false
-                        
-                    for (let perm of botPermissions) {
-                        
-                        if (!message.member?.permissions.has(perm, true)) {
-                            missingPerm = true
-                        }
-                        
-                        if (!(message.channel as TextChannel).permissionsFor(message.member!)?.has(perm, true)) {
-                            missingPerm = true
-                        };
-                    }
-                    
-                    if (missingPerm) {
-                        message.channel.send({ content: `You do not have the correct permissions required to run this command.   `})
-                        return;
-                    }
-
-                }
-                
-                if (args.length < minArgs || (maxArgs !== null && args.length > maxArgs)) {
-                    message.reply({ content: `Incorrect syntax! Use \`${name} ${expectedArgs}\`` })
+                if (missingPerm) {
+                    message.channel.send({ content: `You do not have the correct permissions required to run this command.   ` })
                     return;
                 }
 
-                if (cooldown > 0) {
-                    if (set.has(message.author.id)) {
-                        message.channel.send({ content: `You must wait \`${cooldown} second(s)\` before using this command again!` })
-                        return;
-                    } else {
-                        set.add(message.author.id);
-                        setTimeout(() => {
-                            set.delete(message.author.id);
-                        }, cooldown * 1000);
-                    }
-                }
+            }
 
-                if (message.guild.members.me.permissions.has(PermissionsBitField.Flags.ManageMessages)) {
-                    if ((message.channel as TextChannel).permissionsFor(message.guild.members.me!)?.has(PermissionsBitField.Flags.ManageMessages)) {
-                        if (settings.modSettings?.deleteCommandUsage == true) {
-                            if (message.deletable) {
-                                setTimeout(() => {
-                                    message.delete
-                                }, 3000)
-                            }
+            if (args.length < minArgs || (maxArgs !== null && args.length > maxArgs)) {
+                message.reply({ content: `Incorrect syntax! Use \`${name} ${expectedArgs}\`` })
+                return;
+            }
+
+            if (cooldown > 0) {
+                if (set.has(message.author.id)) {
+                    message.channel.send({ content: `You must wait \`${cooldown} second(s)\` before using this command again!` })
+                    return;
+                } else {
+                    set.add(message.author.id);
+                    setTimeout(() => {
+                        set.delete(message.author.id);
+                    }, cooldown * 1000);
+                }
+            }
+
+            if (message.guild.members.me.permissions.has(PermissionsBitField.Flags.ManageMessages)) {
+                if ((message.channel as TextChannel).permissionsFor(message.guild.members.me!)?.has(PermissionsBitField.Flags.ManageMessages)) {
+                    if (settings.modSettings?.deleteCommandUsage == true) {
+                        if (message.deletable) {
+                            setTimeout(() => {
+                                message.delete
+                            }, 3000)
                         }
                     }
                 }
-                
-                try {
-                    callback(client, message, args, args.join(' '))
-                }catch (err) {
-                    message.reply({content: "Error"});
-                }
+            }
+
+            try {
+                callback(client, message, args, args.join(' '))
+            } catch (err) {
+                message.reply({ content: "Error" });
             }
 
         } catch (err) {
