@@ -128,7 +128,7 @@ export class Utilities {
     }
 
     async getGuildSettings(guild: Guild | null) {
-        if (!guild) return null;
+        if (!guild || !guild.id) return null;
         return await Settings.findOne({guildID: guild.id});
     }
 
