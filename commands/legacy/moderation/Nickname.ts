@@ -65,7 +65,6 @@ module.exports = {
     new EmbedUtils().sendModLogs(
       {
         guild: message.guild,
-        settings: settings,
         mod: message.member!,
         target: user,
         action: action,

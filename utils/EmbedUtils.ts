@@ -76,7 +76,12 @@ export class EmbedUtils {
         const settings = await new Utilities().getGuildSettings(guild)
         if (!settings) return
 
-        let user: GuildMember | User | undefined = options.target;
+        let user: User = options.target?.user!;
+        if(!user) {
+            user = options.targetUser!;
+        }
+        if(!user) throw new Error(`Invalid user!`)
+        
         let mod: GuildMember = options.mod;
         if (options.targetUser) {
             user = options.targetUser;
