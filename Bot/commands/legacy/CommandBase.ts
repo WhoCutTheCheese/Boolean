@@ -1,8 +1,9 @@
-import { Client, ColorResolvable, EmbedBuilder, Message, PermissionResolvable, PermissionsBitField, TextChannel } from "discord.js"
+import { Client, ColorResolvable, EmbedBuilder, Message, PermissionResolvable, PermissionsBitField, TextChannel, time } from 'discord.js';
 import Settings from "../../schemas/Settings";
 let prefix: string | undefined
 import Maintenance from "../../schemas/Maintenance";
 import { Utilities } from "../../utils/Utilities";
+import { EmbedUtils } from '../../utils/EmbedUtils';
 
 const devs = ["493453098199547905", "648598769449041946", "585731185083285504", "296823576156307467", "539280098574991370"]
 
@@ -25,7 +26,7 @@ module.exports = (commandOptions: { commands: string[] }) => {
     }
 }
 
-let set = new Set()
+const cooldowns: Map<string, Map<string, number>> = new Map();
 module.exports.listen = (client: Client) => {
     client.on("messageCreate", async (message: Message) => {
         try {
@@ -128,35 +129,63 @@ module.exports.listen = (client: Client) => {
                 }
 
                 if (missingPerm) {
-                    message.channel.send({ content: `You do not have the correct permissions required to run this command.   ` })
+                    new EmbedUtils().sendErrorEmbed((message.channel as TextChannel), message, { errorEmoji: false, replyToMessage: true, deleteMsg: true }, { title: "No permissions", description: `You do not have the correct permissions required to run this command.` })
                     return;
                 }
 
             }
 
             if (args.length < minArgs || (maxArgs !== null && args.length > maxArgs)) {
-                message.reply({ content: `Incorrect syntax! Use \`${name} ${expectedArgs}\`` })
+                new EmbedUtils().sendErrorEmbed((message.channel as TextChannel), message, { errorEmoji: false, replyToMessage: false, deleteMsg: true }, { title: "Invalid syntax", description: `Please use \`${name} ${expectedArgs}\`` })
                 return;
             }
 
             if (cooldown > 0) {
-                if (set.has(message.author.id)) {
-                    message.channel.send({ content: `You must wait \`${cooldown} second(s)\` before using this command again!` })
-                    return;
+                let userId = message.author.id
+
+                if (!cooldowns.has(command)) {
+                    cooldowns.set(command, new Map());
+                }
+
+                const now = Math.floor(Date.now() / 1000);
+                const timestamps = cooldowns.get(command);
+                if (timestamps!.get(userId)) {
+                    let remainingTime = timestamps!.get(userId)! + cooldown - now;
+
+                    if (remainingTime > 0) {
+                        message.channel.send({ content: `You must wait \`${remainingTime} second(s)\` before using this command again!` })
+                        return;
+                    } else {
+                        timestamps?.delete(userId)
+                    }
                 } else {
-                    set.add(message.author.id);
-                    setTimeout(() => {
-                        set.delete(message.author.id);
-                    }, cooldown * 1000);
+                    timestamps!.set(userId, now);
                 }
             }
+
+            // if (cooldown > 0) {
+            //     console.log(Math.floor(Date.now() / 1000) - set[message.author.id].Time)
+
+            //     let nameNoPrefix = name.replace(prefix, "")
+
+            //     if ((set[message.author.id] && nameNoPrefix === set[message.author.id].Command) && (Math.floor(Date.now() / 1000) - set[message.author.id].Time < cooldown)) {
+            //         message.channel.send({ content: `You must wait \`${Math.floor(Date.now() / 1000) - set[message.author.id]} second(s)\` before using this command again!` })
+            //         return;
+            //     }else if () {
+
+            //     }else if (!set[message.author.id]) {
+            //         set[][message.author.id] = {Command: name.replace(prefix, ""), Time: Math.floor(Date.now() / 1000)}
+            //     }
+            // }
 
             if (message.guild.members.me.permissions.has(PermissionsBitField.Flags.ManageMessages)) {
                 if ((message.channel as TextChannel).permissionsFor(message.guild.members.me!)?.has(PermissionsBitField.Flags.ManageMessages)) {
                     if (settings.modSettings?.deleteCommandUsage == true) {
                         if (message.deletable) {
                             setTimeout(() => {
-                                message.delete
+                                try {
+                                    message.delete
+                                } catch (err) { }
                             }, 3000)
                         }
                     }

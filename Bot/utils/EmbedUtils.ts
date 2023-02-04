@@ -11,7 +11,7 @@ export class EmbedUtils {
     async sendSuccessEmbed(channel: TextChannel, orgMessage: Message | null, settings: { successEmoji: boolean, replyToMessage: boolean, deleteMsg?: boolean, deleteTimerTime?: number }, args: { title?: string, description: string, footer?: string }) {
         let embed = await new EmbedBuilder()
             .setTitle(args.title || "Success")
-            .setDescription(`${(settings.successEmoji ? ":white_check_mark:" : "")} ${args.description}`)
+            .setDescription(`${(settings.successEmoji ? "<:yes:979193272612298814>" : "")} ${args.description}`)
             .setFooter({ text: args.footer || " " })
             .setColor(await new Utilities().getEmbedColor(channel.guild))
 
@@ -22,30 +22,34 @@ export class EmbedUtils {
 
         if (settings.deleteMsg) {
             setTimeout(() => {
-                if (newMSG && newMSG.deletable) {
+                try {
                     newMSG.delete()
-                }
+                } catch (err) { }
+
             }, settings.deleteTimerTime || 5000);
         }
     }
 
-    sendErrorEmbed(message: Message, errorType: messageType, args: { embedColor: ColorResolvable, title?: string, description?: string }) {
-        switch (errorType) {
-            case messageType.Embed: {
-                message.reply({
-                    embeds: [
-                        new EmbedBuilder()
-                            .setTitle(args.title || "Command Error")
-                            .setDescription(`\`${args.description || "Unknown Error"}\``)
-                            .setColor(args.embedColor || "#FF0000" as ColorResolvable)
-                    ]
-                })
-            }
-            default: {
-                message.reply({ content: `There was an error executing this command: \`${args.description || "Unknown Error"}\`` })
-            }
+    async sendErrorEmbed(channel: TextChannel, orgMessage: Message | null, settings: { errorEmoji: boolean, replyToMessage: boolean, deleteMsg?: boolean, deleteTimerTime?: number }, args: { title?: string, description: string, footer?: string }) {
+        let embed = await new EmbedBuilder()
+            .setTitle(args.title || "Error")
+            .setDescription(`${(settings.errorEmoji ? "<:no:979193272784265217>" : "")} ${args.description}`)
+            .setFooter({ text: args.footer || " " })
+            .setColor(await new Utilities().getEmbedColor(channel.guild))
+
+        let newMSG: Message;
+        if (settings.replyToMessage && orgMessage) {
+            newMSG = await orgMessage.reply({ embeds: [embed] });
+        } else newMSG = await channel.send({ embeds: [embed] })
+
+        if (settings.deleteMsg) {
+            setTimeout(() => {
+                try {
+                    newMSG.delete()
+                } catch (err) { }
+            }, settings.deleteTimerTime || 5000);
         }
-    } // For general purpose args
+    }
 
     async sendArgsErrorEmbed(message: Message, argPlacement: number, cmdExports: typeof module.exports, args?: { description: string }) {
         let description: string = `${args && args.description ? args.description : `Invalid argument found at position \`${argPlacement}\``}\n\nCMD Args: \`${cmdExports.expectedArgs}\``; if (cmdExports.subCommands) description = description.concat(`\nSub commands: \`${cmdExports.subCommands.join(", ")}\``)
@@ -80,7 +84,6 @@ export class EmbedUtils {
         if (!user) {
             user = options.targetUser!;
         }
-        if (!user) throw new Error(`Invalid user!`)
 
         let mod: GuildMember = options.mod;
         if (options.targetUser) {
