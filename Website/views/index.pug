@@ -1,0 +1,203 @@
+doctype html
+head
+  meta(charset='utf-8')
+  meta(name='viewport' content='width=device-width, initial-scale=1')
+  title Boolean
+  link(rel='stylesheet' href='public/css/bulma.min.css')
+  link(rel='stylesheet' href='public/css/style.css')
+  link(href='https://unpkg.com/aos@2.3.1/dist/aos.css' rel='stylesheet')
+  link(rel='stylesheet' href='https://unpkg.com/tippy.js@6/animations/scale.css')
+  link(rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css' integrity='sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g==' crossorigin='anonymous' referrerpolicy='no-referrer')
+  script(src="https://code.jquery.com/jquery-3.6.1.min.js" integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous")
+// Back To Top Start
+a#backtotop(data-tippy-content='Back To Top.')
+  i.fa-solid.fa-angle-up.has-text-white.fa-2xl.mt-5
+// Back To Top End
+// Navbar Start
+nav.navbar.is-fixed-top(role='navigation' aria-label='main navigation')
+  .navbar-brand.mt-2.mb-2
+    a.navbar-item(href='#')
+      strong Your Bot
+      // or if you want to use image
+      //
+        <img
+        src="image link or path"
+        width="112"
+        height="28"
+        />
+    a.navbar-burger.has-text-white(role='button' data-target='navMenu' aria-label='menu' aria-expanded='false')
+      span(aria-hidden='true')
+      span(aria-hidden='true')
+      span(aria-hidden='true')
+  #navbarBasicExample.navbar-menu
+    .navbar-start
+      a.navbar-item.is-tab(href='#')
+        | Home
+      a.navbar-item.is-tab(href='#features')
+        | Features
+      a.navbar-item.is-tab(href='#stats')
+        | Stats
+      a.navbar-item.is-tab(href='#')
+        | Docs
+    .navbar-end
+      a.navbar-item.is-tab(href='#' target='_blank')
+        i.fa-brands.fa-discord
+      a.navbar-item.is-tab(href='#' target='_blank')
+        i.fa-brands.fa-github
+      .navbar-item
+        .buttons
+          a.button.is-blurple(href='#')
+            strong
+              i.fa-solid.fa-right-to-bracket.mr-2
+              |                   Login
+// Navbar End
+// Hero Section Start
+section.hero.bg-base.is-fullheight
+  .hero-body
+    div
+      .columns
+        .column.mr-6.mt-12(data-aos='fade-up')
+          p.title.has-text-white.has-text-weight-bold
+            | Time to add [your bot] to your server.
+          p.subtitle.has-text-grey-light.is-size-6.mt-3
+            | Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
+            | eiusmod tempor incididunt ut labore et dolore magna aliqua.
+          .buttons
+            a.button.is-info(href='#')
+              strong Add To Discord
+            a.button.is-primary.is-outlined(href='#')
+              strong
+                i.fa-solid.fa-crown
+                |  Premium
+        .column.mt-6(data-aos='fade-left')
+          img.image.has-image-centered.vert-move.mt-4(src='public/img/relaunch_day.svg' alt='hero image' style='width: 20rem;')
+  .has-text-centered(data-tippy-content='Scroll Down')
+    a(href='#features')
+      i.fa-solid.fa-circle-chevron-down.fa-lg.vert-move2.has-text-white
+// Hero Section End
+// Hero Waves Start
+svg(xmlns='http://www.w3.org/2000/svg' viewbox='0 0 1440 320')
+  path(fill='#1a2634' fill-opacity='1' d='M0,288L24,261.3C48,235,96,181,144,154.7C192,128,240,128,288,149.3C336,171,384,213,432,202.7C480,192,528,128,576,133.3C624,139,672,213,720,213.3C768,213,816,139,864,101.3C912,64,960,64,1008,106.7C1056,149,1104,235,1152,240C1200,245,1248,171,1296,144C1344,117,1392,139,1416,149.3L1440,160L1440,0L1416,0C1392,0,1344,0,1296,0C1248,0,1200,0,1152,0C1104,0,1056,0,1008,0C960,0,912,0,864,0C816,0,768,0,720,0C672,0,624,0,576,0C528,0,480,0,432,0C384,0,336,0,288,0C240,0,192,0,144,0C96,0,48,0,24,0L0,0Z')
+// Hero Waves End
+// Features Section Start
+section#features.section.mt-6
+  .has-text-centered
+    h1.title.lined Features
+    .line.line-center.blurple
+  // single feature start (Left)
+  .single-feature
+    .shape-right(data-aos='fade-up-left')
+      svg(viewbox='0 0 200 200' xmlns='http://www.w3.org/2000/svg')
+        path(fill='#9AAAE3' d='M42.7,-62.9C50.9,-52.8,50.1,-34.4,51.7,-19.2C53.4,-4,57.4,8,56.6,20.8C55.8,33.7,50.1,47.4,39.9,53.8C29.6,60.1,14.8,59.1,0.4,58.5C-14,58,-28,57.9,-38,51.5C-48.1,45,-54.3,32.3,-61.3,18.1C-68.4,4,-76.4,-11.7,-71.9,-22.7C-67.4,-33.6,-50.4,-39.8,-36.3,-47.9C-22.2,-56.1,-11.1,-66.3,3.1,-70.5C17.2,-74.7,34.5,-72.9,42.7,-62.9Z' transform='translate(100 100)')
+    .columns.mt-6
+      .column.mr-6
+        h4.title
+          | Feature 
+          span.blurple #1
+        p.subtitle.mt-3
+          | Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
+          | eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
+          | enim ad minim veniam, quis nostrud exercitation ullamco laboris
+          | nisi ut aliquip ex ea commodo consequat.
+      .column(data-aos='fade-left')
+        img.image.has-image-centered(src='public/img/features_overview.svg' alt='feature1 img' style='width: 20rem;')
+  // single feature end (Left)
+  // single feature start (Right)
+  .single-feature
+    .shape-left(data-aos='fade-up-right')
+      svg(viewbox='0 0 200 200' xmlns='http://www.w3.org/2000/svg')
+        path(fill='#9AAAE3' d='M54.2,-67.2C69.4,-63.5,80.4,-46.6,84.6,-28.7C88.7,-10.8,86,8.1,76.8,21.4C67.6,34.7,51.9,42.3,38.1,50.3C24.2,58.3,12.1,66.7,-2.8,70.5C-17.7,74.3,-35.3,73.6,-45.6,64.5C-55.9,55.3,-58.8,37.7,-63.3,21.2C-67.7,4.7,-73.7,-10.6,-71.8,-25.4C-69.8,-40.2,-59.9,-54.5,-46.6,-58.9C-33.3,-63.2,-16.7,-57.6,1.4,-59.6C19.5,-61.5,39,-71,54.2,-67.2Z' transform='translate(100 100)')
+    .columns.mt-6
+      .column(data-aos='fade-right')
+        img.image.has-image-centered(src='public/img/product_literation.svg' alt='feature1 img' style='width: 20rem;')
+      .column
+        h4.title
+          | Feature 
+          span.has-text-primary #2
+        p.subtitle.mt-3
+          | Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
+          | eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
+          | enim ad minim veniam, quis nostrud exercitation ullamco laboris
+          | nisi ut aliquip ex ea commodo consequat.
+  // single feature end (Right)
+  // single feature start (Left)
+  .single-feature
+    .shape-right(data-aos='fade-up-left')
+      svg(viewbox='0 0 200 200' xmlns='http://www.w3.org/2000/svg')
+        path(fill='#9AAAE3' d='M42.7,-62.9C50.9,-52.8,50.1,-34.4,51.7,-19.2C53.4,-4,57.4,8,56.6,20.8C55.8,33.7,50.1,47.4,39.9,53.8C29.6,60.1,14.8,59.1,0.4,58.5C-14,58,-28,57.9,-38,51.5C-48.1,45,-54.3,32.3,-61.3,18.1C-68.4,4,-76.4,-11.7,-71.9,-22.7C-67.4,-33.6,-50.4,-39.8,-36.3,-47.9C-22.2,-56.1,-11.1,-66.3,3.1,-70.5C17.2,-74.7,34.5,-72.9,42.7,-62.9Z' transform='translate(100 100)')
+    .columns.mt-6
+      .column.mr-6
+        h4.title
+          | Feature 
+          span.has-text-warning #3
+        p.subtitle.mt-3
+          | Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
+          | eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
+          | enim ad minim veniam, quis nostrud exercitation ullamco laboris
+          | nisi ut aliquip ex ea commodo consequat.
+      .column(data-aos='fade-left')
+        img.image.has-image-centered(src='public/img/feeling_happy.svg' alt='feature1 img' style='width: 20rem;')
+  // single feature end (Left)
+  // single feature start (Right)
+  .single-feature
+    .shape-left(data-aos='fade-up-right')
+      svg(viewbox='0 0 200 200' xmlns='http://www.w3.org/2000/svg')
+        path(fill='#9AAAE3' d='M54.2,-67.2C69.4,-63.5,80.4,-46.6,84.6,-28.7C88.7,-10.8,86,8.1,76.8,21.4C67.6,34.7,51.9,42.3,38.1,50.3C24.2,58.3,12.1,66.7,-2.8,70.5C-17.7,74.3,-35.3,73.6,-45.6,64.5C-55.9,55.3,-58.8,37.7,-63.3,21.2C-67.7,4.7,-73.7,-10.6,-71.8,-25.4C-69.8,-40.2,-59.9,-54.5,-46.6,-58.9C-33.3,-63.2,-16.7,-57.6,1.4,-59.6C19.5,-61.5,39,-71,54.2,-67.2Z' transform='translate(100 100)')
+    .columns.mt-6
+      .column(data-aos='fade-right')
+        img.image.has-image-centered(src='public/img/music.svg' alt='feature1 img' style='width: 20rem;')
+      .column
+        h4.title
+          | Feature 
+          span.has-text-info #4
+        p.subtitle.mt-3
+          | Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
+          | eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
+          | enim ad minim veniam, quis nostrud exercitation ullamco laboris
+          | nisi ut aliquip ex ea commodo consequat.
+  // single feature end (Right)
+// Features Section End
+// Stats Section Start
+section#stats.section.mt-6
+  .has-text-centered
+    h1.title.lined Stats
+    .line.line-center.blurple
+  .columns.mt-6
+    .column.has-text-centered
+      p.title.has-text-weight-bold.lined 000
+      span.subtitle.has-text-weight-bold.blurple
+        i.fa-solid.fa-server
+        |  Servers
+    .column.has-text-centered
+      p.title.has-text-weight-bold.lined 000
+      span.subtitle.has-text-weight-bold.blurple
+        i.fa-solid.fa-terminal
+        |  Commands
+    .column.has-text-centered
+      p.title.has-text-weight-bold.lined 000
+      span.subtitle.has-text-weight-bold.blurple
+        i.fa-solid.fa-users
+        |  Users
+// Stats Section End
+// Invite Section Start
+section.section.mt-6
+  .columns
+    .column.has-text-left
+      p.title.has-text-weight-bold
+        | Ready to try 
+        span.blurple [your bot]
+        | ?
+      p.subtitle.mt-3.has-text-gray
+        | Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
+        | eiusmod tempor incididunt ut labore et dolore magna aliqua.
+      a.button.is-blurple.is-medium(href='#')
+        strong
+          i.fa-solid.fa-book
+          |  Get Started
+    .column
+// Invite Section End
+
+script(src='https://unpkg.com/aos@2.3.1/dist/aos.js')
+script(src='https://unpkg.com/@popperjs/core@2')
+script(src='https://unpkg.com/tippy.js@6')
+script(src='public/js/script.js')
