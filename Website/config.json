@@ -2,7 +2,7 @@
 	"loginURL": "https://example.com",
 	"botInvite": "https://discord.com/oauth2/authorize?client_id=966634522106036265&permissions=1377007168710&scope=bot%20applications.commands",
 	"discordInvite": "https://discord.gg/G2EhQCZZfh",
-	"githubLink": "https://github.com/WhoCutTheCheese/Boolean/tree/Rewrite-v3.0.0",
+	"githubLink": "https://github.com/WhoCutTheCheese/Boolean/",
 	"botLogo": "https://cdn.discordapp.com/avatars/966634522106036265/24f34ce68c53b1969494cdce8056e8c8.webp?size=512",
 	"appName": "Boolean"
 }
