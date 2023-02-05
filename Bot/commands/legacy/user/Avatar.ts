@@ -12,14 +12,14 @@ module.exports = {
 
 		let color: ColorResolvable = await new Utilities().getEmbedColor(message.guild!)
 
-		let user = message.mentions.members?.first() || await message.guild?.members.fetch(args[0]).catch(() => { }) || await client.users.fetch(args[0]).catch(() => { });
+		let user = message.mentions.users?.first() || await client.users.fetch(args[0]).catch(() => { });
 		if (!args[0]) {
 			user = message.author;
 		}
 		if (!user) return message.channel.send({ content: "Unable to fetch that member! Please try again." })
 
 		const avatarEmbed = new EmbedBuilder()
-			.setAuthor({ name: `${(user as User).tag} Avatar`, iconURL: (user as User).displayAvatarURL() || undefined })
+			.setAuthor({ name: `${user.tag} Avatar`, iconURL: (user as User).displayAvatarURL() || undefined })
 			.setColor(color)
 			.setImage((user as User).displayAvatarURL({ size: 512 }) || null)
 			.setFooter({ text: `Requested by ${message.author.tag}` })

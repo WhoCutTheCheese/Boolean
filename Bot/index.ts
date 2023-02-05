@@ -2,7 +2,7 @@ import { GatewayIntentBits, Client } from "discord.js";
 import dotENV from "dotenv";
 import { Utilities } from "./utils/Utilities";
 dotENV.config();
-const token = process.env.beta_token;
+const token = process.env.token;
 
 const client = new Client({
 	intents: [
