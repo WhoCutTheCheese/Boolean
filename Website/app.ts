@@ -1,16 +1,44 @@
-import createError from 'http-errors';
+import * as dotenv from 'dotenv';
+
 import express, { Request, Response, NextFunction } from 'express';
+import createError from 'http-errors';
 import path from 'path';
-import cookieParser from 'cookie-parser';
 import logger from 'morgan';
-import favicon from 'serve-favicon';
+import session from 'express-session'
+import mongoStore from 'connect-mongo'
+import mongoose from 'mongoose'
 
 import indexRouter from './routes/index';
-import usersRouter from './routes/users';
+import authRouter from './routes/auth';
 
+dotenv.config();
 const app = express();
 
+var mongoURL = process.env.mongo_url;
+if (!mongoURL) throw new Error("Please put a mongo url in ur ENV, it is required for this website to work!")
+
+const appSession = session({
+	secret: "5SuperSecretPassword5",
+	cookie: {
+		maxAge: 1000 * 60 * 60 * 24 * 7, // 1 week
+	},
+	resave: true,
+	saveUninitialized: true,
+	store: mongoStore.create({
+		mongoUrl: mongoURL,
+		collectionName: "Sessions",
+		ttl: 14 * 24 * 60 * 60, // = 14 days. Default
+	}),
+});
+
+mongoose.set('strictQuery', true);
+mongoose.connect(mongoURL);
+
+const db = mongoose.connection;
+db.on("error", console.error.bind(console, "MongoDB connection error:"));
 // view engine setup
+
+app.use(appSession);
 
 app.use(logger("dev"));
 
@@ -22,7 +50,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 
 app.use('/', indexRouter);
-app.use('/users', usersRouter);
+app.use('/auth', authRouter);
 
 // catch 404 and forward to error handler
 app.use((req: Request, res: Response, next: NextFunction) => {

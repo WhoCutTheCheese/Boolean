@@ -88,5 +88,5 @@ function onListening(): void {
 	const bind = typeof addr === 'string'
 		? 'pipe ' + addr
 		: 'port ' + addr?.port;
-	debugLog('Listening on ' + bind);
+	console.log(`Listning on port ${port}`)
 }

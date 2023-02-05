@@ -4,11 +4,13 @@ head
 	meta(name='viewport' content='width=device-width, initial-scale=1')
 	title= appName
 	link(rel='stylesheet' href='/public/css/bulma.min.css')
-	link(rel='stylesheet' href='/public/css/style.css')
+	link(rel='stylesheet' href='/public/css/index.css')
 	link(href='https://unpkg.com/aos@2.3.1/dist/aos.css' rel='stylesheet')
 	link(rel='stylesheet' href='https://unpkg.com/tippy.js@6/animations/scale.css')
 	link(rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css' integrity='sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g==' crossorigin='anonymous' referrerpolicy='no-referrer')
-	script(src='/public/js/jquery-3.6.0.js')
+	script(src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.3/jquery.min.js")
+	script.
+		window.loginURL = '#{loginURL}'
 // Back To Top Start
 a#backtotop(data-tippy-content='Back To Top.')
 	i.fa-solid.fa-angle-up.has-text-white.fa-2xl.mt-5
@@ -39,7 +41,7 @@ nav.navbar.is-fixed-top(role='navigation' aria-label='main navigation')
 				i.fa-brands.fa-github
 			.navbar-item
 				.buttons
-					a.button.is-blurple(href='#')
+					button.login.button.is-blurple(href='#')
 						strong
 							i.fa-solid.fa-right-to-bracket.mr-2
 							|                   Login
@@ -196,4 +198,4 @@ footer.footer.bg-base
 script(src='https://unpkg.com/aos@2.3.1/dist/aos.js')
 script(src='https://unpkg.com/@popperjs/core@2')
 script(src='https://unpkg.com/tippy.js@6')
-script(src='/public/js/script.js')
+script(src='/public/js/index.js')
