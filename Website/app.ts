@@ -1,53 +1,44 @@
-import * as dotenv from "dotenv";
+import createError from 'http-errors';
+import express, { Request, Response, NextFunction } from 'express';
+import path from 'path';
+import cookieParser from 'cookie-parser';
+import logger from 'morgan';
+import favicon from 'serve-favicon';
 
-import * as http from "http";
-import * as socket from "socket.io";
-import * as settings from './config.json'
-import express from "express";
-import session from "express-session";
-import mongoose from "mongoose";
-import mongoStore from "connect-mongo";
-import path from "path";
-import sharedSession from "express-socket.io-session";
-import bodyParser from "body-parser";
-import logger from "morgan";
-import { v4 as uuidv4 } from 'uuid';
-
-dotenv.config();
-
-const port = process.env.PORT || 3000;
+import indexRouter from './routes/index';
+import usersRouter from './routes/users';
 
 const app = express();
 
-const server = http.createServer();
+// view engine setup
 
-// --> App <-- \\
+app.use(logger("dev"));
 
-// app.use(logger("dev"));
-// app.use(express.json());
-// app.use(express.urlencoded({ extended: false }));
-
-// app.set("views", path.join(__dirname, "views"));
-// app.set("view engine", "pug");
+app.set("views", path.join(__dirname, "views"));
+app.set("view engine", "pug");
 app.use("/public", express.static(__dirname + "/public"));
-// app.use(bodyParser.urlencoded({ extended: false }));
-// app.use(bodyParser.json());
+app.use("/favicon.ico", express.static(path.join(__dirname, "/public/img/favicon.ico")));
+app.use(express.urlencoded({ extended: false }));
+app.use(express.json());
 
-app.get("/", (req, res) => {
-    console.log("/")
-    res.send("Hello World");
+app.use('/', indexRouter);
+app.use('/users', usersRouter);
+
+// catch 404 and forward to error handler
+app.use((req: Request, res: Response, next: NextFunction) => {
+	next(createError(404));
 });
 
-// --> Server Functions <-- \\
+// error handler
+app.use((err: any, req: Request, res: Response, next: NextFunction) => {
+	// set locals, only providing error in development
+	console.error(err)
+	res.locals.message = err.message;
+	res.locals.error = req.app.get('env') === 'development' ? err : {};
 
-server.on("listening", () => {
-    console.log(`Listing on port ${port}`)
-})
+	// render the error page
+	res.status(err.status || 500);
+	res.render('error');
+});
 
-server.on("connection", (stream) => {
-    console.log("got user")
-})
-
-// --> HTTP <-- \\
-
-server.listen(port);
+export default app;

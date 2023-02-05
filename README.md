@@ -12,7 +12,7 @@ User and server info
 
 To get started with Boolean, you need to invite it to your discord server. Simply click on the following link: [Invite Boolean to your server](https://discord.com/oauth2/authorize?client_id=966634522106036265&permissions=1377007168710&scope=bot%20applications.commands)
 
-Once the bot is added to your server, you can start using it right away. You can use the following command to get a list of all available commands: !help
+Once the bot is added to your server, you can start using it right away. You can use the following command to get a list of all available commands: !!help
 
 # How to Use Boolean
 

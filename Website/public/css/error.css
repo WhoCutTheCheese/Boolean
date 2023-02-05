@@ -1,0 +1,49 @@
+body {
+	background: url("https://img.freepik.com/free-vector/dark-hexagonal-background-with-gradient-color_79603-1410.jpg?w=900&t=st=1667265565~exp=1667266165~hmac=763190d7fba7087ef5c526dafa75985233640669c26e89e068fea8f511d05080")
+}
+
+.page {
+	font-family: Roboto, sans-serif;
+	overflow: hidden
+}
+
+.content {
+	text-align: center;
+	color: #fff
+}
+
+.content h1 {
+	font-weight: 900;
+	font-size: 165px;
+	line-height: 1;
+	margin-bottom: -10px;
+	opacity: 0.6
+}
+
+.content h2 {
+	font-weight: 700;
+	font-size: 34px;
+	margin-bottom: 6px;
+	opacity: 0.9
+}
+
+.content p {
+	font-weight: 300;
+	font-size: 14px;
+	opacity: 0.7;
+	margin-bottom: 140px
+}
+
+.content a {
+	text-decoration: none;
+	color: inherit;
+	display: inline-block;
+	font-weight: 300;
+	font-size: 12px;
+	text-transform: uppercase;
+	border: 1px solid #CDD4DE;
+	padding: 8px 14px;
+	border-radius: 4px;
+	opacity: 0.4;
+	cursor: pointer
+}

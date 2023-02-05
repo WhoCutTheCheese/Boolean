@@ -1,11 +1,10 @@
 import express, { Router, Request, Response, NextFunction } from 'express';
-import * as settings from '../config.json'
 
 const router = Router();
 
-/* GET home page. */
+/* GET users listing. */
 router.get('/', (req: Request, res: Response, next: NextFunction) => {
-	res.render('index', settings);
+	res.send('respond with a resource');
 });
 
 export default router;

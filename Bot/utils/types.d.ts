@@ -1,9 +1,9 @@
 export enum ModLog {
-    SetNickname,
-    ResetNickname,
-    Ban,
-    TempBan,
-    Mute,
-    TempMute,
+	SetNickname,
+	ResetNickname,
+	Ban,
+	TempBan,
+	Mute,
+	TempMute,
 
 }
