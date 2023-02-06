@@ -4,7 +4,6 @@ import fs from "fs";
 import Maintenance from "../schemas/Maintenance";
 import { Main } from "../index";
 import Settings from "../schemas/Settings";
-import { ImportOrExportSpecifier } from 'typescript';
 declare module "discord.js" {
 	export interface Client {
 		commands: Collection<unknown, any>
