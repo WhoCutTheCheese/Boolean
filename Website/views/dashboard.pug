@@ -4,7 +4,6 @@ head
 	meta(name='viewport' content='width=device-width, initial-scale=1')
 	title= appName
 	link(rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.9.4/css/bulma.min.css" integrity="sha512-HqxHUkJM0SYcbvxUw5P60SzdOTy/QVwA1JJrvaXJv4q7lmbDZCmZaqz01UPOaQveoxfYRv1tHozWGPMcuTBuvQ==" crossorigin="anonymous" referrerpolicy="no-referrer")
-	link(rel='stylesheet' href='/public/css/dashboard.css')
 	link(rel='stylesheet' href='/public/css/navbar.css')
 	link(href='https://unpkg.com/aos@2.3.1/dist/aos.css' rel='stylesheet')
 	link(rel='stylesheet' href='https://unpkg.com/tippy.js@6/animations/scale.css')
@@ -13,6 +12,7 @@ head
 	script(src='https://unpkg.com/aos@2.3.1/dist/aos.js')
 	script(defer src='https://unpkg.com/@popperjs/core@2')
 	script(defer src='https://unpkg.com/tippy.js@6')
+	link(rel='stylesheet' href='/public/css/dashboard.css')
 	script.
 		window.loginURL = '#{loginURL}'
 // Back To Top Start
@@ -49,15 +49,14 @@ nav.navbar.is-fixed-top(role='navigation' aria-label='main navigation')
 						strong
 							i.fa-solid.fa-right-to-bracket.mr-2
 							|                   Login
-section.hero.is-fullheight
-	.hero-body
-		.container
-			.columns.is-vcentered
-				.column.is-16.is-offset-0
-					.box.mainbox
-						.media
-							figure.media-left
-								img(src="https://cdn.discordapp.com/avatars/296823576156307467/961e3ac9538c92d870c3d425bf6b4c6e.webp", alt="User Avatar")
-							.media-content
-								h1.title LukeIThink#0000
-								h1.subtitle Number of servers: 100
+
+
+//- chatgpt school account
+.container.user
+	.user-avatar(href='/')
+		.lazyload-wrapper
+			img(alt='Avatar', name='avatar-img', src='https://cdn.discordapp.com/avatars/296823576156307467/961e3ac9538c92d870c3d425bf6b4c6e.jpg?size=128')
+	.user-details
+		h3.user-name.title.is-3(href='/') LukeIThink
+			span.discriminator.has-text-primary #5106
+		h5.subtitle.has-text-grey.is-5 0 premium servers

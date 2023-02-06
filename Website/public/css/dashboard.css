@@ -24,12 +24,6 @@ html {
 	color: #fff;
 }
 
-.container {
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-}
-
 p {
 
 	color: black;
@@ -41,4 +35,38 @@ p {
 
 .mainbox {
 	background-color: #2b3e55;
+}
+
+.container.user {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	height: 100%;
+}
+
+.user-avatar,
+.user-details {
+	display: inline-block;
+}
+
+.user-avatar {
+	text-align: center;
+}
+
+.lazyload-wrapper {
+	width: 128px;
+	height: 128px;
+	overflow: hidden;
+	border-radius: 50%;
+}
+
+img {
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+}
+
+.user-details {
+	text-align: center;
+	margin-left: 1em;
 }
