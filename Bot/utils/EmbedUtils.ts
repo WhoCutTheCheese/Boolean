@@ -33,7 +33,7 @@ export class EmbedUtils {
 	async sendErrorEmbed(channel: TextChannel, orgMessage: Message | null, settings: { errorEmoji: boolean, replyToMessage: boolean, deleteMsg?: boolean, deleteTimerTime?: number }, args: { title?: string, description: string, footer?: string }) {
 		let embed = await new EmbedBuilder()
 			.setTitle(args.title || "Error")
-			.setDescription(`${(settings.errorEmoji ? "<:no:979193272784265217>" : "")} ${args.description}`)
+			.setDescription(`${(settings.errorEmoji ? "<:no:979193272784265217> " : "")} ${args.description}`)
 			.setFooter({ text: args.footer || " " })
 			.setColor(await new Utilities().getEmbedColor(channel.guild))
 

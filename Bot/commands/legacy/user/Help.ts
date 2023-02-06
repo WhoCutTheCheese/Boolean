@@ -27,16 +27,20 @@ module.exports = {
 					getCommand(path.join(dir, file))
 				} else if (file !== baseFile) {
 					const option = require(path.join(__dirname, dir, file))
-					if (option.commandCategory == "User") {
+					if (!option.commandCategory) continue;
+					let commandCategory: String = option.commandCategory.toLowerCase();
+
+					if (commandCategory == "user") {
 						user.push(` \`${file.replace(".ts", "").toLowerCase()}\``)
-					} else if (option.commandCategory == "Moderation") {
+					} else if (commandCategory == "moderation") {
 						moderation.push(` \`${file.replace(".ts", "").toLowerCase()}\``)
-					} else if (option.commandCategory == "Configuration") {
+					} else if (commandCategory == "configuration" || commandCategory == "config") {
 						configuration.push(` \`${file.replace(".ts", "").toLowerCase()}\``)
 					}
 				}
 			}
 		}
+
 		getCommand("../../legacy");
 		if (moderation.length === 0) {
 			moderation.push("Nothing...");

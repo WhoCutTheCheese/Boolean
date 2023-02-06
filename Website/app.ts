@@ -1,4 +1,5 @@
 import * as dotenv from 'dotenv';
+dotenv.config();
 
 import express, { Request, Response, NextFunction } from 'express';
 import createError from 'http-errors';
@@ -8,14 +9,18 @@ import session from 'express-session'
 import mongoStore from 'connect-mongo'
 import mongoose from 'mongoose'
 
+var mongoURL = process.env.mongo_url;
+if (!mongoURL) throw new Error("Please put a mongo url in ur ENV, it is required for this website to work!")
+if (!process.env.client_id) throw new Error("Please put a discord oauth2 bot id in ur ENV, it is required for this website to work!")
+if (!process.env.client_secret) throw new Error("Please put a discord oauth2 bot secret in ur ENV, it is required for this website to work!")
+
+import './strategies/discordStrat'
+
 import indexRouter from './routes/index';
 import authRouter from './routes/auth';
 
-dotenv.config();
 const app = express();
 
-var mongoURL = process.env.mongo_url;
-if (!mongoURL) throw new Error("Please put a mongo url in ur ENV, it is required for this website to work!")
 
 const appSession = session({
 	secret: "5SuperSecretPassword5",

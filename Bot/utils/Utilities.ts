@@ -4,6 +4,8 @@ import fs from "fs";
 import Maintenance from "../schemas/Maintenance";
 import { Main } from "../index";
 import Settings from "../schemas/Settings";
+import * as config from '../config.json'
+
 declare module "discord.js" {
 	export interface Client {
 		commands: Collection<unknown, any>
@@ -92,7 +94,7 @@ export class Utilities {
 
 			try {
 				if (!interaction.guild?.members.me?.permissions.has([PermissionsBitField.Flags.SendMessages, PermissionsBitField.Flags.EmbedLinks])) return;
-				const devs = ["493453098199547905", "648598769449041946", "585731185083285504"]
+				const devs = config.devs;
 				const maintenance = await Maintenance.findOne({
 					botID: client.user?.id
 				})

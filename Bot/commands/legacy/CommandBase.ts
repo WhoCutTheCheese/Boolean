@@ -4,8 +4,9 @@ let prefix: string | undefined
 import Maintenance from "../../schemas/Maintenance";
 import { Utilities } from "../../utils/Utilities";
 import { EmbedUtils } from '../../utils/EmbedUtils';
+import * as config from '../../config.json'
 
-const devs = ["493453098199547905", "648598769449041946", "585731185083285504", "296823576156307467", "539280098574991370"]
+const devs = config.devs
 
 const allCommands = {} as {
 	[key: string]: any
@@ -39,6 +40,7 @@ module.exports.listen = (client: Client) => {
 			})
 			if (!settings) {
 				new Utilities().createFile({ guild: message.guild! });
+				new EmbedUtils().sendErrorEmbed((message.channel as TextChannel), message, { errorEmoji: false, replyToMessage: true }, { title: "Critical error", description: "Your settings file dosent exist.. please retry your command!", footer: "Join the support server if this problem prosists" })
 				message.channel.send({ content: "Sorry, your settings file doesn't exist! If this error persists contact support." });
 				return;
 			}
@@ -60,7 +62,7 @@ module.exports.listen = (client: Client) => {
 			if (maintenance) {
 				if (maintenance.maintenance == true) {
 					if (!devs.includes(message.author.id)) {
-						message.channel.send({ content: `**Uh Oh!** Boolean is currently under maintenance!\n**__Details:__** ${maintenance.maintainDetails}` })
+						new EmbedUtils().sendErrorEmbed(message.channel as TextChannel, message, { errorEmoji: false, replyToMessage: true }, { title: "Uh oh!", description: `Boolean is currently under maintenance!\n**__Details:__** ${maintenance.maintainDetails}` })
 						return;
 					}
 				}
