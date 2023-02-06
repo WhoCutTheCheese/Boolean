@@ -33,7 +33,7 @@ module.exports = {
 			return message.channel.send({ content: "Unable to fetch that member! Please try again.", });
 
 		if (
-			message.guild?.ownerId === user.id || user.roles.highest.position > message.guild.members.me.roles.highest.position)
+			message.guild?.ownerId === user.id || user.roles.highest.position >= message.guild.members.me.roles.highest.position)
 			return message.channel.send({
 				content: "I am unable to edit their username!",
 			});
