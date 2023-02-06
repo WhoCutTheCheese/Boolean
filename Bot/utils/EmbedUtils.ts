@@ -106,7 +106,6 @@ export class EmbedUtils {
             <:clock:1071213725610151987> **Date:** <t:${Math.round(Date.now() / 1000)}:D>
             ${action}`)
 			.setColor(await new Utilities().getEmbedColor(options.guild))
-		console.log(settings.modSettings?.modLogChannel)
 		const channel = guild?.channels.cache.find((c: any) => c.id === settings.modSettings?.modLogChannel!);
 		if (channel) {
 			if (guild.members.me?.permissionsIn(channel!).has([PermissionsBitField.Flags.SendMessages, PermissionsBitField.Flags.EmbedLinks])) {

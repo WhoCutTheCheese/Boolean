@@ -8,6 +8,7 @@ import logger from 'morgan';
 import session from 'express-session'
 import mongoStore from 'connect-mongo'
 import mongoose from 'mongoose'
+import * as config from './config.json'
 
 var mongoURL = process.env.mongo_url;
 if (!mongoURL) throw new Error("Please put a mongo url in ur ENV, it is required for this website to work!")
@@ -18,6 +19,7 @@ import './strategies/discordStrat'
 
 import indexRouter from './routes/index';
 import authRouter from './routes/auth';
+import dashRouter from './routes/dashboard';
 
 const app = express();
 
@@ -56,6 +58,7 @@ app.use(express.json());
 
 app.use('/', indexRouter);
 app.use('/auth', authRouter);
+app.use('/dashboard', dashRouter);
 
 // catch 404 and forward to error handler
 app.use((req: Request, res: Response, next: NextFunction) => {
@@ -71,7 +74,7 @@ app.use((err: any, req: Request, res: Response, next: NextFunction) => {
 
 	// render the error page
 	res.status(err.status || 500);
-	res.render('error');
+	res.render('error', config);
 });
 
 export default app;

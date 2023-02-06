@@ -51,7 +51,6 @@ module.exports = {
 			case "images": {
 				deleteMsgs(messagesToRemoveInt, message.member!, message, (msg: Message) => {
 					for (let atchment of msg.attachments) {
-						console.log(atchment[0])
 						let attachmentURL = atchment[1].url
 						if (attachmentURL.endsWith('.png') || attachmentURL.endsWith('.jpg') || attachmentURL.endsWith('.jpeg')) return true
 					}
@@ -72,7 +71,7 @@ async function deleteMsgs(count: number, member: GuildMember, orgMessage: Messag
 
 	count = count += 1
 
-	let msgsDeletedSize = 0;
+	let msgsDeletedSize = -1;
 	let messagesDeleted: Array<String> = []
 
 	if (count <= 100) {
@@ -84,11 +83,10 @@ async function deleteMsgs(count: number, member: GuildMember, orgMessage: Messag
 						let msg = msgarray[1] as Message
 						if (!msg || !msg.deletable) continue;
 						messagesDeleted.push(`${msg.author.username}#${msg.author.discriminator} | ${msg.content}`)
-						msgsDeletedSize += 1
 					} catch (err) { }
 				}
-				new EmbedUtils().sendSuccessEmbed(channel, null, { successEmoji: true, replyToMessage: false, deleteMsg: true }, { description: `Successfully deleted ${messages.size} messages` })
 			})
+			new EmbedUtils().sendSuccessEmbed(channel, null, { successEmoji: true, replyToMessage: false, deleteMsg: true }, { description: `Successfully deleted ${msgsDeletedSize} messages` })
 		} catch (err) {
 			new EmbedUtils().sendErrorEmbed(channel, null, { errorEmoji: true, replyToMessage: false }, { title: "Command error", description: "There was an error executing this command, please try again soon.", footer: "Contact boolean support if this error prosists." })
 			console.error(err)
@@ -104,22 +102,21 @@ async function deleteMsgs(count: number, member: GuildMember, orgMessage: Messag
 			let filteredMsgs = await getMessagesWithFilter(100, channel, filter)
 
 			if (filter && filteredMsgs) {
+				msgsDeletedSize += filteredMsgs.length;
 				for (let msg of filteredMsgs) {
 					try {
 						if (!msg || !msg.deletable) continue;
 						messagesDeleted.push(`${msg.author.username}#${msg.author.discriminator} | ${msg.content}`)
-						msgsDeletedSize += 1
 					} catch (err) { }
 				}
 			} else {
 				await channel.messages.fetch({ limit: 100 }).then(async messages => {
-					// Log the messages
+					msgsDeletedSize += messages.size;
 					for (let msgarray of messages) {
 						try {
 							let msg = msgarray[1] as Message
 							if (!msg || !msg.deletable) continue;
 							messagesDeleted.push(`${msg.author.username}#${msg.author.discriminator} | ${msg.content}`)
-							msgsDeletedSize += 1
 						} catch (err) { }
 					}
 				});
@@ -137,21 +134,21 @@ async function deleteMsgs(count: number, member: GuildMember, orgMessage: Messag
 		let filteredMsgs = await getMessagesWithFilter(remainder, channel, filter)
 
 		if (filter && filteredMsgs) {
+			msgsDeletedSize += filteredMsgs.length;
 			for (let msg of filteredMsgs) {
 				try {
 					if (!msg || !msg.deletable) continue;
 					messagesDeleted.push(`${msg.author.username}#${msg.author.discriminator} | ${msg.content}`)
-					msgsDeletedSize += 1
 				} catch (err) { }
 			}
 		} else {
 			await channel.messages.fetch({ limit: remainder, cache: true }).then(async messages => {
+				msgsDeletedSize += messages.size;
 				for (let msgarray of messages) {
 					try {
 						let msg = msgarray[1] as Message
 						if (!msg || !msg.deletable) continue;
 						messagesDeleted.push(`${msg.author.username}#${msg.author.discriminator} | ${msg.content}`)
-						msgsDeletedSize += 1
 					} catch (err) { }
 				}
 			});
@@ -159,6 +156,7 @@ async function deleteMsgs(count: number, member: GuildMember, orgMessage: Messag
 
 		try {
 			await channel.bulkDelete(await getMessagesWithFilter(remainder, channel, filter) || remainder, true)
+			new EmbedUtils().sendSuccessEmbed(channel, null, { successEmoji: true, replyToMessage: false, deleteMsg: true }, { description: `Successfully deleted ${msgsDeletedSize} messages` })
 		} catch (err) {
 			new EmbedUtils().sendErrorEmbed(channel, null, { errorEmoji: true, replyToMessage: false }, { title: "Command error", description: "There was an error executing this command, please try again soon.", footer: "Contact boolean support if this error prosists." })
 			console.error(err)
@@ -166,8 +164,8 @@ async function deleteMsgs(count: number, member: GuildMember, orgMessage: Messag
 		}
 	}
 
-	if (msgsDeletedSize - 1 === 0) return;
-	new EmbedUtils().sendModLogs({ guild: channel.guild, mod: member!, action: "Purge", attachments: [await generateAttachmentFileFromArray(messagesDeleted)] }, { title: "Channel purged", actionInfo: `${msgsDeletedSize - 1} messages were deleted` })
+	if (msgsDeletedSize === 0) return;
+	new EmbedUtils().sendModLogs({ guild: channel.guild, mod: member!, action: "Purge", attachments: [await generateAttachmentFileFromArray(messagesDeleted)] }, { title: "Channel purged", actionInfo: `${msgsDeletedSize} messages were deleted` })
 }
 
 async function generateAttachmentFileFromArray(array: Array<String>) {

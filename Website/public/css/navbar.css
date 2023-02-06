@@ -1,0 +1,75 @@
+.navbar-item,
+.navbar-link {
+	font-size: 1em !important;
+	-moz-transition: all 0.2s ease-in;
+	-o-transition: all 0.2s ease-in;
+	-webkit-transition: all 0.2s ease-in;
+	transition: all 0.2s ease-in;
+}
+
+.navbar-item:hover {
+	font-size: 1em !important;
+	background-color: transparent !important;
+	color: #7289da !important;
+}
+
+.navbar-link:hover {
+	font-size: 1em !important;
+	background-color: transparent !important;
+	color: #7289da !important;
+}
+
+.navbar-menu {
+	font-size: 1em !important;
+	animation: navAnimOpen 0.2s ease-in-out;
+}
+
+@keyframes navAnimOpen {
+	0% {
+		display: none;
+		opacity: 0;
+		max-height: 0;
+	}
+
+	1% {
+		display: block;
+		opacity: 0;
+	}
+
+	100% {
+		opacity: 1;
+		max-height: 396px;
+	}
+
+	from {
+		opacity: 0;
+		transform: translateY(-5px);
+	}
+
+	to {
+		opacity: 1;
+		transform: translateY(0px);
+	}
+}
+
+.navbar-item {
+	font-size: 1em !important;
+}
+
+nav,
+.navbar-menu {
+	font-size: 1em !important;
+	background-color: #1a2634 !important;
+}
+
+.navbar-item.nav-dark,
+.navbar-link.nav-dark {
+	font-size: 1em !important;
+	color: #363636 !important;
+}
+
+.navbar-item,
+.navbar-link {
+	font-size: 1em !important;
+	color: white !important;
+}

@@ -1,17 +1,25 @@
+doctype html
 head
-	title Page not found
-
 	meta(charset='utf-8')
 	meta(name='viewport' content='width=device-width, initial-scale=1')
+	title= appName
 	link(rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.9.4/css/bulma.min.css" integrity="sha512-HqxHUkJM0SYcbvxUw5P60SzdOTy/QVwA1JJrvaXJv4q7lmbDZCmZaqz01UPOaQveoxfYRv1tHozWGPMcuTBuvQ==" crossorigin="anonymous" referrerpolicy="no-referrer")
-	link(rel='stylesheet' href='/public/css/index.css')
+	link(rel='stylesheet' href='/public/css/dashboard.css')
 	link(rel='stylesheet' href='/public/css/navbar.css')
 	link(href='https://unpkg.com/aos@2.3.1/dist/aos.css' rel='stylesheet')
 	link(rel='stylesheet' href='https://unpkg.com/tippy.js@6/animations/scale.css')
 	link(rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css' integrity='sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g==' crossorigin='anonymous' referrerpolicy='no-referrer')
 	script(src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.3/jquery.min.js")
-
-	link(rel="stylesheet" href="/public/css/error.css")
+	script(src='https://unpkg.com/aos@2.3.1/dist/aos.js')
+	script(defer src='https://unpkg.com/@popperjs/core@2')
+	script(defer src='https://unpkg.com/tippy.js@6')
+	script.
+		window.loginURL = '#{loginURL}'
+// Back To Top Start
+a#backtotop(data-tippy-content='Back To Top.')
+	i.fa-solid.fa-angle-up.has-text-white.fa-2xl.mt-5
+// Back To Top End
+// Navbar Start
 nav.navbar.is-fixed-top(role='navigation' aria-label='main navigation')
 	.navbar-brand.mt-2.mb-2
 		a.navbar-item(href='#')
@@ -41,22 +49,15 @@ nav.navbar.is-fixed-top(role='navigation' aria-label='main navigation')
 						strong
 							i.fa-solid.fa-right-to-bracket.mr-2
 							|                   Login
-
-main
-	div
-		div
-			span 404&nbsp;error
-			span page&nbsp;not&nbsp;found
-		svg(viewbox='0 0 200 600')
-			polygon(points='118.302698 8 59.5369448 66.7657528 186.487016 193.715824 14 366.202839 153.491505 505.694344 68.1413353 591.044514 200 591.044514 200 8')
-	svg.crack(viewbox='0 0 200 600')
-		polyline(points='118.302698 8 59.5369448 66.7657528 186.487016 193.715824 14 366.202839 153.491505 505.694344 68.1413353 591.044514')
-	div
-		svg(viewbox='0 0 200 600')
-			polygon(points='118.302698 8 59.5369448 66.7657528 186.487016 193.715824 14 366.202839 153.491505 505.694344 68.1413353 591.044514 0 591.044514 0 8')
-		div
-			span sorry&nbsp;about&nbsp;that!
-			span
-				a(href="/")
-					b return&nbsp;home?
-
+section.hero.is-fullheight
+	.hero-body
+		.container
+			.columns.is-vcentered
+				.column.is-16.is-offset-0
+					.box.mainbox
+						.media
+							figure.media-left
+								img(src="https://cdn.discordapp.com/avatars/296823576156307467/961e3ac9538c92d870c3d425bf6b4c6e.webp", alt="User Avatar")
+							.media-content
+								h1.title LukeIThink#0000
+								h1.subtitle Number of servers: 100

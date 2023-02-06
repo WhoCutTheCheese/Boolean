@@ -7,7 +7,6 @@ passport.serializeUser((user, done) => {
 })
 
 passport.deserializeUser(async (id, done) => {
-	console.log(id)
 	try {
 		const user = await WebUsers.findById(id)
 		if (!user) return;
@@ -27,6 +26,8 @@ passport.use(new Strategy({
 	async (accessToken: string, refreshToken: string, profile: any, done: (error: any, user?: any) => void) => {
 		const discordUser = await WebUsers.findOne({ discordId: profile.id })
 		if (discordUser) return done(null, discordUser)
+
+		console.log(profile)
 
 		const newUser = await WebUsers.create({ discordId: profile.id, accessToken, Guilds: profile.guilds })
 		return done(null, newUser)
