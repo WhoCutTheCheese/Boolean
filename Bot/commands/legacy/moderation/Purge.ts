@@ -51,7 +51,6 @@ module.exports = {
 			case "images": {
 				deleteMsgs(messagesToRemoveInt, message.member!, message, (msg: Message) => {
 					for (let atchment of msg.attachments) {
-						console.log(atchment[0])
 						let attachmentURL = atchment[1].url
 						if (attachmentURL.endsWith('.png') || attachmentURL.endsWith('.jpg') || attachmentURL.endsWith('.jpeg')) return true
 					}

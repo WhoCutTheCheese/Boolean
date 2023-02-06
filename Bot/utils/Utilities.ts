@@ -1,10 +1,11 @@
-import { Collection, Guild, PermissionsBitField, REST, Routes, ColorResolvable, Embed, EmbedBuilder, MessageType, Message } from 'discord.js';
+import { Collection, Guild, PermissionsBitField, REST, Routes, ColorResolvable, Embed, EmbedBuilder, MessageType, Message, User } from 'discord.js';
 import path from "path";
 import fs from "fs";
 import Maintenance from "../schemas/Maintenance";
 import { Main } from "../index";
 import Settings from "../schemas/Settings";
 import * as config from '../config.json'
+import Cases from '../schemas/Cases';
 
 declare module "discord.js" {
 	export interface Client {
@@ -140,4 +141,38 @@ export class Utilities {
 		if (settings.guildSettings?.embedColor) color = settings.guildSettings.embedColor as ColorResolvable;
 		return color
 	}
+
+
+	async warnCount(user: User): Promise<number> {
+
+		let num = await Cases.countDocuments({ userID: user.id, action: "Warn" });
+		let num2 = await Cases.countDocuments({ userID: user.id, action: "AutoMute" })
+		num = num + num2;
+
+		return num;
+
+	}
+
+	async updateCaseCount(guild: Guild): Promise<number | undefined> {
+		const settings = await this.getGuildSettings(guild);
+		if (!settings) return undefined;
+
+		let caseNumberSet = undefined
+		if (!settings.guildSettings?.totalCases) {
+			caseNumberSet = 1;
+		} else if (settings.guildSettings?.totalCases) {
+			caseNumberSet = settings.guildSettings?.totalCases + 1;
+		}
+		await Settings.findOneAndUpdate({
+			guildID: guild?.id,
+		}, {
+			guildSettings: {
+				totalCases: caseNumberSet
+			}
+		})
+
+		return caseNumberSet;
+
+	}
+
 }

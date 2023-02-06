@@ -69,7 +69,7 @@ export class EmbedUtils {
 		mod: GuildMember,
 		target?: GuildMember,
 		targetUser?: User,
-		action: string,
+		action?: string,
 		attachments?: Array<AttachmentBuilder>;
 	}, embedDetails: {
 		title: string,
@@ -93,8 +93,7 @@ export class EmbedUtils {
 		if (user) {
 			users = users + `\n<:user:977391493218181120> **User:** ${(user as User).tag} (${user.id})`
 		}
-		let action = `<:pencil:977391492916207636> **Action:** ${options.action}
-        > ${embedDetails.actionInfo}`
+		let action = `> ${embedDetails.actionInfo}`
 		let theChannel = ``
 		if (embedDetails.channel) {
 			theChannel = `\n<:channel:1071217768046800966> **Channel:** <#${embedDetails.channel.id}>`
@@ -106,7 +105,6 @@ export class EmbedUtils {
             <:clock:1071213725610151987> **Date:** <t:${Math.round(Date.now() / 1000)}:D>
             ${action}`)
 			.setColor(await new Utilities().getEmbedColor(options.guild))
-		console.log(settings.modSettings?.modLogChannel)
 		const channel = guild?.channels.cache.find((c: any) => c.id === settings.modSettings?.modLogChannel!);
 		if (channel) {
 			if (guild.members.me?.permissionsIn(channel!).has([PermissionsBitField.Flags.SendMessages, PermissionsBitField.Flags.EmbedLinks])) {
