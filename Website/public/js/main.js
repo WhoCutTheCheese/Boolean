@@ -29,7 +29,7 @@ $(document).ready(function () {
 		$(".navbar-menu").toggleClass("is-active");
 	});
 	$(".login").click(() => {
-		window.location = window.loginURL
+		window.location = "/dashboard"
 	})
 });
 

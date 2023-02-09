@@ -9,6 +9,7 @@ html {
 	background-color: #1a2634 !important;
 }
 
+
 .title,
 .subtitle {
 	color: white !important;
@@ -25,7 +26,6 @@ html {
 }
 
 p {
-
 	color: black;
 }
 
@@ -41,7 +41,9 @@ p {
 	display: flex;
 	justify-content: center;
 	align-items: center;
-	height: 100%;
+	padding-bottom: 50px;
+	padding-top: 100px;
+	height: auto;
 }
 
 .user-avatar,
@@ -51,6 +53,51 @@ p {
 
 .user-avatar {
 	text-align: center;
+}
+
+.container.servers {
+	width: auto;
+	height: auto;
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	background-color: #181a20;
+	border-radius: 10px;
+	max-width: 1000px !important;
+	min-width: 100px;
+}
+
+.top-text {
+	color: white;
+	width: 100%;
+	text-align: center;
+	padding-top: 10px;
+	font-size: 40px;
+	margin-bottom: 20px;
+}
+
+.server-grid {
+	width: 100vw;
+	row-gap: 20px;
+	align-items: center;
+	display: grid;
+	grid-template-columns: auto auto auto;
+	padding: 10px;
+}
+
+.server {
+	width: auto;
+	font-size: 30px;
+	text-align: center;
+}
+
+.server-icon {
+	display: inline-block;
+	padding: 10px;
+}
+
+.server-info p {
+	color: white;
 }
 
 .lazyload-wrapper {
@@ -69,4 +116,16 @@ img {
 .user-details {
 	text-align: center;
 	margin-left: 1em;
+}
+
+@media (max-width: 767px) {
+	.server-grid {
+		grid-template-columns: auto auto;
+	}
+}
+
+@media (max-width: 506px) {
+	.server-grid {
+		grid-template-columns: auto;
+	}
 }

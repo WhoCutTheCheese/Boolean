@@ -1,52 +1,15 @@
 doctype html
+
+include all.pug
+
 head
-	meta(charset='utf-8')
-	meta(name='viewport' content='width=device-width, initial-scale=1')
 	title= appName
-	link(rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.9.4/css/bulma.min.css" integrity="sha512-HqxHUkJM0SYcbvxUw5P60SzdOTy/QVwA1JJrvaXJv4q7lmbDZCmZaqz01UPOaQveoxfYRv1tHozWGPMcuTBuvQ==" crossorigin="anonymous" referrerpolicy="no-referrer")
+
 	link(rel='stylesheet' href='/public/css/index.css')
-	link(rel='stylesheet' href='/public/css/navbar.css')
-	link(href='https://unpkg.com/aos@2.3.1/dist/aos.css' rel='stylesheet')
-	link(rel='stylesheet' href='https://unpkg.com/tippy.js@6/animations/scale.css')
-	link(rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css' integrity='sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g==' crossorigin='anonymous' referrerpolicy='no-referrer')
-	script(src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.3/jquery.min.js")
-	script.
-		window.loginURL = '#{loginURL}'
 // Back To Top Start
 a#backtotop(data-tippy-content='Back To Top.')
 	i.fa-solid.fa-angle-up.has-text-white.fa-2xl.mt-5
 // Back To Top End
-// Navbar Start
-nav.navbar.is-fixed-top(role='navigation' aria-label='main navigation')
-	.navbar-brand.mt-2.mb-2
-		a.navbar-item(href='#')
-			strong= appName
-		a.navbar-burger.has-text-white(role='button' data-target='navMenu' aria-label='menu' aria-expanded='false')
-			span(aria-hidden='true')
-			span(aria-hidden='true')
-			span(aria-hidden='true')
-	#navbarBasicExample.navbar-menu
-		.navbar-start
-			a.navbar-item.is-tab(href='#')
-				| Home
-			a.navbar-item.is-tab(href=discordInvite)
-				| Support
-			a.navbar-item.is-tab(href='#features')
-				| Features
-			a.navbar-item.is-tab(href='#stats')
-				| Stats
-		.navbar-end
-			a.navbar-item.is-tab(href=discordInvite target='_blank')
-				i.fa-brands.fa-discord
-			a.navbar-item.is-tab(href=githubLink target='_blank')
-				i.fa-brands.fa-github
-			.navbar-item
-				.buttons
-					button.login.button.is-blurple(href='#')
-						strong
-							i.fa-solid.fa-right-to-bracket.mr-2
-							|                   Login
-// Navbar End
 // Hero Section Start
 section.hero.bg-base.is-fullheight
 	.hero-body
@@ -182,21 +145,3 @@ section.section.mt-6
 		.column
 // Invite Section End
 // Footer Section Start
-footer.footer.bg-base
-	.content.has-text-centered.has-text-white
-		.mb-2
-			a.has-text-white(href=discordInvite target='_blank')
-				i.fa-brands.fa-discord
-			a.has-text-white(href=githubLink target='_blank')
-				i.fa-brands.fa-github
-		p
-			span.has-text-weight-bold #{appName}
-			br
-			|           &copy; 
-			span#cp-year
-			|  Copyright #{appName}. All Rights Reserved.
-// Footer Section End
-script(src='https://unpkg.com/aos@2.3.1/dist/aos.js')
-script(src='https://unpkg.com/@popperjs/core@2')
-script(src='https://unpkg.com/tippy.js@6')
-script(src='/public/js/index.js')

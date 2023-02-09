@@ -1,0 +1,16 @@
+.footer {
+	padding-top: 50px
+}
+
+.footer-text {
+	color: white !important;
+}
+
+.footer-base {
+	background-color: #1a2634 !important;
+	color: white;
+}
+
+#cp-year {
+	color: white;
+}

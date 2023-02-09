@@ -1,62 +1,34 @@
 doctype html
-head
-	meta(charset='utf-8')
-	meta(name='viewport' content='width=device-width, initial-scale=1')
-	title= appName
-	link(rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.9.4/css/bulma.min.css" integrity="sha512-HqxHUkJM0SYcbvxUw5P60SzdOTy/QVwA1JJrvaXJv4q7lmbDZCmZaqz01UPOaQveoxfYRv1tHozWGPMcuTBuvQ==" crossorigin="anonymous" referrerpolicy="no-referrer")
-	link(rel='stylesheet' href='/public/css/navbar.css')
-	link(href='https://unpkg.com/aos@2.3.1/dist/aos.css' rel='stylesheet')
-	link(rel='stylesheet' href='https://unpkg.com/tippy.js@6/animations/scale.css')
-	link(rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css' integrity='sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g==' crossorigin='anonymous' referrerpolicy='no-referrer')
-	script(src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.3/jquery.min.js")
-	script(src='https://unpkg.com/aos@2.3.1/dist/aos.js')
-	script(defer src='https://unpkg.com/@popperjs/core@2')
-	script(defer src='https://unpkg.com/tippy.js@6')
-	link(rel='stylesheet' href='/public/css/dashboard.css')
-	script.
-		window.loginURL = '#{loginURL}'
-// Back To Top Start
-a#backtotop(data-tippy-content='Back To Top.')
-	i.fa-solid.fa-angle-up.has-text-white.fa-2xl.mt-5
-// Back To Top End
-// Navbar Start
-nav.navbar.is-fixed-top(role='navigation' aria-label='main navigation')
-	.navbar-brand.mt-2.mb-2
-		a.navbar-item(href='#')
-			strong= appName
-		a.navbar-burger.has-text-white(role='button' data-target='navMenu' aria-label='menu' aria-expanded='false')
-			span(aria-hidden='true')
-			span(aria-hidden='true')
-			span(aria-hidden='true')
-	#navbarBasicExample.navbar-menu
-		.navbar-start
-			a.navbar-item.is-tab(href='#')
-				| Home
-			a.navbar-item.is-tab(href=discordInvite)
-				| Support
-			a.navbar-item.is-tab(href='#features')
-				| Features
-			a.navbar-item.is-tab(href='#stats')
-				| Stats
-		.navbar-end
-			a.navbar-item.is-tab(href=discordInvite target='_blank')
-				i.fa-brands.fa-discord
-			a.navbar-item.is-tab(href=githubLink target='_blank')
-				i.fa-brands.fa-github
-			.navbar-item
-				.buttons
-					button.login.button.is-blurple(href='#')
-						strong
-							i.fa-solid.fa-right-to-bracket.mr-2
-							|                   Login
 
+include all.pug
+
+head
+	title= appName
+	link(rel='stylesheet' href='/public/css/dashboard.css')
 
 //- chatgpt school account
 .container.user
 	.user-avatar(href='/')
 		.lazyload-wrapper
-			img(alt='Avatar', name='avatar-img', src='https://cdn.discordapp.com/avatars/296823576156307467/961e3ac9538c92d870c3d425bf6b4c6e.jpg?size=128')
+			img(alt='Avatar', name='avatar-img', src=`https://cdn.discordapp.com/avatars/${discordId}/${avatar}.webp?size=128`)
 	.user-details
-		h3.user-name.title.is-3(href='/') LukeIThink
-			span.discriminator.has-text-primary #5106
+		h3.user-name.title.is-4(href='/')=username
+			span.discriminator.has-text-primary= `#${tag}`
 		h5.subtitle.has-text-grey.is-5 0 premium servers
+.container.servers
+	.top-text
+		h1.server-text Select server to manage
+	.server-grid
+		each guild in Guilds
+			.server
+				.server-info 
+					p= guild.name
+				.server-icon
+					img(alt='ServerName' name='server-img' src=`https://cdn.discordapp.com/icons/${guild.id}/${guild.icon}.webp?size=128` style="border-radius: 50%;")
+				.server-button 
+					if !guild.isManager
+						button.button.is-danger Manage
+					else
+						button.button.is-success Invite
+
+include footer.pug
