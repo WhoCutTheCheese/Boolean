@@ -1,9 +1,8 @@
-import { Channel, Client, ColorResolvable, EmbedBuilder, GuildChannel, Message, PermissionsBitField, TextChannel, time, AttachmentBuilder, Attachment, RESTPostAPIWebhookWithTokenQuery, GuildMember, User } from 'discord.js';
-import { EmbedUtils, messageType } from '../../../utils/EmbedUtils';
+import { Client, ColorResolvable, Message, PermissionsBitField, TextChannel, AttachmentBuilder, GuildMember } from 'discord.js';
+import { EmbedUtils } from '../../../utils/EmbedUtils';
 import { Utilities } from '../../../utils/Utilities';
 import fs from 'fs'
 import os from 'os'
-import { WriteFileCallback } from "typescript";
 
 module.exports = {
 	commands: ["purge", "clear", "remove"],

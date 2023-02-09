@@ -8,8 +8,8 @@ let Schema = new mongoose.Schema({
 	action: String,
 	caseDetails: {
 		reason: String,
-		endDate: Number,
 		date: String,
+		length: String,
 	}
 })
 

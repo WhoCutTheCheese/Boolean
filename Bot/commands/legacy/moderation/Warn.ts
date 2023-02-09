@@ -17,6 +17,7 @@ module.exports = {
 	minArgs: 1,
 	expectedArgs: "[@User/User ID] (Reason)",
 	userPermissions: [PermissionsBitField.Flags.ManageMessages],
+	botPermissions: [PermissionsBitField.Flags.ModerateMembers],
 	commandCategory: "Moderation",
 	callback: async (client: Client, message: Message, args: string[]) => {
 
@@ -65,7 +66,7 @@ module.exports = {
 				action: "AutoMute",
 				caseDetails: {
 					reason: reason,
-					endDate: endDate,
+					length: "10 Minutes",
 					date: Date.now(),
 				}
 			})
@@ -116,6 +117,7 @@ module.exports = {
 			caseDetails: {
 				reason: reason,
 				date: Date.now(),
+				length: "Infinite"
 			}
 		})
 		newCase.save().catch((err: Error) => { console.error(err) })
