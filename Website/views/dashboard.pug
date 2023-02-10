@@ -5,6 +5,7 @@ include all.pug
 head
 	title= appName
 	link(rel='stylesheet' href='/public/css/dashboard.css')
+	script(defer src='/public/js/dashboard.js')
 
 //- chatgpt school account
 .container.user
@@ -24,11 +25,11 @@ head
 				.server-info 
 					p= guild.name
 				.server-icon
-					img(alt='ServerName' name='server-img' src=`https://cdn.discordapp.com/icons/${guild.id}/${guild.icon}.webp?size=128` style="border-radius: 50%;")
+					img(alt='ServerName' src=`https://cdn.discordapp.com/icons/${guild.id}/${guild.icon}.webp?size=128` style=`border-radius: 50%; ${guild.isManager ? `border: 3px solid #00FF00;` : ``}`)
 				.server-button 
 					if !guild.isManager
-						button.button.is-danger Manage
+						button.button.is-dark No access
 					else
-						button.button.is-success Invite
+						button.manage.button.is-dark(id=guild.id) Manage
 
 include footer.pug

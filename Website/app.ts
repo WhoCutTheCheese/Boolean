@@ -20,6 +20,7 @@ import './strategies/discordStrat'
 import indexRouter from './routes/index';
 import authRouter from './routes/auth';
 import dashRouter from './routes/dashboard';
+import manageRouter from './routes/manage';
 
 const app = express();
 
@@ -59,6 +60,7 @@ app.use(express.json());
 app.use('/', indexRouter);
 app.use('/auth', authRouter);
 app.use('/dashboard', dashRouter);
+app.use('/manage', manageRouter)
 
 // catch 404 and forward to error handler
 app.use((req: Request, res: Response, next: NextFunction) => {
