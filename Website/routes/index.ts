@@ -1,11 +1,16 @@
 import express, { Router, Request, Response, NextFunction } from 'express';
 import * as config from '../config.json'
+import { BooleanSession } from '../interface/Session';
 
 const router = Router();
 
 /* GET home page. */
 router.get('/', (req: Request, res: Response, next: NextFunction) => {
-	res.render('index', config);
+	let session: BooleanSession = req.session as BooleanSession
+	if (!session.passport || !session.passport.user) return res.redirect("/auth/login")
+	let user = session.passport.user
+
+	res.render('index', { ...config, ...user });
 });
 
 export default router;

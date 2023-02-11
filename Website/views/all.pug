@@ -5,6 +5,7 @@ head
 	link(href='https://unpkg.com/aos@2.3.1/dist/aos.css' rel='stylesheet')
 	link(rel='stylesheet' href='https://unpkg.com/tippy.js@6/animations/scale.css')
 	link(rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css' integrity='sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g==' crossorigin='anonymous' referrerpolicy='no-referrer')
+	script(src='https://cdn.socket.io/4.4.1/socket.io.min.js' integrity='sha384-fKnu0iswBIqkjxrhQCTZ7qlLHOFEgNkRmK2vaO/LbTZSXdJfAu6ewRBdwHPhBo/H' crossorigin='anonymous')
 	script(src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.3/jquery.min.js")
 	script(src='https://unpkg.com/aos@2.3.1/dist/aos.js')
 	script(defer src='https://unpkg.com/@popperjs/core@2')
@@ -48,5 +49,9 @@ body
 					.buttons
 						button.login.button.is-blurple(href='/dashboard')
 							strong
-								i.fa-solid.fa-right-to-bracket.mr-2 
-								|                 Login
+								if !discordId
+									i.fa-solid.fa-right-to-bracket.mr-2
+									|                 Login
+								else
+									i.fa-solid.fa-right-to-bracket.mr-2
+									|                 Manage

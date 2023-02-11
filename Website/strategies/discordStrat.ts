@@ -52,7 +52,7 @@ passport.use(new Strategy({
 	}
 ));
 
-function checkManager(permissions: string): boolean {
+export function checkManager(permissions: string): boolean {
 	const manageServerFlag = 0x00000020;
 	const permissionsInt = parseInt(permissions);
 
