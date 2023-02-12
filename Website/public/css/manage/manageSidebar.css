@@ -46,3 +46,8 @@ body {
 	background-color: #34495e;
 	color: #fff;
 }
+
+.menu-li {
+	margin: 10px;
+	margin-left: 30px;
+}

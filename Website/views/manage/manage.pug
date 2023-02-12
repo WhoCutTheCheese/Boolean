@@ -12,10 +12,21 @@ aside.sidebar
 	.sidebar-header
 		h3.title.is-5.is-white LOGO HERE || Boolean
 	.menu
-		p.menu-label General
-			ul.menu-list
-				li
-					button.main-item(data-href="modules") Modules
-					button.main-item(data-href="permit") Permit
-		p.menu-label Modules
-		p.menu-label Commands
+
+		p.menu-label
+			span.icon.is-medium
+				i.fas.fa-cog 
+			| General
+		ul.menu-list
+			li.menu-li
+				button.main-item(data-href="modules") Modules
+			li.menu-li
+				button.main-item(data-href="permit") Permit
+		p.menu-label
+			span.icon.is-medium.has-text-centered
+				i.fa-solid.fa-wrench
+			| Modules
+		p.menu-label
+			span.icon.is-medium
+				i.fa-solid.fa-sliders
+			| Commands
