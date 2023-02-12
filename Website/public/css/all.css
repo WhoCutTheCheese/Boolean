@@ -1,3 +1,10 @@
+body,
+html {
+	background-color: #1a2634 !important;
+}
+
+/* * Back to top * */
+
 #backtotop {
 	display: inline-block;
 	background-color: #7289da;
@@ -28,6 +35,50 @@
 	visibility: visible;
 }
 
+/* * Footer * */
+
+.footer {
+	padding-top: 50px
+}
+
+.footer-text {
+	color: white !important;
+}
+
+.footer-base {
+	background-color: #1a2634 !important;
+	color: white;
+}
+
+#cp-year {
+	color: white;
+}
+
+/* * Bulma Addons * */
+
+.button.is-blurple {
+	background-color: #7289da;
+	border-color: transparent;
+	color: #fff;
+}
+
+.is-white {
+	color: white;
+}
+
+.is-outlined {
+	transition: all 0.2s ease-in-out !important;
+}
+
+.blurple {
+	color: #7289da;
+}
+
+.button.is-blurple {
+	background-color: #7289da;
+	border-color: transparent;
+	color: #fff;
+}
 
 .no-background {
 	background-color: #1a2634;
@@ -51,30 +102,7 @@
 	border: #2e4d77;
 }
 
-
-.footer {
-	padding-top: 50px
-}
-
-.footer-text {
-	color: white !important;
-}
-
-.footer-base {
-	background-color: #1a2634 !important;
-	color: white;
-}
-
-#cp-year {
-	color: white;
-}
-
-
-.button.is-blurple {
-	background-color: #7289da;
-	border-color: transparent;
-	color: #fff;
-}
+/* * Navbar * */
 
 .navbar-item,
 .navbar-link {
@@ -152,7 +180,8 @@ nav,
 	color: white !important;
 }
 
-/* custom scrollbar */
+/* * Scrollbar * */
+
 ::-webkit-scrollbar {
 	width: 20px;
 }

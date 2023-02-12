@@ -1,0 +1,48 @@
+body {
+	margin-left: 250px !important;
+}
+
+.sidebar {
+	color: #fff;
+	width: 250px;
+	height: 100vh;
+	position: fixed;
+	/* top: 60px; */
+	/* Add space on the top */
+	left: 0;
+	padding-left: 0.75rem;
+	padding-right: 1.5rem;
+	border-right: 1px solid #34495e;
+	padding-top: 1.5rem;
+	padding-bottom: 1.5rem;
+	z-index: 9999;
+	/* Make sure the sidebar is displayed on top of other elements */
+}
+
+.sidebar-header {
+	margin-bottom: 2rem;
+}
+
+.menu-label {
+	font-size: 0.875rem;
+	font-weight: 600;
+	color: white;
+	text-transform: uppercase;
+	letter-spacing: 1px;
+}
+
+.menu-list button {
+	all: unset;
+	cursor: pointer;
+	width: 100%;
+	color: white;
+	font-size: 0.9375rem;
+	display: block;
+	padding: 0.5rem 0;
+	transition: all 0.2s ease-in-out;
+}
+
+.menu-list button:hover {
+	background-color: #34495e;
+	color: #fff;
+}
