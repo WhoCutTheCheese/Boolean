@@ -29,6 +29,12 @@ $(document).ready(function () {
 		$(".navbar-menu").toggleClass("is-active");
 	});
 	$(".login").click(() => {
+		window.location = "/auth/login"
+	})
+	$(".logout").click(() => {
+		window.location = "/auth/logout"
+	})
+	$(".dashboard").click(() => {
 		window.location = "/dashboard"
 	})
 });

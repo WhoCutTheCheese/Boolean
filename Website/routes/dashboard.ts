@@ -6,7 +6,7 @@ const router = Router();
 
 router.get('/', (req: Request, res: Response, next: NextFunction) => {
 	let session: BooleanSession = req.session as BooleanSession
-	if (!session.passport || !session.passport.user) return res.redirect("/auth/login")
+	if (!session.passport || !session.passport.user) return res.redirect("/")
 	let user = session.passport.user
 
 	res.render('dashboard', { ...config, ...user })

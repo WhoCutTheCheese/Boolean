@@ -10,12 +10,10 @@ head
 	script(src='https://unpkg.com/aos@2.3.1/dist/aos.js')
 	script(defer src='https://unpkg.com/@popperjs/core@2')
 	script(defer src='https://unpkg.com/tippy.js@6')
-	script(defer src='/public/js/main.js')
 
-	link(rel='stylesheet' href='/public/css/all/navbar.css')
-	link(rel='stylesheet' href='/public/css/all/footer.css')
-	link(rel='stylesheet' href='/public/css/all/backtotop.css')
-	link(rel='stylesheet' href='/public/css/all/scrollbar.css')
+	script(defer src='/public/js/all.js')
+	link(rel='stylesheet' href='/public/css/all.css')
+	
 body 
 	// Back To Top Start
 	a#backtotop(data-tippy-content='Back To Top.')
@@ -43,15 +41,24 @@ body
 			.navbar-end
 				a.navbar-item.is-tab(href=discordInvite target='_blank')
 					i.fa-brands.fa-discord
-				a.navbar-item.is-tab(href=githubLink target='_blank')
-					i.fa-brands.fa-github
+				//- a.navbar-item.is-tab(href=githubLink target='_blank')
+				//- 	i.fa-brands.fa-github
 				.navbar-item
-					.buttons
-						button.login.button.is-blurple(href='/dashboard')
-							strong
-								if !discordId
+					if !discordId
+						.buttons
+							button.login.button.is-blurple
+								strong
 									i.fa-solid.fa-right-to-bracket.mr-2
 									|                 Login
-								else
-									i.fa-solid.fa-right-to-bracket.mr-2
-									|                 Manage
+					else
+						.buttons
+							button.dashboard.button.no-background.is-rounded
+								span.icon.is-small
+									img(src=`${avatar ? `https://cdn.discordapp.com/avatars/${discordId}/${avatar}.webp?size=128` : "/public/img/placeholder.png"}`)
+								span LukeIThink
+							button.logout.button.is-danger.is-outlined
+								i.fas.fa-sign-out-alt
+							//- button.button.is-success
+
+
+//<i class="fas fa-sign-out-alt"></i>

@@ -7,38 +7,19 @@ export interface WebUser {
 	username: string,
 	tag: string,
 	avatar: string,
-	Guilds: Array<Guild>,
+	guilds: Array<Guild>,
 	createdAt: Date
 }
 
 let Schema = new mongoose.Schema({
-	discordId: {
-		type: String,
-		required: true
-	},
-	username: {
-		type: String,
-		required: true
-	},
-	tag: {
-		type: String,
-		required: true
-	},
-	avatar: {
-		type: String,
-		required: true
-	},
-	accessToken: {
-		type: String,
-		required: true
-	},
-	Guilds: {
-		type: Array,
-		required: true
-	},
+	discordId: String,
+	username: String,
+	tag: String,
+	avatar: String,
+	accessToken: String,
+	guilds: Array,
 	createdAt: {
 		type: Date,
-		required: true,
 		default: new Date()
 	}
 })

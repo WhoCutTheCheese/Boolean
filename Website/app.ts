@@ -20,9 +20,9 @@ import Socket from "socket.io";
 // * ENV Validator * \\
 
 var mongoURL = process.env.mongo_url;
-if (!mongoURL) throw new Error("Please put a mongo url in ur ENV, it is required for this website to work!")
-if (!process.env.client_id) throw new Error("Please put a discord oauth2 bot id in ur ENV, it is required for this website to work!")
-if (!process.env.client_secret) throw new Error("Please put a discord oauth2 bot secret in ur ENV, it is required for this website to work!")
+if (!mongoURL) throw new Error("Please put a mongo url (mongo_url) in your ENV, it is required for this website to work!")
+if (!process.env.client_id) throw new Error("Please put a discord oauth2 client id (client_id) in your ENV, it is required for this website to work!")
+if (!process.env.client_secret) throw new Error("Please put a discord oauth2 bot secret (client_secret) in your ENV, it is required for this website to work!")
 
 // * Custom imports * \\
 
@@ -35,6 +35,7 @@ import manageRouter from './routes/manage';
 import { DefaultEventsMap } from 'socket.io/dist/typed-events';
 import { BooleanSession } from './interface/Session';
 import { checkManager } from './strategies/discordStrat';
+import WebUsers from './Schema/WebUsers';
 
 // * Important setup * \\
 
@@ -144,11 +145,12 @@ io.on("connection", (socket) => {
 
 	// {page}-{subtype}-{action}-{callback?}
 
-	socket.on("dashboard-servers-update", async (discorId) => {
+	socket.on("dashboard-servers-update", async () => {
 		let user = getSessionUser(socket)
 
 		if (!user) return;
-		if (getCooldown(user.discordId)) return console.warn(`${user.discordId} tried to call guilds twice`);
+		if (getCooldown(user.discordId)) return;
+		setCooldown(user.discordId)
 
 		const accessToken = getSessionUser(socket)!.accessToken;
 
@@ -165,14 +167,16 @@ io.on("connection", (socket) => {
 				guild.isManager = checkManager(guild.permissions)
 			}
 
-			guilds = guilds.sort((a: any, b: any) => {
-				if (a.isManager === b.isManager) return 0;
-				return a.isManager ? -1 : 1;
-			});
+			guilds = guilds.filter((guild: any) => guild.isManager === true);
 
-			setCooldown(user.discordId)
+			// guilds = guilds.sort((a: any, b: any) => {
+			// 	if (a.isManager === b.isManager) return 0;
+			// 	return a.isManager ? -1 : 1;
+			// });
 
-			socket.emit('dashboard-servers-update-callback')
+			(socket.handshake as any).session.passport.user.guilds = guilds;
+			(socket.handshake as any).session.save();
+			await WebUsers.findOneAndUpdate({ discordId: user.discordId }, { guilds: guilds });
 		} catch (error) {
 			console.error(error)
 		}

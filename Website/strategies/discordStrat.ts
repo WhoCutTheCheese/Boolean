@@ -2,6 +2,7 @@ import passport from 'passport';
 import Strategy from 'passport-discord';
 import WebUsers from '../Schema/WebUsers';
 import { WebUser } from '../Schema/WebUsers';
+import * as config from '../config.json'
 
 passport.serializeUser((user, done) => {
 	done(null, user)
@@ -21,18 +22,22 @@ passport.deserializeUser(async (id, done) => {
 passport.use(new Strategy({
 	clientID: process.env.client_id!,
 	clientSecret: process.env.client_secret!,
-	callbackURL: 'http://localhost:3000/auth/login/callback',
+	callbackURL: config.loginCallback,
 	scope: ['identify', 'guilds'],
 },
 	async (accessToken: string, refreshToken: string, profile: any, done: (error: any, user?: any) => void) => {
+		if (!profile || !profile.guilds) return done("Failed to get user guilds")
+
 		for (let guild of profile.guilds) {
 			guild.isManager = checkManager(guild.permissions_new)
 		}
 
-		profile.guilds = profile.guilds.sort((a: any, b: any) => {
-			if (a.isManager === b.isManager) return 0;
-			return a.isManager ? -1 : 1;
-		});
+		profile.guilds = profile.guilds.filter((guild: { isManager: boolean; }) => guild.isManager === true);
+
+		// profile.guilds = profile.guilds.sort((a: any, b: any) => {
+		// 	if (a.isManager === b.isManager) return 0;
+		// 	return a.isManager ? -1 : 1;
+		// });
 
 		let newData: WebUser = {
 			discordId: profile.id,
@@ -41,7 +46,7 @@ passport.use(new Strategy({
 			tag: profile.discriminator,
 			avatar: profile.avatar,
 			createdAt: profile.createdAt,
-			Guilds: profile.guilds
+			guilds: profile.guilds
 		}
 
 		const discordUser = await WebUsers.findOneAndUpdate({ discordId: profile.id }, newData)
