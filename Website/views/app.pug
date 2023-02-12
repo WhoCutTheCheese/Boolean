@@ -44,7 +44,7 @@ body
 								button.dashboard.button.no-background.is-rounded
 									span.icon.is-small
 										img.is-round(src=`${avatar ? `https://cdn.discordapp.com/avatars/${discordId}/${avatar}.webp?size=128` : "/public/img/placeholder.png"}`)
-									span=`                          ${username}`
+									span.nav-username=`                          ${username}`
 								button.logout.button.is-danger.is-outlined
 									i.fas.fa-sign-out-alt
 	else
@@ -83,6 +83,6 @@ body
 								button.dashboard.button.no-background.is-rounded
 									span.icon.is-small
 										img.is-round(src=`${avatar ? `https://cdn.discordapp.com/avatars/${discordId}/${avatar}.webp?size=128` : "/public/img/placeholder.png"}`)
-									span=`                          ${username}`
+									span.nav-username=`                          ${username}`
 								button.logout.button.is-danger.is-outlined
 									i.fas.fa-sign-out-alt

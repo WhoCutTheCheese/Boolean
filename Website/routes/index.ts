@@ -10,7 +10,7 @@ router.get('/', (req: Request, res: Response, next: NextFunction) => {
 	if (!session.passport || !session.passport.user) return res.render('index', config);
 	let user = session.passport.user
 
-	res.render('main', { ...config, ...user });
+	res.render('index', { ...config, ...user });
 });
 
 export default router;

@@ -180,6 +180,10 @@ nav,
 	color: white !important;
 }
 
+.nav-username {
+	font-size: 1rem !important;
+}
+
 /* * Scrollbar * */
 
 ::-webkit-scrollbar {
