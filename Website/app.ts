@@ -34,8 +34,9 @@ import dashRouter from './routes/dashboard';
 import manageRouter from './routes/manage';
 import { DefaultEventsMap } from 'socket.io/dist/typed-events';
 import { BooleanSession } from './interface/Session';
-import { checkManager } from './strategies/discordStrat';
-import WebUsers from './Schema/WebUsers';
+import WebUsers from './schema/WebUsers';
+import ServerSchema from './schema/ServerSchema';
+import { Utilities } from './utils/Utilities';
 
 // * Important setup * \\
 
@@ -106,15 +107,14 @@ app.use((err: any, req: Request, res: Response, next: NextFunction) => {
 
 // * Sockets * \\
 
-
 let cooldownMap = new Map<string, number>();
 
-function setCooldown(userId: string) {
+export function setCooldown(userId: string) {
 	let currentTime = Math.floor(Date.now() / 1000);
 	cooldownMap.set(userId, currentTime + 90);
 }
 
-function getCooldown(userId: string): boolean {
+export function getCooldown(userId: string): boolean {
 	if (!cooldownMap.get(userId)) return false;
 
 	let endTime = cooldownMap.get(userId);
@@ -125,6 +125,7 @@ function getCooldown(userId: string): boolean {
 		cooldownMap.delete(userId);
 		return false;
 	} else {
+		console.log(`User on cooldown: ${endTime - currentTime} more seconds`)
 		return true;
 	}
 }
@@ -161,18 +162,8 @@ io.on("connection", (socket) => {
 				}
 			});
 
-			let guilds = response.data
-
-			for (let guild of guilds) {
-				guild.isManager = checkManager(guild.permissions)
-			}
-
-			guilds = guilds.filter((guild: any) => guild.isManager === true);
-
-			// guilds = guilds.sort((a: any, b: any) => {
-			// 	if (a.isManager === b.isManager) return 0;
-			// 	return a.isManager ? -1 : 1;
-			// });
+			console.log("Socket:")
+			let guilds = await new Utilities().updateGuilds(response.data);
 
 			(socket.handshake as any).session.passport.user.guilds = guilds;
 			(socket.handshake as any).session.save();

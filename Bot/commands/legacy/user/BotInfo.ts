@@ -16,7 +16,7 @@ module.exports = {
 				new ButtonBuilder()
 					.setLabel("Invite Me!")
 					.setStyle(ButtonStyle.Link)
-					.setURL("https://discord.com/oauth2/authorize?client_id=966634522106036265&permissions=1377007168710&scope=bot%20applications.commands")
+					.setURL("https://discord.com/oauth2/authorize?client_id=966634522106036265&permissions=307089505783&scope=bot%20applications.commands")
 			)
 
 		const botInfo = new EmbedBuilder()

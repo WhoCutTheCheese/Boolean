@@ -38,6 +38,7 @@ html {
 /* * Footer * */
 
 .footer {
+	bottom: 100%;
 	padding-top: 50px
 }
 

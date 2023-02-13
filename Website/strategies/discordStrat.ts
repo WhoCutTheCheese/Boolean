@@ -1,8 +1,10 @@
 import passport from 'passport';
 import Strategy from 'passport-discord';
-import WebUsers from '../Schema/WebUsers';
-import { WebUser } from '../Schema/WebUsers';
+import WebUsers from '../schema/WebUsers';
+import { WebUser } from '../schema/WebUsers';
 import * as config from '../config.json'
+import ServerSchema from '../schema/ServerSchema';
+import { Utilities } from '../utils/Utilities';
 
 passport.serializeUser((user, done) => {
 	done(null, user)
@@ -28,16 +30,8 @@ passport.use(new Strategy({
 	async (accessToken: string, refreshToken: string, profile: any, done: (error: any, user?: any) => void) => {
 		if (!profile || !profile.guilds) return done("Failed to get user guilds")
 
-		for (let guild of profile.guilds) {
-			guild.isManager = checkManager(guild.permissions_new)
-		}
-
-		profile.guilds = profile.guilds.filter((guild: { isManager: boolean; }) => guild.isManager === true);
-
-		// profile.guilds = profile.guilds.sort((a: any, b: any) => {
-		// 	if (a.isManager === b.isManager) return 0;
-		// 	return a.isManager ? -1 : 1;
-		// });
+		console.log("discord strat:")
+		profile.guilds = await new Utilities().updateGuilds(profile.guilds)
 
 		let newData: WebUser = {
 			discordId: profile.id,
@@ -56,14 +50,3 @@ passport.use(new Strategy({
 		return done(null, newUser)
 	}
 ));
-
-export function checkManager(permissions: string): boolean {
-	const manageServerFlag = 0x00000020;
-	const permissionsInt = parseInt(permissions);
-
-	if ((permissionsInt & manageServerFlag) !== 0) {
-		return true;
-	} else {
-		return false;
-	}
-}

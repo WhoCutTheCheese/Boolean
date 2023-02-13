@@ -39,9 +39,7 @@ module.exports.listen = (client: Client) => {
 				guildID: message.guild?.id
 			})
 			if (!settings) {
-				new Utilities().createFile({ guild: message.guild! });
-				new EmbedUtils().sendErrorEmbed((message.channel as TextChannel), message, { errorEmoji: false, replyToMessage: true }, { title: "Critical error", description: "Your settings file dosent exist.. please retry your command!", footer: "Join the support server if this problem prosists" })
-				message.channel.send({ content: "Sorry, your settings file doesn't exist! If this error persists contact support." });
+				await new Utilities().createFile({ guild: message.guild! });
 				return;
 			}
 
@@ -164,21 +162,6 @@ module.exports.listen = (client: Client) => {
 					timestamps!.set(userId, now);
 				}
 			}
-
-			// if (cooldown > 0) {
-			//     console.log(Math.floor(Date.now() / 1000) - set[message.author.id].Time)
-
-			//     let nameNoPrefix = name.replace(prefix, "")
-
-			//     if ((set[message.author.id] && nameNoPrefix === set[message.author.id].Command) && (Math.floor(Date.now() / 1000) - set[message.author.id].Time < cooldown)) {
-			//         message.channel.send({ content: `You must wait \`${Math.floor(Date.now() / 1000) - set[message.author.id]} second(s)\` before using this command again!` })
-			//         return;
-			//     }else if () {
-
-			//     }else if (!set[message.author.id]) {
-			//         set[][message.author.id] = {Command: name.replace(prefix, ""), Time: Math.floor(Date.now() / 1000)}
-			//     }
-			// }
 
 			if (message.guild.members.me.permissions.has(PermissionsBitField.Flags.ManageMessages)) {
 				if ((message.channel as TextChannel).permissionsFor(message.guild.members.me!)?.has(PermissionsBitField.Flags.ManageMessages)) {

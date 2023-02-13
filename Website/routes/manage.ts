@@ -1,9 +1,10 @@
 import express, { Router, Request, Response, NextFunction } from 'express';
 import { BooleanSession } from '../interface/Session';
 import * as config from '../config.json'
-import ServerSchema from '../Schema/ServerSchema';
+import ServerSchema from '../schema/ServerSchema';
 import fs from 'fs';
 import path from 'path';
+import { Utilities } from '../utils/Utilities';
 
 const router = Router();
 
@@ -36,9 +37,9 @@ router.get('/:id', async (req: Request, res: Response, next: NextFunction) => {
 
 	let server = await ServerSchema.findOne({ guildID: req.params.id })
 
-	if (!server) return res.redirect('/dashboard')
+	if (!server) return new Utilities().sendToInvite(req.params.id, req, res)
 
-	res.render('manage/main', { ...config, ...user, ...{ showminnavbar: true } })
+	res.render('manage/main', { ...config, ...user, ...server, ...{ showminnavbar: true } })
 });
 
 export default router;

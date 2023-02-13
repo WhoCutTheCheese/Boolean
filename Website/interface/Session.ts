@@ -1,5 +1,5 @@
 import { Document } from "mongoose";
-import { WebUser } from "../Schema/WebUsers";
+import { WebUser } from "../schema/WebUsers";
 
 export interface BooleanSession {
 	passport?: { user: WebUser }

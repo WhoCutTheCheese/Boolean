@@ -1,5 +1,5 @@
 body {
-	margin-left: 250px !important;
+	/* margin-left: 250px !important; */
 }
 
 .sidebar {
@@ -43,8 +43,9 @@ body {
 }
 
 .menu-list button:hover {
-	background-color: #34495e;
-	color: #fff;
+	/* background-color: #34495e; */
+	color: #2e4d77;
+	/* color: #fff; */
 }
 
 .menu-li {
