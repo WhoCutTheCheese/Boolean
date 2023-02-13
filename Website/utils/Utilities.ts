@@ -28,7 +28,7 @@ export class Utilities {
 		for (let guild of guilds) guild.isManager = checkManager(guilds.permissions_new || guild.permissions)
 		guilds = guilds.filter((guild: any) => guild.isManager === true);
 
-		for (let guild of guilds) guild.isInvited = await ServerSchema.findOne({ guildID: guild.id }) || null
+		for (let guild of guilds) guild.isInvited = await ServerSchema.findOne({ guildID: guild.id })
 		guilds = guilds.sort((a: any, b: any) => a.isInvited === b.isInvited ? 0 : a.isInvited ? -1 : 1);
 
 		// profile.guilds = profile.guilds.sort((a: any, b: any) => {

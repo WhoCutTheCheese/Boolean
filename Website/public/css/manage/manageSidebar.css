@@ -1,5 +1,5 @@
 body {
-	/* margin-left: 250px !important; */
+	margin-left: 250px !important;
 }
 
 .sidebar {
@@ -16,6 +16,7 @@ body {
 	padding-top: 1.5rem;
 	padding-bottom: 1.5rem;
 	z-index: 9999;
+	/* margin-top: -57px; */
 	/* Make sure the sidebar is displayed on top of other elements */
 }
 

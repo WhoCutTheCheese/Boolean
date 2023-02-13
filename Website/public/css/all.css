@@ -39,7 +39,8 @@ html {
 
 .footer {
 	bottom: 100%;
-	padding-top: 50px
+	padding-top: 50px;
+	padding: 1.5rem !important;
 }
 
 .footer-text {

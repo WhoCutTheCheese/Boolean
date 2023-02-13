@@ -5,5 +5,56 @@ body {
 	padding: 0;
 	margin: 0;
 	text-rendering: optimizeLegibility;
+	place-items: center;
+	justify-content: center;
+	align-items: center;
 	-webkit-font-smoothing: antialiased;
+}
+
+main {
+	/* width: 5%; */
+	height: 100%;
+	margin-top: 57px;
+	padding: 10px;
+}
+
+.container.server-info {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	padding-bottom: 50px;
+	padding-top: 60px;
+	height: auto;
+}
+
+.server-avatar,
+.server-details {
+	display: inline-block;
+}
+
+.server-details {
+	margin-left: 10px;
+}
+
+.server-avatar {
+	width: 64px;
+	height: 64px;
+	text-align: center;
+}
+
+.div-container {
+	row-gap: 20px;
+	place-items: center;
+	align-items: center;
+	justify-content: center;
+	display: grid;
+	grid-template-columns: repeat(1, minmax(0, 1fr));
+
+
+}
+
+.div {
+	padding: 28px;
+	background-color: #181a20;
+	width: 50%;
 }

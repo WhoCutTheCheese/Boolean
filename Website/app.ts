@@ -162,7 +162,6 @@ io.on("connection", (socket) => {
 				}
 			});
 
-			console.log("Socket:")
 			let guilds = await new Utilities().updateGuilds(response.data);
 
 			(socket.handshake as any).session.passport.user.guilds = guilds;
