@@ -3,6 +3,7 @@
 import * as dotenv from 'dotenv';
 dotenv.config();
 
+import './bot'
 import express, { Request, Response, NextFunction } from 'express';
 import createError from 'http-errors';
 import debug from 'debug';

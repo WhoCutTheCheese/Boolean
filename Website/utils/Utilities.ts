@@ -4,6 +4,7 @@ import fs from "fs";
 import * as config from '../config.json'
 import { Guild } from 'discord.js';
 import ServerSchema from '../schema/ServerSchema';
+import client from '../bot';
 
 function checkManager(permissions: string): boolean {
 	const manageServerFlag = 0x00000020;
@@ -22,14 +23,15 @@ export class Utilities {
 	}
 
 	async updateGuilds(guilds: any) {
-		console.log(`UPDATEGUILDS FUNCTION | Guilds? ${guilds.length}`)
 		if (!guilds || !(guilds.length > 0)) return guilds;
 
 		for (let guild of guilds) guild.isManager = checkManager(guilds.permissions_new || guild.permissions)
 		guilds = guilds.filter((guild: any) => guild.isManager === true);
 
-		for (let guild of guilds) guild.isInvited = await ServerSchema.findOne({ guildID: guild.id })
-		guilds = guilds.sort((a: any, b: any) => a.isInvited === b.isInvited ? 0 : a.isInvited ? -1 : 1);
+		for (let guild of guilds) guild.dbServer = await ServerSchema.findOne({ guildID: guild.id })
+		guilds = guilds.sort((a: any, b: any) => a.dbServer === b.dbServer ? 0 : a.dbServer ? -1 : 1);
+
+		for (let guild of guilds) guild.server = await client.guilds.fetch('1071223504852238406')
 
 		// profile.guilds = profile.guilds.sort((a: any, b: any) => {
 		// 	if (a.isManager === b.isManager) return 0;

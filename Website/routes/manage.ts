@@ -40,7 +40,7 @@ router.get('/:id', async (req: Request, res: Response, next: NextFunction) => {
 
 	if (!server) return new Utilities().sendToInvite(req.params.id, req, res)
 
-	console.log({ config, user, server, userServer, ...{ showminnavbar: true } })
+	console.log(userServer)
 
 	res.render('manage/main', { ...server, ...config, ...user, ...userServer, ...{ showminnavbar: true } })
 });
