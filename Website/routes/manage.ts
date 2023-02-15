@@ -5,6 +5,8 @@ import ServerSchema from '../schema/ServerSchema';
 import fs from 'fs';
 import path from 'path';
 import { Utilities } from '../utils/Utilities';
+import { getCooldown, setCooldown } from '../app';
+import WebUsers from '../schema/WebUsers';
 
 const router = Router();
 
@@ -40,7 +42,15 @@ router.get('/:id', async (req: Request, res: Response, next: NextFunction) => {
 
 	if (!server) return new Utilities().sendToInvite(req.params.id, req, res)
 
-	console.log(userServer)
+	if (!getCooldown(user.discordId)) {
+		setCooldown(user.discordId);
+
+		let guilds = await new Utilities().updateGuilds(user.guilds);
+		if (guilds) {
+			(req.session as any).passport.user.guilds = guilds;
+			await WebUsers.findOneAndUpdate({ discordId: user.discordId }, { guilds: guilds });
+		}
+	}
 
 	res.render('manage/main', { ...server, ...config, ...user, ...userServer, ...{ showminnavbar: true } })
 });

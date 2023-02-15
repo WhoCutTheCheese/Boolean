@@ -22,6 +22,24 @@ body {
 
 .sidebar-header {
 	margin-bottom: 2rem;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.sidebar-logo {
+	border-radius: 50%;
+	border: 3px solid #3d566e;
+	width: 64px;
+	height: 64px;
+}
+
+.bot-img {
+	margin-right: 10px;
+}
+
+.bot-name {
+	text-align: center;
 }
 
 .menu-label {

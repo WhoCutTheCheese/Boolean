@@ -39,7 +39,9 @@ $(document).ready(function () {
 	})
 });
 
+// Tostar
 
+toastr.options.positionClass = 'toast-bottom-right';
 
 // back to top
 var backToTopBtn = $("#backtotop");

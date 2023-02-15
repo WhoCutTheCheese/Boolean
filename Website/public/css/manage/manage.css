@@ -12,10 +12,15 @@ body {
 }
 
 main {
-	/* width: 5%; */
+	width: 60%;
 	height: 100%;
 	margin-top: 57px;
 	padding: 10px;
+	margin: auto;
+}
+
+.match-background {
+	background-color: #181a20;
 }
 
 .container.server-info {
@@ -37,16 +42,13 @@ main {
 }
 
 .server-avatar {
-	width: 64px;
-	height: 64px;
+	width: 100px;
+	height: 100px;
 	text-align: center;
 }
 
-.div-container {
+/* .div-container {
 	row-gap: 20px;
-	place-items: center;
-	align-items: center;
-	justify-content: center;
 	display: grid;
 	grid-template-columns: repeat(1, minmax(0, 1fr));
 
@@ -57,4 +59,4 @@ main {
 	padding: 28px;
 	background-color: #181a20;
 	width: 50%;
-}
+} */

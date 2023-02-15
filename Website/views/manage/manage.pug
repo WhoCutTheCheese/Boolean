@@ -9,10 +9,19 @@ head
 // Sidebar start
 
 aside.sidebar
+	//- .sidebar-header
+	//- 	.bot-img.is-inline-block
+	//- 		img.is-inline-block(alt='Avatar', name='avatar-img', src=`${icon ? `https://cdn.discordapp.com/icons/${id}/${icon}.webp?size=128` : "/public/img/placeholder.png"}` style=`
+	//- 	border-radius: 50%; border: 3px solid #3d566e; width:64px; height:64px;`)
+	//- 	.bot-name.is-inline-block.has-text-centered
+	//- 		h3.title.is-5.is-white Boolean
 	.sidebar-header
-		h3.title.is-5.is-white LOGO HERE || Boolean
-	.menu
+		.bot-img.is-inline-block
+			img.sidebar-logo(alt='Logo' name='Logo-img' src=`https://cdn.discordapp.com/avatars/966634522106036265/24f34ce68c53b1969494cdce8056e8c8.webp?size=128`)
+		.bot-name.is-inline-block
+			h3.title.is-5.is-white Boolean
 
+	.menu
 		p.menu-label
 			span.icon.is-medium
 				i.fas.fa-cog 
