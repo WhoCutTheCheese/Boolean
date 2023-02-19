@@ -46,11 +46,12 @@ module.exports.listen = (client: Client) => {
 			let color: ColorResolvable = "5865F2" as ColorResolvable;
 			if (settings.guildSettings?.embedColor) color = settings.guildSettings.embedColor as ColorResolvable;
 
-			prefix = settings.guildSettings?.prefix;
-			if (!prefix) prefix = "!!";
+			prefix = settings.guildSettings?.prefix || "!!";
 
 			const args = message.content.split(/[ ]+/)
 			const name = args.shift()!.toLowerCase();
+
+			if (name.trim().toLowerCase() === `<@${client.user!.id}>`) return new EmbedUtils().sendSuccessEmbed((message.channel as TextChannel), message, { successEmoji: false, replyToMessage: true }, { title: "Prefix", description: `The current guild prefix is ${prefix}` })
 
 			if (!name.startsWith(prefix)) return;
 			const maintenance = await Maintenance.findOne({
