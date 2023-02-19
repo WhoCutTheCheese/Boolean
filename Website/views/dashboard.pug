@@ -9,7 +9,7 @@ head
 		.lazyload-wrapper
 			img(alt='Avatar', name='avatar-img', src=`${user.avatar ? `https://cdn.discordapp.com/avatars/${user.discordId}/${user.avatar}.webp?size=128` : "/public/img/placeholder.png"}`)
 	.user-details
-		h3.user-name.title.is-4(href='/')=username
+		h3.user-name.title.is-4(href='/')=user.username
 			span.discriminator.has-text-primary= `#${user.tag}`
 		h5.subtitle.has-text-grey.is-5 0 premium servers
 .container.servers
