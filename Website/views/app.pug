@@ -32,12 +32,12 @@ body
 		nav.navbar.is-fixed-top(role='navigation' aria-label='main navigation')
 			#navbarBasicExample.navbar-menu
 				.navbar-end
-					a.navbar-item.is-tab(href=discordInvite target='_blank')
+					a.navbar-item.is-tab(href=config.discordInvite target='_blank')
 						i.fa-brands.fa-discord
 					//- a.navbar-item.is-tab(href=githubLink target='_blank')
 					//- 	i.fa-brands.fa-github
 					.navbar-item
-						if !discordId
+						if !user
 							.buttons
 								button.login.button.is-blurple
 									strong
@@ -47,15 +47,15 @@ body
 							.buttons
 								button.dashboard.button.no-background.is-rounded
 									span.icon.is-small
-										img.is-round(src=`${avatar ? `https://cdn.discordapp.com/avatars/${discordId}/${avatar}.webp?size=128` : "/public/img/placeholder.png"}`)
-									span.nav-username=`                          ${username}`
+										img.is-round(src=`${user.avatar ? `https://cdn.discordapp.com/avatars/${user.discordId}/${user.avatar}.webp?size=128` : "/public/img/placeholder.png"}`)
+									span.nav-username=`                          ${user.username}`
 								button.logout.button.is-danger.is-outlined
 									i.fas.fa-sign-out-alt
 	else
 		nav.navbar.is-fixed-top(role='navigation' aria-label='main navigation')
 			.navbar-brand.mt-2.mb-2
 				a.navbar-item(href='/')
-					strong= appName
+					strong= config.appName
 				a.navbar-burger.has-text-white(role='button' data-target='navMenu' aria-label='menu' aria-expanded='false')
 					span(aria-hidden='true')
 					span(aria-hidden='true')
@@ -64,19 +64,19 @@ body
 				.navbar-start
 					a.navbar-item.is-tab(href='/')
 						| Home
-					a.navbar-item.is-tab(href=discordInvite)
+					a.navbar-item.is-tab(href=config.discordInvite)
 						| Support
 					a.navbar-item.is-tab(href='/#features')
 						| Features
 					a.navbar-item.is-tab(href='/#stats')
 						| Stats
 				.navbar-end
-					a.navbar-item.is-tab(href=discordInvite target='_blank')
+					a.navbar-item.is-tab(href=config.discordInvite target='_blank')
 						i.fa-brands.fa-discord
 					//- a.navbar-item.is-tab(href=githubLink target='_blank')
 					//- 	i.fa-brands.fa-github
 					.navbar-item
-						if !discordId
+						if !user
 							.buttons
 								button.login.button.is-blurple
 									strong
@@ -86,7 +86,7 @@ body
 							.buttons
 								button.dashboard.button.no-background.is-rounded
 									span.icon.is-small
-										img.is-round(src=`${avatar ? `https://cdn.discordapp.com/avatars/${discordId}/${avatar}.webp?size=128` : "/public/img/placeholder.png"}`)
-									span.nav-username=`                          ${username}`
+										img.is-round(src=`${user.avatar ? `https://cdn.discordapp.com/avatars/${user.discordId}/${user.avatar}.webp?size=128` : "/public/img/placeholder.png"}`)
+									span.nav-username=`                          ${user.username}`
 								button.logout.button.is-danger.is-outlined
 									i.fas.fa-sign-out-alt
