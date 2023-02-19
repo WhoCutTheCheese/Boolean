@@ -47,16 +47,14 @@ main {
 	text-align: center;
 }
 
-/* .div-container {
-	row-gap: 20px;
-	display: grid;
-	grid-template-columns: repeat(1, minmax(0, 1fr));
 
 
+input::placeholder {
+	color: gray !important;
 }
 
-.div {
-	padding: 28px;
-	background-color: #181a20;
-	width: 50%;
-} */
+input {
+	background-color: #272b34 !important;
+	color: white !important;
+
+}

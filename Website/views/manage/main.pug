@@ -1,7 +1,6 @@
 include manage.pug
 
 head
-	title=config.appName
 	link(rel='stylesheet' href='/public/css/manage/manage.css')
 	script(defer src='/public/js/manage/manage.js')
 
@@ -32,6 +31,16 @@ main
 					.column.is-one-third
 						p(style='color: gray;') Bans:
 							span.is-white=` ${server.bans.length}`
+		.column.is-full
+			.box.match-background
+				h3.title.is-3.is-white Bot Info
+				.columns.is-multiline
+					.column.is-one-half
+						p(style='color: gray;') Nickname
+						input#nickname.input(type='text' maxlength=32 placeholder="Boolean")
+					.column.is-one-half
+						p(style='color: gray;') Prefix:
+						input#prefix.input(type='text' maxlength=5 placeholder=`${(guildSettings && guildSettings.prefix) ? guildSettings.prefix : "!!"}`)
 
 
 				//- .div-container
@@ -44,4 +53,4 @@ main
 
 
 
-include ../footer.pug
+//- include ../footer.pug

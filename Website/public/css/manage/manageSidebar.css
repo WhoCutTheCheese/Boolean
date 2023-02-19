@@ -3,6 +3,7 @@ body {
 }
 
 .sidebar {
+	overflow: auto;
 	color: #fff;
 	width: 250px;
 	height: 100vh;
