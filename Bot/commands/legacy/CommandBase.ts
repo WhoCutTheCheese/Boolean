@@ -1,4 +1,4 @@
-import { Client, Collection, ColorResolvable, EmbedBuilder, Message, PermissionResolvable, PermissionsBitField, TextChannel, time } from 'discord.js';
+import { Client, Collection, ColorResolvable, Message, PermissionsBitField, TextChannel } from 'discord.js';
 import Settings from "../../schemas/Settings";
 let prefix: string | undefined
 import Maintenance from "../../schemas/Maintenance";

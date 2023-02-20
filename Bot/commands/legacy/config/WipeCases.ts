@@ -8,12 +8,10 @@ import Settings from "../../../schemas/Settings";
 const command: BooleanCommand = {
 	command: 'wipecases',
 	aliases: ['deleteallcases'],
-	description: "Wipe all moderation cases from a user",
-	maxArgs: 1,
-	minArgs: 1,
+	description: "Wipe all punishment data from Boolean's database.",
+	maxArgs: 0,
 	cooldown: 3,
 	userPermissions: [PermissionsBitField.Flags.Administrator],
-	expectedArgs: "[@User/User ID]",
 	commandCategory: "Moderation",
 	callback: async (client: Client, message: Message, args: string[]) => {
 

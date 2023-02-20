@@ -181,7 +181,7 @@ export class Utilities {
 				await command.execute(interaction, client);
 			} catch (error) {
 				console.error(error);
-				await interaction.reply({ content: 'There was an error while executing this command!', ephemeral: true }).catch((err: Error) => Log(LogLevel.Error, err.message))
+				await interaction.reply({ content: 'There was an error while executing this command!', ephemeral: true }).catch((err: Error) => Log(LogLevel.Error, "An error occurred while running a command!\n\n" + err.message))
 			}
 		})
 	}

@@ -3,6 +3,7 @@ import { Utilities } from "../../../utils/Utilities";
 import Cases from "../../../schemas/Cases";
 import { EmbedUtils } from "../../../utils/EmbedUtils";
 import { BooleanCommand } from "../../../interface/BooleanCommand";
+import { Log, LogLevel } from "../../../utils/Log";
 const ms = require("ms");
 
 const command: BooleanCommand = {
@@ -45,11 +46,7 @@ const command: BooleanCommand = {
 		}
 		if (!caseNumberSet) return message.channel.send({ content: "An error occurred, if this error persists please contact support." })
 
-		if (remainder == 0 && message.guild?.members.me?.roles.highest.position! < user.roles.highest.position && message.guild?.members.me?.permissions.has([PermissionsBitField.Flags.ModerateMembers])) {
-
-			const endDate = new Date();
-
-			endDate.setSeconds(endDate.getSeconds() + 10 * 60)
+		if (remainder == 0 && message.guild?.members.me?.roles.highest.position! > user.roles.highest.position && message.guild?.members.me?.permissions.has([PermissionsBitField.Flags.ModerateMembers])) {
 
 			const newCase = new Cases({
 				guildID: message.guild.id,
@@ -63,7 +60,7 @@ const command: BooleanCommand = {
 					date: Date.now(),
 				}
 			})
-			newCase.save().catch((err: Error) => { console.error(err) })
+			newCase.save().catch((err: Error) => { Log(LogLevel.Error, "An error occurred in legacy/moderation/Warn.ts\n\n" + err) })
 
 			if (settings.modSettings?.dmOnPunish == true) {
 				const dm = new EmbedBuilder()
@@ -75,11 +72,11 @@ const command: BooleanCommand = {
 					.setTimestamp()
 				if (settings.guildSettings?.premium == false || !settings.guildSettings?.premium) {
 					user.send({ embeds: [dm], components: [new EmbedUtils().getInviteButton()] }).catch((err: Error) => {
-						console.error(err)
+						Log(LogLevel.Error, "An error occurred in legacy/moderation/Warn.ts\n\n" + err)
 					})
 				} else if (settings.guildSettings?.premium == true) {
 					user.send({ embeds: [dm] }).catch((err: Error) => {
-						console.error(err)
+						Log(LogLevel.Error, "An error occurred in legacy/moderation/Warn.ts\n\n" + err)
 					})
 				}
 			}
@@ -113,7 +110,7 @@ const command: BooleanCommand = {
 				length: "Infinite"
 			}
 		})
-		newCase.save().catch((err: Error) => { console.error(err) })
+		newCase.save().catch((err: Error) => { Log(LogLevel.Error, "An error occurred in legacy/moderation/Warn.ts\n\n" + err) })
 
 		if (settings.modSettings?.dmOnPunish == true) {
 			const dm = new EmbedBuilder()
@@ -124,11 +121,11 @@ const command: BooleanCommand = {
 				.setTimestamp()
 			if (settings.guildSettings?.premium == false || !settings.guildSettings?.premium) {
 				user.send({ embeds: [dm], components: [new EmbedUtils().getInviteButton()] }).catch((err: Error) => {
-					console.error(err)
+					Log(LogLevel.Error, "An error occurred in legacy/moderation/Warn.ts\n\n" + err)
 				})
 			} else if (settings.guildSettings?.premium == true) {
 				user.send({ embeds: [dm] }).catch((err: Error) => {
-					console.error(err)
+					Log(LogLevel.Error, "An error occurred in legacy/moderation/Warn.ts\n\n" + err)
 				})
 			}
 		}
