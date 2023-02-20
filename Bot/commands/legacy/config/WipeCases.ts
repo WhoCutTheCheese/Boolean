@@ -11,6 +11,7 @@ const command: BooleanCommand = {
 	description: "Wipe all punishment data from Boolean's database.",
 	maxArgs: 0,
 	cooldown: 3,
+	devOnly: true,
 	userPermissions: [PermissionsBitField.Flags.Administrator],
 	commandCategory: "Moderation",
 	callback: async (client: Client, message: Message, args: string[]) => {
@@ -23,13 +24,6 @@ const command: BooleanCommand = {
 					.setLabel("Confirm")
 					.setEmoji("🛑")
 			)
-
-		if (message.member?.id != message.guild?.ownerId || !config.devs.includes(message.author.id)) {
-			const msg = await message.channel.send({ content: "You are unable to use this command." })
-			setTimeout(() => {
-				msg.delete().catch(() => { })
-			}, 3000)
-		}
 
 		const settings = await new Utilities().getGuildSettings(message.guild!);
 		if (!settings) return;

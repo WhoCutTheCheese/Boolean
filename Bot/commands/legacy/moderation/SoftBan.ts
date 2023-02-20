@@ -39,10 +39,17 @@ const command: BooleanCommand = {
 		if (length > 7) return message.channel.send({ content: "You cannot delete messages past 7 days." })
 		if (length <= 0) return message.channel.send({ content: "You cannot delete messages less than 1 day." })
 
-		// await member.ban({ reason: reason, deleteMessageDays: length }).catch((err: Error) => new Utilities().handleError(err));
-		// await message.guild.members.unban(member!.id, "Soft-Ban").catch((err: Error) => new Utilities().handleError(err))
+		await member.ban({ reason: reason, deleteMessageDays: length }).catch((err: Error) => new Utilities().handleError(err));
+		await message.guild.members.unban(member!.id, "Soft-Ban").catch((err: Error) => new Utilities().handleError(err))
 
-		new EmbedUtils().sendModLogs({ guild: message.guild, mod: message.member!, target: member, action: "SoftBan" }, { title: "User softbanned", actionInfo: `**Reason:** ${reason}\n> **Duration:** ${length} Days\n> **Case ID:** ${caseNumberSet}`, channel: message.channel })
+		await new EmbedUtils().sendModerationSuccessEmbed((message.channel as TextChannel), message, { arrowEmoji: true, replyToMessage: true }, {
+			mod: message.member!,
+			user: member,
+			caseNumberSet: caseNumberSet!,
+			reason,
+			customContent: `**${member.user.tag}** has been Soft-Banned!`
+		})
+		await new EmbedUtils().sendModLogs({ guild: message.guild, mod: message.member!, target: member, action: "Soft-Ban" }, { title: "User Soft-Banned", actionInfo: `**Reason:** ${reason}\n> **Duration:** ${length} Days\n> **Case ID:** ${caseNumberSet}`, channel: message.channel })
 		// new Punishment({ type: PunishTypes.SoftBan, user: member.user, member: member, message: message, settings: settings, color: color, caseNumberSet: caseNumberSet, reason: reason, warns: warns, deleteDays: 7 })
 	},
 };
