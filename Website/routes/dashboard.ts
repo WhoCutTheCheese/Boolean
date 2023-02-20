@@ -24,7 +24,7 @@ router.get('/', async (req: Request, res: Response, next: NextFunction) => {
 		}
 	}
 
-	res.render('dashboard', { ...config, ...user })
+	res.render('dashboard', { ...{ config }, ...{ user } })
 });
 
 export default router;

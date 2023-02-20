@@ -31,8 +31,6 @@ export class Utilities {
 		for (let guild of guilds) guild.dbServer = await ServerSchema.findOne({ guildID: guild.id })
 		guilds = guilds.sort((a: any, b: any) => a.dbServer === b.dbServer ? 0 : a.dbServer ? -1 : 1);
 
-		for (let guild of guilds) guild.server = await client.guilds.fetch('1071223504852238406')
-
 		// profile.guilds = profile.guilds.sort((a: any, b: any) => {
 		// 	if (a.isManager === b.isManager) return 0;
 		// 	return a.isManager ? -1 : 1;

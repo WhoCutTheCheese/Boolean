@@ -142,6 +142,10 @@ export class Utilities {
 		return color
 	}
 
+	async getGuildPrefix(guild: Guild | null): Promise<string> {
+		const settings = await this.getGuildSettings(guild!)
+		return settings?.guildSettings?.prefix || "!!"
+	}
 
 	async warnCount(user: User): Promise<number> {
 

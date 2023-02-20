@@ -7,10 +7,10 @@ const router = Router();
 /* GET home page. */
 router.get('/', (req: Request, res: Response, next: NextFunction) => {
 	let session: BooleanSession = req.session as BooleanSession
-	if (!session.passport || !session.passport.user) return res.render('index', config);
+	if (!session.passport || !session.passport.user) return res.render('index', { ...{ config } });
 	let user = session.passport.user
 
-	res.render('index', { ...config, ...user });
+	res.render('index', { ...{ config }, ...{ user } });
 });
 
 export default router;

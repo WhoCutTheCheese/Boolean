@@ -30,7 +30,6 @@ passport.use(new Strategy({
 	async (accessToken: string, refreshToken: string, profile: any, done: (error: any, user?: any) => void) => {
 		if (!profile || !profile.guilds) return done("Failed to get user guilds")
 
-		console.log("discord strat:")
 		profile.guilds = await new Utilities().updateGuilds(profile.guilds)
 
 		let newData: WebUser = {

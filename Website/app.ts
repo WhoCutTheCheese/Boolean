@@ -38,6 +38,7 @@ import { BooleanSession } from './interface/Session';
 import WebUsers from './schema/WebUsers';
 import ServerSchema from './schema/ServerSchema';
 import { Utilities } from './utils/Utilities';
+import client from './bot';
 
 // * Important setup * \\
 
@@ -91,11 +92,11 @@ app.use('/manage', manageRouter)
 // * App errors * \\
 
 // catch 404 and forward to error handler
-app.use((req: Request, res: Response, next: NextFunction) => {
+app.use((_req: Request, _res: Response, next: NextFunction) => {
 	next(createError(404));
 });
 
-app.use((err: any, req: Request, res: Response, next: NextFunction) => {
+app.use((err: any, req: Request, res: Response, _next: NextFunction) => {
 	// set locals, only providing error in development
 	console.error(err)
 	res.locals.message = err.message;
@@ -172,6 +173,28 @@ io.on("connection", (socket) => {
 			console.error(error)
 		}
 	});
+
+	socket.on("manage-botinfo-getnickname", async (guildID) => {
+		try {
+			console.log(guildID)
+			socket.emit("manage-botinfo-getnickname-return", (await client.guilds.fetch(guildID)).members.me?.nickname || "Boolean")
+		} catch (err) {
+			console.error(err)
+		}
+	});
+
+	socket.on('manage-botinfo-updateguild', async (guildID, data: { nickname: string, prefix: string }) => {
+		(await client.guilds.fetch(guildID)).members.me?.setNickname(data.nickname.trim() || "Boolean")
+		await ServerSchema.findOneAndUpdate({
+			guildID: guildID
+		}, {
+			guildSettings: {
+				prefix: data.prefix.trim() || "!!"
+			}
+		})
+		socket.emit('manage-botinfo-updateguild-return')
+		socket.emit("toastr-success-message", "Success", "Successfully updated guild info")
+	})
 });
 
 // * Http handler * \\

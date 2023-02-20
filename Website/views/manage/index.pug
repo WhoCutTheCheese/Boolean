@@ -1,0 +1,45 @@
+include manage.pug
+
+head
+	link(rel='stylesheet' href='/public/css/manage/manage.css')
+	script(defer src='/public/js/manage/manage.js')
+
+.container.server-info
+	.server-avatar
+		img(alt='Avatar', name='avatar-img', src=`${userServer.icon ? `https://cdn.discordapp.com/icons/${userServer.id}/${userServer.icon}.webp?size=128` : "/public/img/placeholder.png"}` style=`border-radius: 50%; border: 3px solid #3d566e;`)
+	.server-details
+		h3.is-white.user-name.title.is-2(href='/')=server.name
+
+main
+	.columns.is-multiline
+		.column.is-full
+			.box.match-background
+				h3.title.is-3.is-white Server Info
+				.columns.is-multiline
+					.column.is-one-third
+						p(style='color: gray;') Members:
+							span.is-white=` ${server.members.length}`
+					.column.is-one-third
+						p(style='color: gray;') Channels:
+							span.is-white=` ${server.channels.length}`
+					.column.is-one-third
+						p(style='color: gray;') Roles:
+							span.is-white=` ${server.roles.length}`
+					.column.is-one-third
+						p(style='color: gray;') Emojis:
+							span.is-white=` ${server.emojis.length}`
+					.column.is-one-third
+						p(style='color: gray;') Bans:
+							span.is-white=` ${server.bans.length}`
+		.column.is-full
+			.box.match-background
+				h3.title.is-3.is-white Bot Info
+				.columns.is-multiline
+					.column.is-one-half
+						p(style='color: gray;') Nickname
+						input#nickname.input(type='text' maxlength=32 value="Boolean")
+					.column.is-one-half
+						p(style='color: gray;') Prefix:
+						input#prefix.input(type='text' maxlength=5 value=`${(dbserver.guildSettings && dbserver.guildSettings.prefix) ? dbserver.guildSettings.prefix : "!!"}`)
+				button#savebotinfo.button.is-blurple.is-info.is-outlined Save
+//- include ../footer.pug

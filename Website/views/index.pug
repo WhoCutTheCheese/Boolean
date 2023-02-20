@@ -1,8 +1,7 @@
 include app.pug
 
-
 head
-	title= appName
+	title= config.appName
 
 	link(rel='stylesheet' href='/public/css/index.css')
 // Back To Top Start
@@ -16,7 +15,7 @@ section.hero.bg-base.is-fullheight
 			.columns
 				.column.mr-6.mt-12(data-aos='fade-up')
 					p.title.has-text-white.has-text-weight-bold
-						| Time to add #{appName} to your server.
+						| Time to add #{config.appName} to your server.
 					p.subtitle.has-text-grey-light.is-size-6.mt-3
 						| Boolean is a versatile and dynamic discord bot that offers a variety of features and functionalities to enhance your discord experience. Whether you want to manage your server, or get some useful information, Boolean has got you covered.
 					.buttons
@@ -27,7 +26,7 @@ section.hero.bg-base.is-fullheight
 								i.fa-solid.fa-crown
 								|  Premium
 				.column.mt-6(data-aos='fade-left')
-					img.image.has-image-centered.vert-move.mt-4(src=botLogo alt='hero image' style='width: 20rem; border-radius:50%;')
+					img.image.has-image-centered.vert-move.mt-4(src=config.botLogo alt='hero image' style='width: 20rem; border-radius:50%;')
 	.has-text-centered(data-tippy-content='Scroll Down')
 		a(href='#features')
 			i.fa-solid.fa-circle-chevron-down.fa-lg.vert-move2.has-text-white
@@ -131,7 +130,7 @@ section.section.mt-6
 		.column.has-text-left
 			p.title.has-text-weight-bold
 				| Ready to try 
-				span.blurple #{appName}
+				span.blurple #{config.appName}
 				| ?
 			p.subtitle.mt-3.has-text-gray
 				| Start your journy with boolean today by clicking the button below!
