@@ -6,7 +6,6 @@ const router = Router();
 
 /* GET home page. */
 router.get('/', (req: Request, res: Response, next: NextFunction) => {
-	console.log({ ...{ config } })
 	let session: BooleanSession = req.session as BooleanSession
 	if (!session.passport || !session.passport.user) return res.render('index', { ...{ config } });
 	let user = session.passport.user

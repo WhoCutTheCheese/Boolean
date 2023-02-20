@@ -20,7 +20,7 @@ main
 						p(style='color: gray;') Members:
 							span.is-white=` ${server.members.length}`
 					.column.is-one-third
-						p(style='color: gray;') Members:
+						p(style='color: gray;') Channels:
 							span.is-white=` ${server.channels.length}`
 					.column.is-one-third
 						p(style='color: gray;') Roles:
@@ -37,20 +37,9 @@ main
 				.columns.is-multiline
 					.column.is-one-half
 						p(style='color: gray;') Nickname
-						input#nickname.input(type='text' maxlength=32 placeholder="Boolean")
+						input#nickname.input(type='text' maxlength=32 value="Boolean")
 					.column.is-one-half
 						p(style='color: gray;') Prefix:
-						input#prefix.input(type='text' maxlength=5 placeholder=`${(guildSettings && guildSettings.prefix) ? guildSettings.prefix : "!!"}`)
-
-
-				//- .div-container
-				//- 	.div
-				//- 		.div-title
-				//- 			p.is-white SERVER INFO
-				//- 		.div-content.grid-2
-				//- 			.text
-				//- 				p Members
-
-
-
+						input#prefix.input(type='text' maxlength=5 value=`${(dbserver.guildSettings && dbserver.guildSettings.prefix) ? dbserver.guildSettings.prefix : "!!"}`)
+				button#savebotinfo.button.is-blurple.is-info.is-outlined Save
 //- include ../footer.pug

@@ -24,9 +24,7 @@ router.get('/:id', async (req: Request, res: Response, next: NextFunction) => {
 
 	if (!dbserver || !server) return new Utilities().sendToInvite(req.params.id, req, res)
 
-	console.log(dbserver)
-
-	res.render('manage/main', { ...{ config }, ...{ dbserver }, ...{ server }, ...{ user }, ...{ userServer }, ...{ showminnavbar: true } })
+	res.render('manage/index', { ...{ config }, ...{ dbserver }, ...{ server }, ...{ user }, ...{ userServer }, ...{ showminnavbar: true } })
 });
 
 router.get('/:id/:module', async (req: Request, res: Response, next: NextFunction) => {
@@ -45,7 +43,6 @@ router.get('/:id/:module', async (req: Request, res: Response, next: NextFunctio
 	var viewPath = path.join(req.app.get('views'), "/manage", module);
 
 	if (fs.existsSync(viewPath)) {
-		// res.render(module, { ...{ config }, ...{ user }, ...{ server } });
 		res.render(module, { ...{ config }, ...{ dbserver }, ...{ server }, ...{ config }, ...{ user }, ...{ userServer }, ...{ showminnavbar: true } })
 	} else {
 		res.render('error', { ...{ config }, ...{ user } })

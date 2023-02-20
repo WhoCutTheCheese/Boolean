@@ -1,3 +1,5 @@
+const socket = io.connect('http://localhost:3000');
+
 // tippy.js
 tippy("[data-tippy-content]");
 
@@ -42,6 +44,20 @@ $(document).ready(function () {
 // Tostar
 
 toastr.options.positionClass = 'toast-bottom-right';
+toastr.options.progressBar = true;
+
+socket.on('toastr-info-message', (desc, title) => {
+	toastr.info(title, desc || "How are you?")
+})
+socket.on('toastr-success-message', (desc, title) => {
+	toastr.success(title, desc || "You did it!")
+})
+socket.on('toastr-error-message', (desc, title) => {
+	toastr.error(title, desc || "Unknown error")
+})
+socket.on('toastr-warning-message', (desc, title) => {
+	toastr.warning(title, desc || "Unknown warning")
+})
 
 // back to top
 var backToTopBtn = $("#backtotop");
@@ -60,4 +76,5 @@ backToTopBtn.on("click", function (e) {
 });
 
 // copyright year
-document.getElementById("cp-year").innerHTML = new Date().getFullYear()
+let copyright = document.getElementById("cp-year")
+if (copyright) copyright.innerHTML = new Date().getFullYear()
