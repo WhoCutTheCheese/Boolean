@@ -39,6 +39,8 @@ import WebUsers from './schema/WebUsers';
 import ServerSchema from './schema/ServerSchema';
 import { Utilities } from './utils/Utilities';
 import client from './bot';
+import { LogLevel } from '../Bot/utils/Log';
+import { Log } from './utils/Log';
 
 // * Important setup * \\
 
@@ -127,7 +129,7 @@ export function getCooldown(userId: string): boolean {
 		cooldownMap.delete(userId);
 		return false;
 	} else {
-		console.log(`User on cooldown: ${endTime - currentTime} more seconds`)
+		Log(LogLevel.Debug, `User on cooldown: ${endTime - currentTime} more seconds`)
 		return true;
 	}
 }
@@ -176,7 +178,7 @@ io.on("connection", (socket) => {
 
 	socket.on("manage-botinfo-getnickname", async (guildID) => {
 		try {
-			console.log(guildID)
+			Log(LogLevel.Debug, guildID)
 			socket.emit("manage-botinfo-getnickname-return", (await client.guilds.fetch(guildID)).members.me?.nickname || "Boolean")
 		} catch (err) {
 			console.error(err)
@@ -197,10 +199,18 @@ io.on("connection", (socket) => {
 	})
 });
 
+// * Error handler * \\
+
+process.on('unhandledRejection', (error: Error) => new Utilities().handleError(error));
+process.on('uncaughtException', (error: Error) => new Utilities().handleError(error));
+client.on("error", (error: Error) => new Utilities().handleError(error))
+
 // * Http handler * \\
 
 server.listen(port);
 server.on('error', onError);
+
+
 server.on('listening', onListening);
 
 function normalizePort(val: string | number): number | string | false {
@@ -242,5 +252,5 @@ function onListening(): void {
 	const bind = typeof addr === 'string'
 		? 'pipe ' + addr
 		: 'port ' + addr?.port;
-	console.log(`Listning on port ${port}`)
+	Log(LogLevel.Info, `Listning on port ${port}`)
 }

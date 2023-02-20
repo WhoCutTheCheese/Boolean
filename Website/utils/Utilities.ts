@@ -5,6 +5,7 @@ import * as config from '../config.json'
 import { Guild } from 'discord.js';
 import ServerSchema from '../schema/ServerSchema';
 import client from '../bot';
+import { Log, LogLevel } from './Log';
 
 function checkManager(permissions: string): boolean {
 	const manageServerFlag = 0x00000020;
@@ -18,6 +19,13 @@ function checkManager(permissions: string): boolean {
 }
 
 export class Utilities {
+	async handleError(error: Error) {
+		let notice = 'A client error occurred: ' + error.message
+		if (error.stack)
+			notice += '\n' + error.stack
+		Log(LogLevel.Error, notice);
+	}
+
 	sendToInvite(guild: string | null, req: Request, res: Response) {
 		res.redirect(config.botInvite.replace('[id]', process.env.client_id!).replace('[redirect]', config.inviteCallback))
 	}

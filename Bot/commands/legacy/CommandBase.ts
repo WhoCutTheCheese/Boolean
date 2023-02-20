@@ -172,7 +172,7 @@ client.on("messageCreate", async (message: Message) => {
 	} catch (err) {
 		if (message.guild?.members.me?.permissions.has(PermissionsBitField.Flags.SendMessages)) {
 			message.channel.send({ content: "I encountered an error! Please try again. If this persists, join our support server!" })
-			console.log(err)
+			Log(LogLevel.Error, (err as any))
 			return;
 		}
 	}
