@@ -36,7 +36,7 @@ module.exports = {
 
         const warns = await new Utilities().warnCount(member.user);
 
-        const caseNumberSet = await new Utilities().updateCaseCount(interaction.guild!);
+        const caseNumberSet = await new Utilities().incrementCaseCount(interaction.guild!);
 
         let remainder = 1;
         let warnsBeforeMute = settings.modSettings?.warnsBeforeMute ?? 3;

@@ -23,6 +23,17 @@ module.exports = {
                         .setMaxLength(32)
                 )
         )
+        .addSubcommand(subcommand =>
+            subcommand
+                .setName("reset")
+                .setDescription("Reset a user's nickname.")
+                .addUserOption(user =>
+                    user
+                        .setName("user")
+                        .setRequired(true)
+                        .setDescription("Select a user.")
+                )
+        )
         .setDefaultMemberPermissions(PermissionFlagsBits.ManageMessages),
     async execute(interaction: ChatInputCommandInteraction, client: Client) {
 
