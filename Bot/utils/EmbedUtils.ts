@@ -8,6 +8,26 @@ export enum messageType {
 }
 
 export class EmbedUtils {
+	async sendModerationSuccessEmbed(channel: TextChannel, orgMessage: Message | null, settings: { arrowEmoji: boolean, replyToMessage: boolean, deleteMsg?: boolean, deleteTimerTime?: number }, args: { mod: GuildMember, user: GuildMember, caseNumberSet: number, duration?: string, reason: string, customContent: string }) {
+		let embed = new EmbedBuilder()
+			.setDescription(`**Case:** #${args.caseNumberSet} | **Mod:** ${args.mod.user.tag} | **Reason:** ${args.reason} ${args.duration ? `| **Duration:** ${args.duration}` : ""}`)
+			.setColor(await new Utilities().getEmbedColor(channel.guild))
+
+		let newMSG: Message;
+		if (settings.replyToMessage && orgMessage) {
+			newMSG = await orgMessage.reply({ content: `${(settings.arrowEmoji ? "<:arrow_right:967329549912248341>" : "")} ${args.customContent}`, embeds: [embed] });
+		} else newMSG = await channel.send({ content: `${(settings.arrowEmoji ? "<:arrow_right:967329549912248341>" : "")} ${args.customContent}`, embeds: [embed] })
+
+		if (settings.deleteMsg) {
+			setTimeout(() => {
+				try {
+					newMSG.delete()
+				} catch (err) { }
+
+			}, settings.deleteTimerTime || 5000);
+		}
+	}
+
 	async sendSuccessEmbed(channel: TextChannel, orgMessage: Message | null, settings: { successEmoji: boolean, replyToMessage: boolean, deleteMsg?: boolean, deleteTimerTime?: number }, args: { title?: string, description: string, footer?: string }) {
 		let embed = await new EmbedBuilder()
 			.setTitle(args.title || "Success")
