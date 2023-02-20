@@ -4,7 +4,8 @@ import Settings from '../../../schemas/Settings';
 import { BooleanCommand } from '../../../interface/BooleanCommand';
 
 const command: BooleanCommand = {
-	commands: ["setprefix", "prefix", "newprefix"],
+	command: "setprefix",
+	aliases: ["prefix", "newprefix"],
 	description: "Set the prefix",
 	maxArgs: 1,
 	expectedArgs: "(prefix)",

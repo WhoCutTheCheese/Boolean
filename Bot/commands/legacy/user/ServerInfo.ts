@@ -4,7 +4,8 @@ import Settings from "../../../schemas/Settings";
 import { Utilities } from "../../../utils/Utilities";
 
 const command: BooleanCommand = {
-	commands: ['serverinfo', 'si', 'sinfo', 'guildinfo'],
+	command: 'serverinfo',
+	aliases: ['si', 'sinfo', 'guildinfo'],
 	description: "Get the current guild's info",
 	maxArgs: 1,
 	cooldown: 2,

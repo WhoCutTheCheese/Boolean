@@ -30,7 +30,7 @@ export class Main {
 }
 
 new Utilities().registerEvents({ eventFolder: "events", typescript: true });
-new Utilities().registerLegacyCommands({ client, commandsFolder: "../commands/legacy", token: token! })
+new Utilities().registerLegacyCommands({ client, commandsFolder: "commands/legacy", token: token! })
 new Utilities().registerShashCommands({ client, commandsFolder: "commands/slash", typescript: true, token: token! });
 import './commands/legacy/CommandBase'
 

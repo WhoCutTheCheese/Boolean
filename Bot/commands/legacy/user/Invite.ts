@@ -2,7 +2,8 @@ import { ActionRowBuilder, ButtonBuilder, ButtonStyle, Client, EmbedBuilder, Mes
 import { BooleanCommand } from "../../../interface/BooleanCommand";
 
 const command: BooleanCommand = {
-	commands: ['invite', 'add', 'support'],
+	command: 'invite',
+	aliases: ['add', 'support'],
 	description: "The invite link, support server, and voting links!",
 	commandCategory: "User",
 	callback: async (client: Client, message: Message, args: string[]) => {

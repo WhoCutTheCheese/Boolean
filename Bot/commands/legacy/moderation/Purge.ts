@@ -6,7 +6,8 @@ import os from 'os'
 import { BooleanCommand } from '../../../interface/BooleanCommand';
 
 const command: BooleanCommand = {
-	commands: ["purge", "clear", "remove"],
+	command: "purge",
+	aliases: ["clear", "remove"],
 	description: "Purge messages in a channel",
 	minArgs: 1,
 	maxArgs: 2,

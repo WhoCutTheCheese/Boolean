@@ -4,7 +4,8 @@ import Settings from "../../../schemas/Settings";
 import { Utilities } from "../../../utils/Utilities";
 
 const command: BooleanCommand = {
-	commands: ['stats', 'ram'],
+	command: 'stats',
+	aliases: ['ram'],
 	description: "The bot's server stats",
 	commandCategory: "User",
 	cooldown: 3,

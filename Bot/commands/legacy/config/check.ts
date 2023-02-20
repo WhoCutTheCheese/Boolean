@@ -4,7 +4,7 @@ import * as config from '../../../config.json'
 import { BooleanCommand } from '../../../interface/BooleanCommand';
 
 const command: BooleanCommand = {
-	commands: ["check"],
+	command: "check",
 	description: "a list of everything Boolean needs to run smoothly",
 	userPermissions: [PermissionsBitField.Flags.ManageGuild],
 	cooldown: 5,

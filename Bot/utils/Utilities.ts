@@ -12,7 +12,8 @@ import { BooleanCommand } from '../interface/BooleanCommand';
 declare module "discord.js" {
 	export interface Client {
 		legacycommands: Collection<string, BooleanCommand>
-		legacycommandsArray: Array<string>,
+		legacycommandalias: Collection<string, string>,
+		legacycommandfilepath: Collection<string, string>,
 		slashcommands: Collection<unknown, any>
 		slashcommandsArray: [],
 	}
@@ -49,6 +50,31 @@ export class Utilities {
 		}
 	}
 
+	async loadCommand(client: Client, commandpath: string): Promise<boolean> {
+		try {
+			const option: BooleanCommand = require(commandpath)
+
+			delete require.cache[require.resolve(commandpath)];
+
+			let { command, aliases } = option
+
+			client.legacycommands.set(command.toLowerCase(), { ...option })
+			client.legacycommandfilepath.set(command.toLowerCase(), commandpath)
+
+			if (aliases) {
+				for (const alias of aliases) {
+					client.legacycommandalias.set(alias.toLowerCase(), command.toLowerCase())
+					Log(LogLevel.Info, `[Alias]  | Registered alias | ${alias}`)
+				}
+			}
+
+			return true;
+		} catch (err) {
+			console.error(err)
+			return false;
+		}
+	}
+
 	async registerLegacyCommands(args: {
 		client: Client,
 		commandsFolder: string,
@@ -56,10 +82,11 @@ export class Utilities {
 	}) {
 		const { client, commandsFolder, token } = args;
 		client.legacycommands = new Collection();
-		client.legacycommandsArray = [];
+		client.legacycommandalias = new Collection();
+		client.legacycommandfilepath = new Collection();
 
 		const baseFile = 'CommandBase.ts'
-		const readCommands = (dir: string) => {
+		const readCommands = async (dir: string) => {
 			const files = fs.readdirSync(path.join(__dirname, dir))
 			for (const file of files) {
 				const stat = fs.lstatSync(path.join(__dirname, dir, file))
@@ -67,24 +94,14 @@ export class Utilities {
 					readCommands(path.join(dir, file))
 				} else if (file !== baseFile) {
 					Log(LogLevel.Info, `[Loading] | Legacy command | ${file}`)
-
-					const option = require(path.join(__dirname, dir, file))
-
-					let { commands } = option
-
-					if (typeof commands === 'string') commands = [commands]
-
-					for (const command of commands) {
-						client.legacycommands.set(command, { ...option, commands, })
-						client.legacycommandsArray.push(command)
-					}
-
-					Log(LogLevel.Info, `[Loaded]  | Legacy command | ${file}`)
+					let loaded = await this.loadCommand(client, path.join(__dirname, dir, file))
+					if (loaded) Log(LogLevel.Info, `[Loaded]  | Legacy command | ${file}`)
+					else Log(LogLevel.Error, `There was an error loading ${file}`)
 				}
 			}
 		}
 
-		readCommands(commandsFolder);
+		readCommands(`../${commandsFolder}`);
 	}
 
 	async registerShashCommands(args: {

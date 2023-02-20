@@ -1,9 +1,11 @@
 import { PermissionsBitField } from "discord.js";
 
 export interface BooleanCommand {
-	commands: Array<string>,
+	// commands: Array<string>,
+	command: string,
 	description: string,
 	commandCategory: string,
+	aliases?: Array<string>,
 	minArgs?: number,
 	maxArgs?: number,
 	expectedArgs?: string,

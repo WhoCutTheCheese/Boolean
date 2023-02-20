@@ -4,7 +4,7 @@ import * as config from '../../../config.json'
 import { BooleanCommand } from "../../../interface/BooleanCommand";
 
 const command: BooleanCommand = {
-	commands: ['maintenance'],
+	command: 'maintenance',
 	description: "Toggle maintenance",
 	commandCategory: "Hidden",
 	minArgs: 1,

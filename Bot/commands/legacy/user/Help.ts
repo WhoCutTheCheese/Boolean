@@ -7,7 +7,8 @@ import { Utilities } from "../../../utils/Utilities";
 const bot = require("../../../package.json");
 
 const command: BooleanCommand = {
-	commands: ['help', 'cmd', 'cmds', 'commands', 'omgpleasehelpmeimgoingtoexplode'],
+	command: 'help',
+	aliases: ['cmd', 'cmds', 'commands', 'omgpleasehelpmeimgoingtoexplode'],
 	description: "",
 	commandCategory: "User",
 	callback: async (client: Client, message: Message, args: string[]) => {

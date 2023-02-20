@@ -5,7 +5,8 @@ import { Utilities } from "../../../utils/Utilities";
 const _ = require("lodash");
 
 const command: BooleanCommand = {
-	commands: ['history', 'infractions', 'warns', 'h', 'hist'],
+	command: 'history',
+	aliases: ['infractions', 'warns', 'h', 'hist'],
 	description: "See the moderation history of a user",
 	maxArgs: 1,
 	minArgs: 1,

@@ -2,7 +2,8 @@ import { Client, Message } from "discord.js";
 import { BooleanCommand } from "../../../interface/BooleanCommand";
 
 const command: BooleanCommand = {
-	commands: ['ping', 'latency'],
+	command: 'ping',
+	aliases: ['latency'],
 	description: "Get the bot's ping",
 	commandCategory: "User",
 	cooldown: 1,

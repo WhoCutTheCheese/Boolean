@@ -4,7 +4,8 @@ import Settings from "../../../schemas/Settings";
 import { Utilities } from "../../../utils/Utilities";
 
 const command: BooleanCommand = {
-	commands: ['userinfo', 'ui', 'uinfo', 'memberinfo', 'whois'],
+	command: 'userinfo',
+	aliases: ['ui', 'uinfo', 'memberinfo', 'whois'],
 	description: "",
 	maxArgs: 1,
 	cooldown: 2,

@@ -2,9 +2,9 @@ import { Client, Collection, ColorResolvable, EmbedBuilder, Message, PermissionR
 import Settings from "../../schemas/Settings";
 let prefix: string | undefined
 import Maintenance from "../../schemas/Maintenance";
+import * as config from '../../config.json'
 import { Utilities } from "../../utils/Utilities";
 import { EmbedUtils } from '../../utils/EmbedUtils';
-import * as config from '../../config.json'
 import { Main } from '../../index';
 import { BooleanCommand } from '../../interface/BooleanCommand';
 import { Log, LogLevel } from '../../utils/Log';
@@ -12,7 +12,7 @@ import { Log, LogLevel } from '../../utils/Log';
 declare module "discord.js" {
 	export interface Client {
 		legacycommands: Collection<string, BooleanCommand>
-		legacycommandsArray: Array<string>,
+		legacycommandalias: Collection<string, string>,
 		slashcommands: Collection<unknown, any>
 		slashcommandsArray: [],
 	}
@@ -61,7 +61,7 @@ client.on("messageCreate", async (message: Message) => {
 		}
 
 		const commandName = name.replace(prefix, '');
-		const command: BooleanCommand = client.legacycommands.get(commandName)!
+		let command: BooleanCommand = client.legacycommands.get(commandName)! || client.legacycommands.get(client.legacycommandalias.get(commandName)!)!
 		if (!command) return Log(LogLevel.Error, `Command ${commandName} does not exist!`)
 
 		let {

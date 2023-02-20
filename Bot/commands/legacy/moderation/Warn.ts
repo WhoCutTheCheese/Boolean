@@ -6,7 +6,8 @@ import { BooleanCommand } from "../../../interface/BooleanCommand";
 const ms = require("ms");
 
 const command: BooleanCommand = {
-	commands: ["warn", "warning", "infract"],
+	command: "warn",
+	aliases: ["warning", "infract"],
 	description: "Warn a user",
 	minArgs: 1,
 	expectedArgs: "[@User/User ID] (Reason)",

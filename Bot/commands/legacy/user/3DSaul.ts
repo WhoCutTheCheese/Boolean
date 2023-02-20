@@ -3,7 +3,8 @@ import { BooleanCommand } from "../../../interface/BooleanCommand";
 let set = new Set()
 
 const command: BooleanCommand = {
-	commands: ["3dsaul", "whyarewestillhere"],
+	command: "3dsaul",
+	aliases: ["whyarewestillhere"],
 	description: "Shhh a secret command.",
 	commandCategory: "Hidden",
 	callback: async (client: Client, message: Message, args: string[]) => {

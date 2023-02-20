@@ -5,7 +5,8 @@ import { Utilities } from "../../../utils/Utilities";
 const bot = require("../../../package.json");
 
 const command: BooleanCommand = {
-	commands: ['botinfo', 'bot', 'info'],
+	command: 'botinfo',
+	aliases: ['bot', 'info'],
 	description: "Get info boolean",
 	cooldown: 2,
 	commandCategory: "User",

@@ -6,7 +6,8 @@ import Cases from "../../../schemas/Cases";
 import Settings from "../../../schemas/Settings";
 
 const command: BooleanCommand = {
-	commands: ['wipecases', 'deleteallcases'],
+	command: 'wipecases',
+	aliases: ['deleteallcases'],
 	description: "Wipe all moderation cases from a user",
 	maxArgs: 1,
 	minArgs: 1,

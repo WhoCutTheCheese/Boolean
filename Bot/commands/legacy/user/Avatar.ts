@@ -4,7 +4,8 @@ import Settings from "../../../schemas/Settings";
 import { Utilities } from "../../../utils/Utilities";
 
 const command: BooleanCommand = {
-	commands: ['avatar', 'av', 'pfp'],
+	command: 'avatar',
+	aliases: ['av', 'pfp'],
 	description: "Get the avatar of a user",
 	maxArgs: 1,
 	expectedArgs: "(@User/User ID)",

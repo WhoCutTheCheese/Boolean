@@ -4,7 +4,8 @@ import { Client, ColorResolvable, EmbedBuilder, Message, PermissionsBitField } f
 import { BooleanCommand } from "../../../interface/BooleanCommand";
 
 const command: BooleanCommand = {
-	commands: ["nick", "nickname"],
+	command: "nick",
+	aliases: ["nickname"],
 	description: "Set the nickname of a user",
 	minArgs: 1,
 	expectedArgs: "[@User/User ID] [Reset/New Nickname]",
