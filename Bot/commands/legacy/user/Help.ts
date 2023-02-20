@@ -1,45 +1,49 @@
-
 import { Client, ColorResolvable, EmbedBuilder, Message, User } from "discord.js";
 import fs from "fs";
 import path from "path";
+import { BooleanCommand } from "../../../interface/BooleanCommand";
 import Settings from "../../../schemas/Settings";
 import { Utilities } from "../../../utils/Utilities";
 const bot = require("../../../package.json");
 
-module.exports = {
+const command: BooleanCommand = {
 	commands: ['help', 'cmd', 'cmds', 'commands', 'omgpleasehelpmeimgoingtoexplode'],
+	description: "",
+	commandCategory: "User",
 	callback: async (client: Client, message: Message, args: string[]) => {
 
-		const settings = await new Utilities().getGuildSettings(message.guild!); if (!settings) return;
+		const settings = await new Utilities().getGuildSettings(message.guild!); if (!settings)
+			return;
 
-		let color: ColorResolvable = await new Utilities().getEmbedColor(message.guild!)
+		let color: ColorResolvable = await new Utilities().getEmbedColor(message.guild!);
 
-		let user: string[] = []
-		let moderation: string[] = []
-		let configuration: string[] = []
+		let user: string[] = [];
+		let moderation: string[] = [];
+		let configuration: string[] = [];
 
-		const baseFile = 'CommandBase.ts'
+		const baseFile = 'CommandBase.ts';
 		const getCommand = (dir: string) => {
-			const files = fs.readdirSync(path.join(__dirname, dir))
+			const files = fs.readdirSync(path.join(__dirname, dir));
 			for (const file of files) {
-				const stat = fs.lstatSync(path.join(__dirname, dir, file))
+				const stat = fs.lstatSync(path.join(__dirname, dir, file));
 				if (stat.isDirectory()) {
-					getCommand(path.join(dir, file))
+					getCommand(path.join(dir, file));
 				} else if (file !== baseFile) {
-					const option = require(path.join(__dirname, dir, file))
-					if (!option.commandCategory) continue;
+					const option = require(path.join(__dirname, dir, file));
+					if (!option.commandCategory)
+						continue;
 					let commandCategory: String = option.commandCategory.toLowerCase();
 
 					if (commandCategory == "user") {
-						user.push(` \`${file.replace(".ts", "").toLowerCase()}\``)
+						user.push(` \`${file.replace(".ts", "").toLowerCase()}\``);
 					} else if (commandCategory == "moderation") {
-						moderation.push(` \`${file.replace(".ts", "").toLowerCase()}\``)
+						moderation.push(` \`${file.replace(".ts", "").toLowerCase()}\``);
 					} else if (commandCategory == "configuration" || commandCategory == "config") {
-						configuration.push(` \`${file.replace(".ts", "").toLowerCase()}\``)
+						configuration.push(` \`${file.replace(".ts", "").toLowerCase()}\``);
 					}
 				}
 			}
-		}
+		};
 
 		getCommand("../../legacy");
 		if (moderation.length === 0) {
@@ -52,14 +56,14 @@ module.exports = {
 			configuration.push("Nothing...");
 		}
 
-		let prefix: string = "!!"
+		let prefix: string = "!!";
 		if (settings.guildSettings?.prefix) {
-			prefix = settings.guildSettings.prefix
+			prefix = settings.guildSettings.prefix;
 		}
 
-		let premium: string = "false"
+		let premium: string = "false";
 		if (settings.guildSettings?.premium == true) {
-			premium = "true"
+			premium = "true";
 		}
 		const helpEmbed = new EmbedBuilder()
 			.setTitle("<:tasklist:967443053063327774> Help\n")
@@ -72,8 +76,10 @@ module.exports = {
 				{ name: "Config Commands", value: `${configuration}`, inline: false }
 			)
 			.setColor(color)
-			.setFooter({ text: `${message.guild?.name} - v${bot.version}`, iconURL: message.guild?.iconURL() || undefined })
-		message.channel.send({ embeds: [helpEmbed] })
+			.setFooter({ text: `${message.guild?.name} - v${bot.version}`, iconURL: message.guild?.iconURL() || undefined });
+		message.channel.send({ embeds: [helpEmbed] });
 
-	}
+	},
 }
+
+export = command;

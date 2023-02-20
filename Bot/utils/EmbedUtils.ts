@@ -1,4 +1,4 @@
-import { Collection, Guild, PermissionsBitField, REST, Routes, ColorResolvable, Embed, EmbedBuilder, MessageType, Message, Channel, TextChannel, GuildMember, User, Attachment, AttachmentBuilder } from 'discord.js';
+import { Collection, Guild, PermissionsBitField, REST, Routes, ColorResolvable, Embed, EmbedBuilder, MessageType, Message, Channel, TextChannel, GuildMember, User, Attachment, AttachmentBuilder, PermissionResolvable, ActionRowBuilder, ButtonBuilder, ButtonStyle } from 'discord.js';
 import { Utilities } from './Utilities';
 import { Document } from 'mongoose';
 
@@ -63,6 +63,15 @@ export class EmbedUtils {
 		})
 	} // Look pretty arg errors
 
+	getInviteButton(): ActionRowBuilder<ButtonBuilder> {
+		return new ActionRowBuilder<ButtonBuilder>()
+			.addComponents(
+				new ButtonBuilder()
+					.setLabel("Invite Me!")
+					.setStyle(ButtonStyle.Link)
+					.setURL("https://discord.com/oauth2/authorize?client_id=966634522106036265&permissions=1377007168710&scope=bot%20applications.commands")
+			)
+	}
 
 	async sendModLogs(options: {
 		guild: Guild,

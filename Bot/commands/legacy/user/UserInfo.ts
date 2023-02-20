@@ -1,9 +1,11 @@
 import { Client, ColorResolvable, EmbedBuilder, Message, User } from "discord.js";
+import { BooleanCommand } from "../../../interface/BooleanCommand";
 import Settings from "../../../schemas/Settings";
 import { Utilities } from "../../../utils/Utilities";
 
-module.exports = {
+const command: BooleanCommand = {
 	commands: ['userinfo', 'ui', 'uinfo', 'memberinfo', 'whois'],
+	description: "",
 	maxArgs: 1,
 	cooldown: 2,
 	commandCategory: "User",
@@ -26,6 +28,7 @@ module.exports = {
 		let nickname = "Not Cached/Not In Server";
 		let joinedAt = "Not Cached/Not In Server";
 		let highestRole = "Not Cached/Not In Server";
+
 		if (member) {
 			if (member.nickname) {
 				nickname = member.nickname!;
@@ -78,9 +81,7 @@ module.exports = {
 			)
 			.setFooter({ text: `Requested by ${message.author.tag}`, iconURL: message.author.displayAvatarURL() || undefined })
 		message.channel.send({ embeds: [userInfoEmbed] }).catch(() => { })
-
-
-
-
 	},
 }
+
+export = command;

@@ -1,88 +1,103 @@
 import { Client, Message } from "discord.js";
 import Maintenance from "../../../schemas/Maintenance";
 import * as config from '../../../config.json'
+import { BooleanCommand } from "../../../interface/BooleanCommand";
 
-module.exports = {
+const command: BooleanCommand = {
 	commands: ['maintenance'],
+	description: "Toggle maintenance",
+	commandCategory: "Hidden",
 	minArgs: 1,
 	expectedArgs: "[Reason/Enable/Disable/Createfile] (Reason)",
 	devOnly: true,
 	callback: async (client: Client, message: Message, args: string[]) => {
 
-		if (!config.devs.includes(message.author.id)) return;
+		if (!config.devs.includes(message.author.id))
+			return;
 
 		const maintenance = await Maintenance.findOne({
 			botID: client.user?.id
-		})
+		});
 
 		switch (args[0].toLowerCase()) {
 			case "reason":
 
-				if (!maintenance) return message.channel.send({ content: "You must make a file!" });
+				if (!maintenance)
+					return message.channel.send({ content: "You must make a file!" });
 
-				if (maintenance?.maintenance == false) return message.channel.send({ content: "No maintenance enabled." })
-				if (!args[1]) return message.channel.send({ content: "No reason provided!" })
+				if (maintenance?.maintenance == false)
+					return message.channel.send({ content: "No maintenance enabled." });
+				if (!args[1])
+					return message.channel.send({ content: "No reason provided!" });
 
-				let thReason = args.splice(1).join(" ")
+				let thReason = args.splice(1).join(" ");
 
 				await Maintenance.findOneAndUpdate({
 					botID: client.user?.id,
 				}, {
 					maintainDetails: thReason
-				})
+				});
 
-				message.channel.send({ content: `Current maintenance reason set to: \`${thReason}\`` })
+				message.channel.send({ content: `Current maintenance reason set to: \`${thReason}\`` });
 
 				break;
 			case "enable":
 
-				if (!maintenance) return message.channel.send({ content: "You must make a file!" });
+				if (!maintenance)
+					return message.channel.send({ content: "You must make a file!" });
 
-				if (maintenance?.maintenance == true) return message.channel.send({ content: "Maintenance is already enabled." })
+				if (maintenance?.maintenance == true)
+					return message.channel.send({ content: "Maintenance is already enabled." });
 				let reason = args.splice(1).join(" ");
-				if (!reason) reason = "No reason provided. Likely an emergency maintenance."
+				if (!reason)
+					reason = "No reason provided. Likely an emergency maintenance.";
 
 				await Maintenance.findOneAndUpdate({
 					botID: client.user?.id,
 				}, {
 					maintenance: true,
 					maintainDetails: reason
-				})
+				});
 
-				message.channel.send({ content: `Enabled maintenance under the reason: \`${reason}\`` })
+				message.channel.send({ content: `Enabled maintenance under the reason: \`${reason}\`` });
 
 				break;
 			case "disable":
 
-				if (!maintenance) return message.channel.send({ content: "You must make a file!" });
+				if (!maintenance)
+					return message.channel.send({ content: "You must make a file!" });
 
-				if (maintenance?.maintenance == false) return message.channel.send({ content: "Maintenance is already disabled." })
+				if (maintenance?.maintenance == false)
+					return message.channel.send({ content: "Maintenance is already disabled." });
 
 				await Maintenance.findOneAndUpdate({
 					botID: client.user?.id,
 				}, {
 					maintenance: false,
 					maintainDetails: "None"
-				})
+				});
 
-				message.channel.send({ content: `Maintenance has been disabled.` })
+				message.channel.send({ content: `Maintenance has been disabled.` });
 
 				break;
 			case "createfile":
 
-				if (maintenance) return message.channel.send({ content: "File already exists." })
+				if (maintenance)
+					return message.channel.send({ content: "File already exists." });
 
 				const newMaintananceFile = new Maintenance({
 					botID: client.user?.id,
 					maintenance: false,
 					maintainDetails: "None",
-				})
+				});
 				newMaintananceFile.save().catch((err: Error) => console.error(err));
 
-				message.channel.send({ content: "File created." })
+				message.channel.send({ content: "File created." });
 
 				break;
 		}
 
 	},
 }
+
+export = command;

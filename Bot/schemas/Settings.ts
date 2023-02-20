@@ -3,7 +3,10 @@ import mongoose from 'mongoose'
 let Schema = new mongoose.Schema({
 	guildID: String,
 	guildSettings: {
-		prefix: String,
+		prefix: {
+			type: String,
+			default: "!!"
+		},
 		premium: Boolean,
 		premiumHolder: String,
 		totalCases: Number,
@@ -13,9 +16,12 @@ let Schema = new mongoose.Schema({
 	modSettings: {
 		muteRole: String,
 		modLogChannel: String,
-		dmOnPunish: Boolean,
+		dmOnPunish: {
+			type: Boolean,
+			default: true
+		},
 		warnsBeforeMute: Number,
-		deleteCommandUsage: Boolean,
+		deleteCommandUsage: Boolean
 	},
 	modRole: Array,
 	adminRole: Array,

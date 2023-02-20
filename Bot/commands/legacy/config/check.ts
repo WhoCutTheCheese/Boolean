@@ -1,9 +1,11 @@
 import { Client, ColorResolvable, EmbedBuilder, Message, PermissionsBitField } from "discord.js";
 import { Utilities } from '../../../utils/Utilities';
 import * as config from '../../../config.json'
+import { BooleanCommand } from '../../../interface/BooleanCommand';
 
-module.exports = {
+const command: BooleanCommand = {
 	commands: ["check"],
+	description: "a list of everything Boolean needs to run smoothly",
 	userPermissions: [PermissionsBitField.Flags.ManageGuild],
 	cooldown: 5,
 	commandCategory: "Configuration",
@@ -40,3 +42,5 @@ module.exports = {
 
 	}
 }
+
+export = command

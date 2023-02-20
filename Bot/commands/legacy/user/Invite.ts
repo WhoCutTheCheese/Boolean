@@ -1,7 +1,9 @@
 import { ActionRowBuilder, ButtonBuilder, ButtonStyle, Client, EmbedBuilder, Message } from "discord.js";
+import { BooleanCommand } from "../../../interface/BooleanCommand";
 
-module.exports = {
+const command: BooleanCommand = {
 	commands: ['invite', 'add', 'support'],
+	description: "The invite link, support server, and voting links!",
 	commandCategory: "User",
 	callback: async (client: Client, message: Message, args: string[]) => {
 
@@ -27,15 +29,17 @@ module.exports = {
 					.setEmoji("🔗")
 					.setStyle(ButtonStyle.Link)
 					.setURL("https://discordbotlist.com/bots/boolean")
-			)
+			);
 
 		const invite = new EmbedBuilder()
 			.setAuthor({ name: "Invite Boolean!", iconURL: client.user?.displayAvatarURL() || undefined })
 			.setColor("Blurple")
 			.setDescription(`Boolean is a in-depth moderation bot that can keep your server safe and give your moderators everything they need.
             Help support Boolean by voting with the links below.`)
-			.setFooter({ text: `Requested by ${message.author.tag}`, iconURL: message.author.displayAvatarURL() || undefined })
-		message.channel.send({ embeds: [invite], components: [row] })
+			.setFooter({ text: `Requested by ${message.author.tag}`, iconURL: message.author.displayAvatarURL() || undefined });
+		message.channel.send({ embeds: [invite], components: [row] });
 
 	},
 }
+
+export = command;

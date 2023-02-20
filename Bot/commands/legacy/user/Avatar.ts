@@ -1,9 +1,11 @@
 import { Client, ColorResolvable, EmbedBuilder, GuildMember, Message, User } from "discord.js";
+import { BooleanCommand } from "../../../interface/BooleanCommand";
 import Settings from "../../../schemas/Settings";
 import { Utilities } from "../../../utils/Utilities";
 
-module.exports = {
+const command: BooleanCommand = {
 	commands: ['avatar', 'av', 'pfp'],
+	description: "Get the avatar of a user",
 	maxArgs: 1,
 	expectedArgs: "(@User/User ID)",
 	cooldown: 1,
@@ -29,3 +31,5 @@ module.exports = {
 
 	}
 }
+
+export = command;

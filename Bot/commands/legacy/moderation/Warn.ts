@@ -2,18 +2,12 @@ import { ActionRowBuilder, ButtonBuilder, ButtonStyle, Client, ColorResolvable, 
 import { Utilities } from "../../../utils/Utilities";
 import Cases from "../../../schemas/Cases";
 import { EmbedUtils } from "../../../utils/EmbedUtils";
+import { BooleanCommand } from "../../../interface/BooleanCommand";
 const ms = require("ms");
 
-const row = new ActionRowBuilder<ButtonBuilder>()
-	.addComponents(
-		new ButtonBuilder()
-			.setLabel("Invite Me!")
-			.setStyle(ButtonStyle.Link)
-			.setURL("https://discord.com/oauth2/authorize?client_id=966634522106036265&permissions=1377007168710&scope=bot%20applications.commands")
-	)
-
-module.exports = {
+const command: BooleanCommand = {
 	commands: ["warn", "warning", "infract"],
+	description: "Warn a user",
 	minArgs: 1,
 	expectedArgs: "[@User/User ID] (Reason)",
 	userPermissions: [PermissionsBitField.Flags.ManageMessages],
@@ -81,7 +75,7 @@ module.exports = {
 					<:blurple_bulletpoint:997346294253244529> **Case:** #${caseNumberSet}`)
 					.setTimestamp()
 				if (settings.guildSettings?.premium == false || !settings.guildSettings?.premium) {
-					user.send({ embeds: [dm], components: [row] }).catch((err: Error) => {
+					user.send({ embeds: [dm], components: [new EmbedUtils().getInviteButton()] }).catch((err: Error) => {
 						console.error(err)
 					})
 				} else if (settings.guildSettings?.premium == true) {
@@ -130,7 +124,7 @@ module.exports = {
 				<:blurple_bulletpoint:997346294253244529> **Case:** #${caseNumberSet}`)
 				.setTimestamp()
 			if (settings.guildSettings?.premium == false || !settings.guildSettings?.premium) {
-				user.send({ embeds: [dm], components: [row] }).catch((err: Error) => {
+				user.send({ embeds: [dm], components: [new EmbedUtils().getInviteButton()] }).catch((err: Error) => {
 					console.error(err)
 				})
 			} else if (settings.guildSettings?.premium == true) {
@@ -156,3 +150,5 @@ module.exports = {
 
 	}
 }
+
+export = command;

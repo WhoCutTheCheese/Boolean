@@ -3,9 +3,11 @@ import { EmbedUtils } from '../../../utils/EmbedUtils';
 import { Utilities } from '../../../utils/Utilities';
 import fs from 'fs'
 import os from 'os'
+import { BooleanCommand } from '../../../interface/BooleanCommand';
 
-module.exports = {
+const command: BooleanCommand = {
 	commands: ["purge", "clear", "remove"],
+	description: "Purge messages in a channel",
 	minArgs: 1,
 	maxArgs: 2,
 	expectedArgs: "[sub command] (message amount)",
@@ -195,3 +197,5 @@ async function getMessagesWithFilter(count: number, channel: TextChannel, filter
 	return messagesToDelete;
 
 }
+
+export = command;

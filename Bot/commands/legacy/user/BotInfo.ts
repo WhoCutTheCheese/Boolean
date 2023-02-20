@@ -1,10 +1,12 @@
 import { ActionRowBuilder, ButtonBuilder, ButtonStyle, Client, ColorResolvable, EmbedBuilder, Message } from "discord.js";
+import { BooleanCommand } from "../../../interface/BooleanCommand";
 import Settings from "../../../schemas/Settings";
 import { Utilities } from "../../../utils/Utilities";
 const bot = require("../../../package.json");
 
-module.exports = {
+const command: BooleanCommand = {
 	commands: ['botinfo', 'bot', 'info'],
+	description: "Get info boolean",
 	cooldown: 2,
 	commandCategory: "User",
 	callback: async (client: Client, message: Message, args: string[]) => {
@@ -35,3 +37,5 @@ module.exports = {
 
 	},
 }
+
+export = command;
