@@ -228,7 +228,7 @@ export class Utilities {
 
 	}
 
-	async updateCaseCount(guild: Guild): Promise<number | undefined> {
+	async incrementCaseCount(guild: Guild): Promise<number | undefined> {
 		const settings = await this.getGuildSettings(guild);
 		if (!settings) return undefined;
 

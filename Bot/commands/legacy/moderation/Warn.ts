@@ -1,4 +1,4 @@
-import { ActionRowBuilder, ButtonBuilder, ButtonStyle, Client, ColorResolvable, EmbedBuilder, Message, PermissionsBitField, embedLength } from "discord.js";
+import { ActionRowBuilder, ButtonBuilder, ButtonStyle, Client, ColorResolvable, EmbedBuilder, Message, PermissionsBitField, embedLength, TextChannel, MembershipScreeningFieldType } from 'discord.js';
 import { Utilities } from "../../../utils/Utilities";
 import Cases from "../../../schemas/Cases";
 import { EmbedUtils } from "../../../utils/EmbedUtils";
@@ -32,7 +32,7 @@ const command: BooleanCommand = {
 
 		const warns = await new Utilities().warnCount(user.user);
 
-		const caseNumberSet = await new Utilities().updateCaseCount(message.guild!);
+		const caseNumberSet = await new Utilities().incrementCaseCount(message.guild!);
 
 		let remainder = 1;
 		let warnsBeforeMute = settings.modSettings?.warnsBeforeMute ?? 3;
@@ -84,10 +84,17 @@ const command: BooleanCommand = {
 				}
 			}
 
-			const autoMuted = new EmbedBuilder()
-				.setDescription(`**Case:** #${caseNumberSet} | **Mod:** ${message.author.tag} | **Reason:** ${reason} | **Duration:** 10 Minutes`)
-				.setColor(color)
-			message.channel.send({ content: `<:arrow_right:967329549912248341> **${user.user.tag}** has been automatically muted! (Warns **${warns}**)`, embeds: [autoMuted] })
+			await new EmbedUtils().sendModerationSuccessEmbed((message.channel as TextChannel), message, { arrowEmoji: true, replyToMessage: true }, {
+				mod: message.member!, user, caseNumberSet,
+				reason,
+				duration: "10 Minutes",
+				customContent: `**${user.user.tag}** has been automatically muted! (Warns **${warns}**)`
+			})
+
+			// const autoMuted = new EmbedBuilder()
+			// 	.setDescription(`**Case:** #${caseNumberSet} | **Mod:** ${message.author.tag} | **Reason:** ${reason} | **Duration:** 10 Minutes`)
+			// 	.setColor(color)
+			// message.channel.send({ content: `<:arrow_right:967329549912248341> `, embeds: [autoMuted] })
 
 			new EmbedUtils().sendModLogs(
 				{
@@ -133,10 +140,12 @@ const command: BooleanCommand = {
 			}
 		}
 
-		const warned = new EmbedBuilder()
-			.setDescription(`**Case:** #${caseNumberSet} | **Mod:** ${message.author.tag} | **Reason:** ${reason}`)
-			.setColor(color)
-		message.channel.send({ content: `<:arrow_right:967329549912248341> **${user.user.tag}** has been warned! (Warns **${warns}**)`, embeds: [warned] })
+		await new EmbedUtils().sendModerationSuccessEmbed((message.channel as TextChannel), message, { arrowEmoji: true, replyToMessage: true }, { mod: message.member!, user, caseNumberSet, reason, customContent: `**${user.user.tag}** has been warned! (Warns **${warns}**)` })
+
+		// const warned = new EmbedBuilder()
+		// 	.setDescription(`**Case:** #${caseNumberSet} | **Mod:** ${message.author.tag} | **Reason:** ${reason}`)
+		// 	.setColor(color)
+		// message.channel.send({ content: `<:arrow_right:967329549912248341> `, embeds: [warned] })
 
 		new EmbedUtils().sendModLogs(
 			{
