@@ -6,7 +6,7 @@ module.exports = {
 	commands: ["check"],
 	userPermissions: [PermissionsBitField.Flags.ManageGuild],
 	cooldown: 5,
-	commandCategory: "Config",
+	commandCategory: "Configuration",
 	callback: async (client: Client, message: Message, args: string[]) => {
 
 		let settings = await new Utilities().getGuildSettings(message.guild)
