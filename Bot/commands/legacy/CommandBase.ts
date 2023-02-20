@@ -62,7 +62,7 @@ client.on("messageCreate", async (message: Message) => {
 
 		const commandName = name.replace(prefix, '');
 		let command: BooleanCommand = client.legacycommands.get(commandName)! || client.legacycommands.get(client.legacycommandalias.get(commandName)!)!
-		if (!command) return Log(LogLevel.Error, `Command ${commandName} does not exist!`)
+		if (!command) return;
 
 		let {
 			minArgs = 0,

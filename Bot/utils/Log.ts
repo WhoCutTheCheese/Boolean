@@ -1,6 +1,4 @@
 import "colors";
-//const { magenta, blue, red, yellow } = pkg;
-import { Utilities } from "./Utilities";
 
 /**
  * The severity of a log entry.

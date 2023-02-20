@@ -6,8 +6,8 @@ import { EmbedUtils } from '../../../utils/EmbedUtils';
 import { BooleanCommand } from '../../../interface/BooleanCommand';
 
 const command: BooleanCommand = {
-	command: "setmodlog",
-	aliases: ["setmodlogs", "modlog", "modlogs"],
+	command: "modlog",
+	aliases: ["modlogs"],
 	description: "Set the mod logging channel",
 	minArgs: 1,
 	maxArgs: 2,

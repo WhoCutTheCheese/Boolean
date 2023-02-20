@@ -64,7 +64,7 @@ export class Utilities {
 			if (aliases) {
 				for (const alias of aliases) {
 					client.legacycommandalias.set(alias.toLowerCase(), command.toLowerCase())
-					Log(LogLevel.Info, `[Alias]  | Registered alias | ${alias}`)
+					Log(LogLevel.Info, `[Alias]  | Command Alias | ${alias}`)
 				}
 			}
 
@@ -93,9 +93,9 @@ export class Utilities {
 				if (stat.isDirectory()) {
 					readCommands(path.join(dir, file))
 				} else if (file !== baseFile) {
-					Log(LogLevel.Info, `[Loading] | Legacy command | ${file}`)
+					Log(LogLevel.Info, `[Loading] | Legacy Command | ${file}`)
 					let loaded = await this.loadCommand(client, path.join(__dirname, dir, file))
-					if (loaded) Log(LogLevel.Info, `[Loaded]  | Legacy command | ${file}`)
+					if (loaded) Log(LogLevel.Info, `[Loaded]  | Legacy Command | ${file}`)
 					else Log(LogLevel.Error, `There was an error loading ${file}`)
 				}
 			}
@@ -124,14 +124,14 @@ export class Utilities {
 
 			for (const file of commandFiles) {
 
-				Log(LogLevel.Info, `[Getting] | Slash command | ${file}`)
+				Log(LogLevel.Info, `[Get] | Slash Command | ${file}`)
 
 				const command = require(`${commandPath}/${folder}/${file}`)
 
 				client.slashcommands.set(command.data.name, command)
 				client.slashcommandsArray.push(command.data.toJSON() as never)
 
-				Log(LogLevel.Info, `[Loaded]  | Slash command | ${file}`)
+				Log(LogLevel.Info, `[Loaded]  | Slash Command | ${file}`)
 			}
 		}
 		let clientId

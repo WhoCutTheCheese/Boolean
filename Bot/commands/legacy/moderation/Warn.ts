@@ -35,7 +35,7 @@ const command: BooleanCommand = {
 		const caseNumberSet = await new Utilities().updateCaseCount(message.guild!);
 
 		let remainder = 1;
-		let warnsBeforeMute = settings.modSettings?.warnsBeforeMute || 3;
+		let warnsBeforeMute = settings.modSettings?.warnsBeforeMute ?? 3;
 
 		if (warns != 0) {
 			remainder = warns % warnsBeforeMute!;
@@ -45,9 +45,7 @@ const command: BooleanCommand = {
 		}
 		if (!caseNumberSet) return message.channel.send({ content: "An error occurred, if this error persists please contact support." })
 
-		if (remainder == 0) {
-			if (!message.guild?.members.me?.permissions.has([PermissionsBitField.Flags.ModerateMembers])) return message.channel.send({ content: "I am  unable to time people out!" })
-			if (user.roles.highest.position >= message.guild.members.me.roles.highest.position) return message.channel.send({ content: "I am unable to time this user out!" })
+		if (remainder == 0 && message.guild?.members.me?.roles.highest.position! < user.roles.highest.position && message.guild?.members.me?.permissions.has([PermissionsBitField.Flags.ModerateMembers])) {
 
 			const endDate = new Date();
 
