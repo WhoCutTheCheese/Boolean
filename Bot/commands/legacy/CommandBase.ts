@@ -51,7 +51,7 @@ module.exports.listen = (client: Client) => {
 			const args = message.content.split(/[ ]+/)
 			const name = args.shift()!.toLowerCase();
 
-			if (name.trim().toLowerCase() === `<@${client.user!.id}>`) return new EmbedUtils().sendSuccessEmbed((message.channel as TextChannel), message, { successEmoji: false, replyToMessage: true }, { title: "Prefix", description: `The current guild prefix is ${prefix}` })
+			if (name.trim().toLowerCase() === `<@${client.user!.id}>`) return new EmbedUtils().sendSuccessEmbed((message.channel as TextChannel), message, { successEmoji: false, replyToMessage: true }, { title: "Prefix", description: `The current guild prefix is \`${prefix}\`` })
 
 			if (!name.startsWith(prefix)) return;
 			const maintenance = await Maintenance.findOne({
