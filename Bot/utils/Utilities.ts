@@ -1,4 +1,4 @@
-import { Collection, Guild, PermissionsBitField, REST, Routes, ColorResolvable, Embed, EmbedBuilder, MessageType, Message, User } from 'discord.js';
+import { Collection, Guild, PermissionsBitField, REST, Routes, ColorResolvable, Embed, EmbedBuilder, MessageType, Message, User, Client } from 'discord.js';
 import path from "path";
 import fs from "fs";
 import Maintenance from "../schemas/Maintenance";
@@ -7,16 +7,26 @@ import Settings from "../schemas/Settings";
 import * as config from '../config.json'
 import Cases from '../schemas/Cases';
 import { Log, LogLevel } from './Log';
+import { BooleanCommand } from '../interface/BooleanCommand';
 
 declare module "discord.js" {
 	export interface Client {
-		commands: Collection<unknown, any>
-		commandArray: [],
+		legacycommands: Collection<string, BooleanCommand>
+		legacycommandsArray: Array<string>,
+		slashcommands: Collection<unknown, any>
+		slashcommandsArray: [],
 	}
 }
 
 export class Utilities {
-	registerEvents(args: {
+	async handleError(error: Error) {
+		let notice = 'A client error occurred: ' + error.message
+		if (error.stack)
+			notice += '\n' + error.stack
+		Log(LogLevel.Error, notice);
+	}
+
+	async registerEvents(args: {
 		eventFolder: string,
 		typescript: boolean
 	}) {
@@ -39,15 +49,53 @@ export class Utilities {
 		}
 	}
 
-	registerCommands(args: {
+	async registerLegacyCommands(args: {
+		client: Client,
 		commandsFolder: string,
 		token: string,
-		typescript: boolean
 	}) {
-		const { commandsFolder, typescript, token } = args;
-		const client = new Main().getClient();
-		client.commands = new Collection();
-		client.commandArray = [];
+		const { client, commandsFolder, token } = args;
+		client.legacycommands = new Collection();
+		client.legacycommandsArray = [];
+
+		const baseFile = 'CommandBase.ts'
+		const readCommands = (dir: string) => {
+			const files = fs.readdirSync(path.join(__dirname, dir))
+			for (const file of files) {
+				const stat = fs.lstatSync(path.join(__dirname, dir, file))
+				if (stat.isDirectory()) {
+					readCommands(path.join(dir, file))
+				} else if (file !== baseFile) {
+					Log(LogLevel.Info, `[Loading] | Legacy command | ${file}`)
+
+					const option = require(path.join(__dirname, dir, file))
+
+					let { commands } = option
+
+					if (typeof commands === 'string') commands = [commands]
+
+					for (const command of commands) {
+						client.legacycommands.set(command, { ...option, commands, })
+						client.legacycommandsArray.push(command)
+					}
+
+					Log(LogLevel.Info, `[Loaded]  | Legacy command | ${file}`)
+				}
+			}
+		}
+
+		readCommands(commandsFolder);
+	}
+
+	async registerShashCommands(args: {
+		client: Client,
+		commandsFolder: string,
+		token: string,
+		typescript: boolean,
+	}) {
+		const { client, commandsFolder, typescript, token } = args;
+		client.slashcommands = new Collection();
+		client.slashcommandsArray = [];
 		const commandPath = path.join(__dirname, "..", commandsFolder);
 		const commandFolders = fs.readdirSync(`./${commandsFolder}`);
 		let fileExtension = ".js"
@@ -57,11 +105,16 @@ export class Utilities {
 		for (const folder of commandFolders) {
 			const commandFiles = fs.readdirSync(`${commandPath}/${folder}`).filter(file => file.endsWith(fileExtension));
 
-			for (const files of commandFiles) {
-				const command = require(`${commandPath}/${folder}/${files}`)
+			for (const file of commandFiles) {
 
-				client.commands.set(command.data.name, command)
-				client.commandArray.push(command.data.toJSON() as never)
+				Log(LogLevel.Info, `[Getting] | Slash command | ${file}`)
+
+				const command = require(`${commandPath}/${folder}/${file}`)
+
+				client.slashcommands.set(command.data.name, command)
+				client.slashcommandsArray.push(command.data.toJSON() as never)
+
+				Log(LogLevel.Info, `[Loaded]  | Slash command | ${file}`)
 			}
 		}
 		let clientId
@@ -75,14 +128,14 @@ export class Utilities {
 
 		(async () => {
 			try {
-				Log(LogLevel.Debug, "Starting to refresh (/) commands.");
+				Log(LogLevel.Debug, "Registering all (/) commands.");
 
 				await rest.put(
 					Routes.applicationCommands(clientId as string),
-					{ body: client.commandArray },
+					{ body: client.slashcommandsArray },
 				);
 
-				Log(LogLevel.Debug, "Successfully started (/) commands.");
+				Log(LogLevel.Debug, "Registered all (/) commands");
 			} catch (error) {
 				console.error(error);
 			}
@@ -90,7 +143,7 @@ export class Utilities {
 
 		client.on("interactionCreate", async interaction => {
 			if (!interaction.isChatInputCommand()) return;
-			const command = client.commands.get(interaction.commandName);
+			const command = client.slashcommands.get(interaction.commandName);
 
 			if (!command) return;
 

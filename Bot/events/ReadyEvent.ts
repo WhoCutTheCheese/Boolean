@@ -20,32 +20,13 @@ module.exports = {
 		})
 
 		mongoose.set("strictQuery", true);
-		mongoose.connect(`${process.env.mongo_url}`, {
+		await mongoose.connect(`${process.env.mongo_url}`, {
 			keepAlive: true,
-		}, () => {
+		}, async () => {
 			Log(LogLevel.Debug, "MongoDB has connected!")
 		})
 
-		const baseFile = 'CommandBase.ts'
-		const commandBase = require(`../commands/legacy/CommandBase.ts`);
-		const readCommands = (dir: string) => {
-			const files = fs.readdirSync(path.join(__dirname, dir))
-			for (const file of files) {
-				const stat = fs.lstatSync(path.join(__dirname, dir, file))
-				if (stat.isDirectory()) {
-					readCommands(path.join(dir, file))
-				} else if (file !== baseFile) {
-					const option = require(path.join(__dirname, dir, file))
-					commandBase(option)
-				}
-			}
-		}
-
-
-		readCommands('../commands/legacy/')
-		commandBase.listen(client);
-
-		Log(LogLevel.Info, "Boolean is coding the future!")
+		Log(LogLevel.Info, "Boolean has successfully started")
 
 	}
 }
