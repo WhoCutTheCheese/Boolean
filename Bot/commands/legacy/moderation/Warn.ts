@@ -71,13 +71,9 @@ const command: BooleanCommand = {
 					<:blurple_bulletpoint:997346294253244529> **Case:** #${caseNumberSet}`)
 					.setTimestamp()
 				if (settings.guildSettings?.premium == false || !settings.guildSettings?.premium) {
-					user.send({ embeds: [dm], components: [new EmbedUtils().getInviteButton()] }).catch((err: Error) => {
-						Log(LogLevel.Error, "An error occurred in legacy/moderation/Warn.ts\n\n" + err)
-					})
+					user.send({ embeds: [dm], components: [new EmbedUtils().getInviteButton()] })
 				} else if (settings.guildSettings?.premium == true) {
-					user.send({ embeds: [dm] }).catch((err: Error) => {
-						Log(LogLevel.Error, "An error occurred in legacy/moderation/Warn.ts\n\n" + err)
-					})
+					user.send({ embeds: [dm] })
 				}
 			}
 
