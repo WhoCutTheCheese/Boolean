@@ -3,6 +3,7 @@ import mongoose from "mongoose";
 import dotEnv from "dotenv";
 import fs from "fs";
 import path from "path";
+import { Log, LogLevel } from "../utils/Log";
 dotEnv.config()
 
 let statuses = ["nothing", "the Aether", "you", "the stars", "space", "your server"]
@@ -10,7 +11,9 @@ module.exports = {
 	name: "ready",
 	once: false,
 	async execute(client: Client) {
-		console.log("Boolean is coding the future...")
+
+		Log(LogLevel.Info, "Boolean is starting...")
+
 		client.user?.setPresence({
 			activities: [{ name: `${statuses[Math.floor(Math.random() * 5)]} | !!help & (/) commands`, type: ActivityType.Watching }],
 			status: "dnd"
@@ -20,7 +23,7 @@ module.exports = {
 		mongoose.connect(`${process.env.mongo_url}`, {
 			keepAlive: true,
 		}, () => {
-			console.log("Boolean has connected to MongoDB!")
+			Log(LogLevel.Debug, "MongoDB has connected!")
 		})
 
 		const baseFile = 'CommandBase.ts'
@@ -42,7 +45,7 @@ module.exports = {
 		readCommands('../commands/legacy/')
 		commandBase.listen(client);
 
-		console.log("Boolean has started.")
+		Log(LogLevel.Info, "Boolean is coding the future!")
 
 	}
 }

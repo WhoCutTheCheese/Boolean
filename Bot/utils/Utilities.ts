@@ -6,6 +6,7 @@ import { Main } from "../index";
 import Settings from "../schemas/Settings";
 import * as config from '../config.json'
 import Cases from '../schemas/Cases';
+import { Log, LogLevel } from './Log';
 
 declare module "discord.js" {
 	export interface Client {
@@ -74,14 +75,14 @@ export class Utilities {
 
 		(async () => {
 			try {
-				console.log('Started refreshing application (/) commands.');
+				Log(LogLevel.Debug, "Starting to refresh (/) commands.");
 
 				await rest.put(
 					Routes.applicationCommands(clientId as string),
 					{ body: client.commandArray },
 				);
 
-				console.log('Successfully reloaded application (/) commands.');
+				Log(LogLevel.Debug, "Successfully started (/) commands.");
 			} catch (error) {
 				console.error(error);
 			}
@@ -110,7 +111,7 @@ export class Utilities {
 				await command.execute(interaction, client);
 			} catch (error) {
 				console.error(error);
-				await interaction.reply({ content: 'There was an error while executing this command!', ephemeral: true }).catch((err: Error) => console.log(err))
+				await interaction.reply({ content: 'There was an error while executing this command!', ephemeral: true }).catch((err: Error) => Log(LogLevel.Error, err.message))
 			}
 		})
 	}
@@ -178,5 +179,6 @@ export class Utilities {
 		return caseNumberSet;
 
 	}
+
 
 }
