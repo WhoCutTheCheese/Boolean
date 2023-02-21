@@ -8,6 +8,7 @@ import * as config from '../config.json'
 import Cases from '../schemas/Cases';
 import { Log, LogLevel } from './Log';
 import { BooleanCommand } from '../interface/BooleanCommand';
+import convert, { convertMany } from 'convert';
 
 declare module "discord.js" {
 	export interface Client {
@@ -203,6 +204,14 @@ export class Utilities {
 	async getGuildSettings(guild: Guild | null) {
 		if (!guild || !guild.id) return null;
 		return await Settings.findOne({ guildID: guild.id });
+	}
+
+	conertStringToTime(string: string, time: string): number | null {
+		let lengthNum: number | null = null;
+		try { lengthNum = convertMany(string).to('s'); }
+		catch (err) { };
+
+		return lengthNum;
 	}
 
 	async getEmbedColor(guild: Guild | null): Promise<ColorResolvable> {

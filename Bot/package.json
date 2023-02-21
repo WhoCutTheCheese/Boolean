@@ -21,6 +21,8 @@
   ],
   "homepage": "https://github.com/WhoCutTheCheese/Boolean#readme",
   "dependencies": {
+    "colors": "^1.4.0",
+    "convert": "^4.10.0",
     "discord.js": "^14.7.1",
     "dotenv": "^16.0.3",
     "lodash": "^4.17.21",

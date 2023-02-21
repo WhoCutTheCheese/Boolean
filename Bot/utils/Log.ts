@@ -1,4 +1,4 @@
-import "colors";
+import 'colors';
 
 /**
  * The severity of a log entry.
