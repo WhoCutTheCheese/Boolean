@@ -23,7 +23,7 @@ export class Utilities {
 		let notice = 'A client error occurred: ' + error.message
 		if (error.stack)
 			notice += '\n' + error.stack
-		Log(LogLevel.Error, notice);
+		Log.error(notice);
 	}
 
 	sendToInvite(guild: string | null, req: Request, res: Response) {

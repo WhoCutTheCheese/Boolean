@@ -129,7 +129,7 @@ export function getCooldown(userId: string): boolean {
 		cooldownMap.delete(userId);
 		return false;
 	} else {
-		Log(LogLevel.Debug, `User on cooldown: ${endTime - currentTime} more seconds`)
+		Log.debug(`User on cooldown: ${endTime - currentTime} more seconds`)
 		return true;
 	}
 }
@@ -178,7 +178,7 @@ io.on("connection", (socket) => {
 
 	socket.on("manage-botinfo-getnickname", async (guildID) => {
 		try {
-			Log(LogLevel.Debug, guildID)
+			Log.debug(guildID)
 			socket.emit("manage-botinfo-getnickname-return", (await client.guilds.fetch(guildID)).members.me?.nickname || "Boolean")
 		} catch (err) {
 			console.error(err)
@@ -252,5 +252,5 @@ function onListening(): void {
 	const bind = typeof addr === 'string'
 		? 'pipe ' + addr
 		: 'port ' + addr?.port;
-	Log(LogLevel.Info, `Listning on port ${port}`)
+	Log.info(`Listning on port ${port}`)
 }

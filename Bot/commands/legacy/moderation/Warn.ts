@@ -22,14 +22,14 @@ const command: BooleanCommand = {
 		let color: ColorResolvable = await new Utilities().getEmbedColor(message.guild!);
 
 		const user = message.mentions.members?.first() || message.guild?.members.cache.get(args[0]);
-		if (!user) return message.channel.send({ content: "Unable to fetch that member! Please try again." });
+		if (!user) return new EmbedUtils().sendErrorEmbed((message.channel as TextChannel), message, { errorEmoji: true, replyToMessage: true, deleteMsg: true }, { description: `Unable to fetch that member! Please try again.` });
 
 		let reason = args.splice(1).join(" ") || "No reason provided.";
-		if (reason.length > 250) return message.channel.send({ content: "Punishment reason cannot exceed 250 characters." })
+		if (reason.length > 250) return new EmbedUtils().sendErrorEmbed((message.channel as TextChannel), message, { errorEmoji: true, replyToMessage: true, deleteMsg: true }, { description: `Punishment reason cannot exceed 250 characters.` })
 
-		if (user.id === message.author.id) return message.channel.send({ content: "You cannot issue warnings to yourself!" });
-		if (user.id === message.guild?.ownerId) return message.channel.send({ content: "You cannot issue warnings to this user!" });
-		if (user.id === client.user?.id) return message.channel.send({ content: "You cannot warn me. My power levels are too high!" });
+		if (user.id === message.author.id) return new EmbedUtils().sendErrorEmbed((message.channel as TextChannel), message, { errorEmoji: true, replyToMessage: true, deleteMsg: true }, { description: `You cannot ban yourself!` })
+		if (user.id === message.guild?.ownerId) return new EmbedUtils().sendErrorEmbed((message.channel as TextChannel), message, { errorEmoji: true, replyToMessage: true, deleteMsg: true }, { description: `You cannot ban this user!` })
+		if (user.id === client.user?.id) return new EmbedUtils().sendErrorEmbed((message.channel as TextChannel), message, { errorEmoji: true, replyToMessage: true, deleteMsg: true }, { description: `You cannot ban me. My power levels are too high!` })
 
 		const warns = await new Utilities().warnCount(user.user);
 
@@ -44,7 +44,7 @@ const command: BooleanCommand = {
 		if (settings.modSettings?.warnsBeforeMute == 0) {
 			remainder = 1
 		}
-		if (!caseNumberSet) return message.channel.send({ content: "An error occurred, if this error persists please contact support." })
+		if (!caseNumberSet) return new EmbedUtils().sendErrorEmbed((message.channel as TextChannel), message, { errorEmoji: true, replyToMessage: true, deleteMsg: true }, { description: `An error occurred, if this error persists please contact support.` })
 
 		if (remainder == 0 && message.guild?.members.me?.roles.highest.position! > user.roles.highest.position && message.guild?.members.me?.permissions.has([PermissionsBitField.Flags.ModerateMembers])) {
 
@@ -60,7 +60,7 @@ const command: BooleanCommand = {
 					date: Date.now(),
 				}
 			})
-			newCase.save().catch((err: Error) => { Log(LogLevel.Error, "An error occurred in legacy/moderation/Warn.ts\n\n" + err) })
+			newCase.save().catch((err: Error) => { Log.error("An error occurred in legacy/moderation/Warn.ts\n\n" + err) })
 
 			if (settings.modSettings?.dmOnPunish == true) {
 				const dm = new EmbedBuilder()
@@ -113,7 +113,7 @@ const command: BooleanCommand = {
 				length: "Infinite"
 			}
 		})
-		newCase.save().catch((err: Error) => { Log(LogLevel.Error, "An error occurred in legacy/moderation/Warn.ts\n\n" + err) })
+		newCase.save().catch((err: Error) => { Log.error("An error occurred in legacy/moderation/Warn.ts\n\n" + err) })
 
 		if (settings.modSettings?.dmOnPunish == true) {
 			const dm = new EmbedBuilder()
@@ -124,11 +124,11 @@ const command: BooleanCommand = {
 				.setTimestamp()
 			if (settings.guildSettings?.premium == false || !settings.guildSettings?.premium) {
 				user.send({ embeds: [dm], components: [new EmbedUtils().getInviteButton()] }).catch((err: Error) => {
-					Log(LogLevel.Error, "An error occurred in legacy/moderation/Warn.ts\n\n" + err)
+					Log.error("An error occurred in legacy/moderation/Warn.ts\n\n" + err)
 				})
 			} else if (settings.guildSettings?.premium == true) {
 				user.send({ embeds: [dm] }).catch((err: Error) => {
-					Log(LogLevel.Error, "An error occurred in legacy/moderation/Warn.ts\n\n" + err)
+					Log.error("An error occurred in legacy/moderation/Warn.ts\n\n" + err)
 				})
 			}
 		}
