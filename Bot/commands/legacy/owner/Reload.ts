@@ -31,7 +31,7 @@ const command: BooleanCommand = {
 		}
 		else {
 			Log.error(`There was an error loading ${command.command}`)
-			return new EmbedUtils().sendErrorEmbed((message.channel as TextChannel), message, { errorEmoji: true, replyToMessage: true, deleteMsg: true }, { description: `There was an error reloading \`${command.command}\`` })
+			return new EmbedUtils().sendErrorEmbed((message.channel as TextChannel), message, { errorEmoji: true, replyToMessage: true }, { description: `There was an error reloading \`${command.command}\`` })
 		}
 	},
 }

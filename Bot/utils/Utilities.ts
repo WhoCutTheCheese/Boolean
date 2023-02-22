@@ -206,36 +206,6 @@ export class Utilities {
 		return await Settings.findOne({ guildID: guild.id });
 	}
 
-	conertStringToTime(string: string, time: string): number | null {
-		let lengthNum: number | null = null;
-		try { lengthNum = convertMany(string).to('s'); }
-		catch (err) { };
-
-		return lengthNum;
-	}
-
-	convertShortToLongTime(shortTime: string): string {
-		const timeParts = shortTime.match(/^(\d+)([hms])$/);
-		if (!timeParts) { Log.error(`Invalid sort time: ${shortTime}`); return "" };
-
-		const value = parseInt(timeParts[1], 10);
-		const unit = timeParts[2];
-
-		switch (unit) {
-			case 'y':
-				return `${value} year(s)`;
-			case 'd':
-				return `${value} day(s)`;
-			case 'h':
-				return `${value} hour(s)`;
-			case 'm':
-				return `${value} minute(s)`;
-			case 's':
-				return `${value} second(s)`;
-			default:
-				throw new Error(`Invalid time unit: ${unit}`);
-		}
-	}
 
 	async getEmbedColor(guild: Guild | null): Promise<ColorResolvable> {
 		const settings = await this.getGuildSettings(guild!)
@@ -282,5 +252,46 @@ export class Utilities {
 
 	}
 
+	getLenthFromString(string: string): [number, string] | null {
+		let lengthString = string
+		if (Number(string)) lengthString = `${string}s`
+		let length = new Utilities().conertStringToTime(lengthString, 's')
+		if (!length) return null;
+		lengthString = new Utilities().convertShortToLongTime(lengthString)
+		if (!lengthString) return null;
+
+		return [length, lengthString]
+	}
+
+	conertStringToTime(string: string, time: string): number | null {
+		let lengthNum: number | null = null;
+		try { lengthNum = convertMany(string).to('s'); }
+		catch (err) { };
+
+		return lengthNum;
+	}
+
+	convertShortToLongTime(shortTime: string): string {
+		const timeParts = shortTime.match(/^(\d+)([hms])$/);
+		if (!timeParts) { Log.error(`Invalid sort time: ${shortTime}`); return "" };
+
+		const value = parseInt(timeParts[1], 10);
+		const unit = timeParts[2];
+
+		switch (unit) {
+			case 'y':
+				return `${value} year(s)`;
+			case 'd':
+				return `${value} day(s)`;
+			case 'h':
+				return `${value} hour(s)`;
+			case 'm':
+				return `${value} minute(s)`;
+			case 's':
+				return `${value} second(s)`;
+			default:
+				throw new Error(`Invalid time unit: ${unit}`);
+		}
+	}
 
 }

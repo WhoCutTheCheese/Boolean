@@ -22,24 +22,24 @@ export enum LogLevel {
  */
 
 export const Log = {
-	debug(message: string): void {
+	debug(message: any): void {
 		logToConsole(LogLevel.Debug, message);
 	},
 
-	info(message: string): void {
+	info(message: any): void {
 		logToConsole(LogLevel.Info, message);
 	},
 
-	warn(message: string): void {
+	warn(message: any): void {
 		logToConsole(LogLevel.Warn, message);
 	},
 
-	error(message: string): void {
+	error(message: any): void {
 		logToConsole(LogLevel.Error, message);
 	},
 };
 
-async function logToConsole(level: LogLevel, message: string) {
+async function logToConsole(level: LogLevel, message: any) {
 	let levelMessage = "";
 
 	switch (level) {
@@ -52,7 +52,7 @@ async function logToConsole(level: LogLevel, message: string) {
 		levelMessage = ""
 	}
 
-	let logMSG = `${await timeStringNow()} ${levelMessage} | ${message}`
+	let logMSG = `${await timeStringNow()} ${levelMessage} | ${String(message)}`
 	console.log(logMSG)
 }
 
