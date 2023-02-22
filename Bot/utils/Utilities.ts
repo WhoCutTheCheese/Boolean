@@ -216,7 +216,7 @@ export class Utilities {
 
 	convertShortToLongTime(shortTime: string): string {
 		const timeParts = shortTime.match(/^(\d+)([hms])$/);
-		if (!timeParts) return "";
+		if (!timeParts) { Log.error(`Invalid sort time: ${shortTime}`); return "" };
 
 		const value = parseInt(timeParts[1], 10);
 		const unit = timeParts[2];
