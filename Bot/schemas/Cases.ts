@@ -1,6 +1,6 @@
-import mongoose from "mongoose";
+import { Schema, model } from "mongoose"
 
-let Schema = new mongoose.Schema({
+let schema = new Schema({
 	guildID: String,
 	userID: String,
 	modID: String,
@@ -13,4 +13,4 @@ let Schema = new mongoose.Schema({
 	}
 })
 
-export default mongoose.model('cases', Schema)
+export default model('cases', schema)

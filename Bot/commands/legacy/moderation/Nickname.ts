@@ -38,7 +38,7 @@ const command: BooleanCommand = {
 			newNick = args.splice(1).join(" ");
 			response = `You have set **${user.user.tag}**'s nickname to \`${newNick}\`!`;
 			action = "Nickname Set";
-			if (newNick?.length > 30) { return message.channel.send({ content: "Nickname length must be less than 30 characters." }); }
+			if (newNick?.length > 32) { return message.channel.send({ content: "Nickname length must be less than 32 characters." }); }
 		}
 
 		let oldNick = user.user.username;
