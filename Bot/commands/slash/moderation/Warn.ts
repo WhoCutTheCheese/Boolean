@@ -63,7 +63,7 @@ module.exports = {
 					date: Date.now(),
 				}
 			})
-			newCase.save().catch((err: Error) => { Log(LogLevel.Error, "An error occurred in slash/moderation/Warn.ts\n\n" + err) })
+			newCase.save().catch((err: Error) => { Log.error("An error occurred in slash/moderation/Warn.ts\n\n" + err) })
 
 
 			if (settings.modSettings?.dmOnPunish == true) {
@@ -76,11 +76,11 @@ module.exports = {
 					.setTimestamp()
 				if (settings.guildSettings?.premium == false || !settings.guildSettings?.premium) {
 					member.send({ embeds: [dm], components: [new EmbedUtils().getInviteButton()] }).catch((err: Error) => {
-						Log(LogLevel.Error, "An error occurred in slash/moderation/Warn.ts\n\n" + err)
+						Log.error("An error occurred in slash/moderation/Warn.ts\n\n" + err)
 					})
 				} else if (settings.guildSettings?.premium == true) {
 					member.send({ embeds: [dm] }).catch((err: Error) => {
-						Log(LogLevel.Error, "An error occurred in slash/moderation/Warn.ts\n\n" + err)
+						Log.error("An error occurred in slash/moderation/Warn.ts\n\n" + err)
 					})
 				}
 			}
@@ -115,7 +115,7 @@ module.exports = {
 				date: Date.now(),
 			}
 		})
-		newCase.save().catch((err: Error) => { Log(LogLevel.Error, "An error occurred in slash/moderation/Warn.ts\n\n" + err) })
+		newCase.save().catch((err: Error) => { Log.error("An error occurred in slash/moderation/Warn.ts\n\n" + err) })
 
 
 		if (settings.modSettings?.dmOnPunish == true) {
@@ -127,11 +127,11 @@ module.exports = {
 				.setTimestamp()
 			if (settings.guildSettings?.premium == false || !settings.guildSettings?.premium) {
 				member.send({ embeds: [dm], components: [new EmbedUtils().getInviteButton()] }).catch((err: Error) => {
-					Log(LogLevel.Error, "An error occurred in slash/moderation/Warn.ts\n\n" + err)
+					Log.error("An error occurred in slash/moderation/Warn.ts\n\n" + err)
 				})
 			} else if (settings.guildSettings?.premium == true) {
 				member.send({ embeds: [dm] }).catch((err: Error) => {
-					Log(LogLevel.Error, "An error occurred in slash/moderation/Warn.ts\n\n" + err)
+					Log.error("An error occurred in slash/moderation/Warn.ts\n\n" + err)
 				})
 			}
 		}

@@ -21,16 +21,16 @@ const command: BooleanCommand = {
 		if (!commandpath) return new EmbedUtils().sendErrorEmbed((message.channel as TextChannel), message, { errorEmoji: false, replyToMessage: true, deleteMsg: true }, { title: "Unknown command", description: "That command does not exist" })
 		let command = client.legacycommands.get(commandName)! || client.legacycommands.get(client.legacycommandalias.get(commandName)!)!
 
-		Log(LogLevel.Info, `[Loading] | Legacy Command | ${command.command}`)
+		Log.info(`[Loading] | Legacy Command | ${command.command}`)
 
 		let loaded = await new Utilities().loadCommand(client, commandpath)
 
 		if (loaded) {
-			Log(LogLevel.Info, `[Loaded]  | Legacy Command | ${command.command}`)
+			Log.info(`[Loaded]  | Legacy Command | ${command.command}`)
 			return new EmbedUtils().sendSuccessEmbed((message.channel as TextChannel), message, { successEmoji: true, replyToMessage: true }, { description: `Successfully reloaded \`${command.command}\`` })
 		}
 		else {
-			Log(LogLevel.Error, `There was an error loading ${command.command}`)
+			Log.error(`There was an error loading ${command.command}`)
 			return new EmbedUtils().sendErrorEmbed((message.channel as TextChannel), message, { errorEmoji: true, replyToMessage: true, deleteMsg: true }, { description: `There was an error reloading \`${command.command}\`` })
 		}
 	},

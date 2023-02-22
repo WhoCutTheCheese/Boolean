@@ -1,7 +1,6 @@
 import { EmbedUtils } from "../../../utils/EmbedUtils";
 import { Client, EmbedBuilder, Message, PermissionsBitField, TextChannel, messageLink, Utils } from 'discord.js';
 import { BooleanCommand } from "../../../interface/BooleanCommand";
-import * as config from '../../../config.json'
 import { Utilities } from '../../../utils/Utilities';
 
 const command: BooleanCommand = {
@@ -31,5 +30,4 @@ const command: BooleanCommand = {
 		new EmbedUtils().sendModLogs({ guild: message.guild, mod: message.member!, action: "Channel Slowmode" }, { title: "Channel slowmode", channel: message.channel, actionInfo: `**Duration:** ${lengthString}` })
 	},
 };
-
 export = command;

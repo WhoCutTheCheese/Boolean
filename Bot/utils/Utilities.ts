@@ -25,7 +25,7 @@ export class Utilities {
 		let notice = 'A client error occurred: ' + error.message
 		if (error.stack)
 			notice += '\n' + error.stack
-		Log(LogLevel.Error, notice);
+		Log.error(notice);
 	}
 
 	async registerEvents(args: {
@@ -65,7 +65,7 @@ export class Utilities {
 			if (aliases) {
 				for (const alias of aliases) {
 					client.legacycommandalias.set(alias.toLowerCase(), command.toLowerCase())
-					Log(LogLevel.Info, `[Alias]  | Command Alias | ${alias}`)
+					Log.info(`[Alias]  | Command Alias | ${alias}`)
 				}
 			}
 
@@ -94,10 +94,10 @@ export class Utilities {
 				if (stat.isDirectory()) {
 					readCommands(path.join(dir, file))
 				} else if (file !== baseFile) {
-					Log(LogLevel.Info, `[Loading] | Legacy Command | ${file}`)
+					Log.info(`[Loading] | Legacy Command | ${file}`)
 					let loaded = await this.loadCommand(client, path.join(__dirname, dir, file))
-					if (loaded) Log(LogLevel.Info, `[Loaded]  | Legacy Command | ${file}`)
-					else Log(LogLevel.Error, `There was an error loading ${file}`)
+					if (loaded) Log.info(`[Loaded]  | Legacy Command | ${file}`)
+					else Log.error(`There was an error loading ${file}`)
 				}
 			}
 		}
@@ -125,14 +125,14 @@ export class Utilities {
 
 			for (const file of commandFiles) {
 
-				Log(LogLevel.Info, `[Get] | Slash Command | ${file}`)
+				Log.info(`[Get] | Slash Command | ${file}`)
 
 				const command = require(`${commandPath}/${folder}/${file}`)
 
 				client.slashcommands.set(command.data.name, command)
 				client.slashcommandsArray.push(command.data.toJSON() as never)
 
-				Log(LogLevel.Info, `[Loaded]  | Slash Command | ${file}`)
+				Log.info(`[Loaded]  | Slash Command | ${file}`)
 			}
 		}
 		let clientId
@@ -146,14 +146,14 @@ export class Utilities {
 
 		(async () => {
 			try {
-				Log(LogLevel.Debug, "Registering all (/) commands.");
+				Log.debug("Registering all (/) commands.");
 
 				await rest.put(
 					Routes.applicationCommands(clientId as string),
 					{ body: client.slashcommandsArray },
 				);
 
-				Log(LogLevel.Debug, "Registered all (/) commands");
+				Log.debug("Registered all (/) commands");
 			} catch (error) {
 				console.error(error);
 			}
@@ -182,7 +182,7 @@ export class Utilities {
 				await command.execute(interaction, client);
 			} catch (error) {
 				console.error(error);
-				await interaction.reply({ content: 'There was an error while executing this command!', ephemeral: true }).catch((err: Error) => Log(LogLevel.Error, "An error occurred while running a command!\n\n" + err.message))
+				await interaction.reply({ content: 'There was an error while executing this command!', ephemeral: true }).catch((err: Error) => Log.error("An error occurred while running a command!\n\n" + err.message))
 			}
 		})
 	}
@@ -212,6 +212,25 @@ export class Utilities {
 		catch (err) { };
 
 		return lengthNum;
+	}
+
+	convertShortToLongTime(shortTime: string): string {
+		const timeParts = shortTime.match(/^(\d+)([hms])$/);
+		if (!timeParts) return "";
+
+		const value = parseInt(timeParts[1], 10);
+		const unit = timeParts[2];
+
+		switch (unit) {
+			case 'h':
+				return `${value} hours`;
+			case 'm':
+				return `${value} minutes`;
+			case 's':
+				return `${value} seconds`;
+			default:
+				throw new Error(`Invalid time unit: ${unit}`);
+		}
 	}
 
 	async getEmbedColor(guild: Guild | null): Promise<ColorResolvable> {
