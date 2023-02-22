@@ -222,12 +222,16 @@ export class Utilities {
 		const unit = timeParts[2];
 
 		switch (unit) {
+			case 'y':
+				return `${value} year(s)`;
+			case 'd':
+				return `${value} day(s)`;
 			case 'h':
-				return `${value} hours`;
+				return `${value} hour(s)`;
 			case 'm':
-				return `${value} minutes`;
+				return `${value} minute(s)`;
 			case 's':
-				return `${value} seconds`;
+				return `${value} second(s)`;
 			default:
 				throw new Error(`Invalid time unit: ${unit}`);
 		}
