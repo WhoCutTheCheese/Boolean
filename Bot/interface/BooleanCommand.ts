@@ -6,6 +6,8 @@ export interface BooleanCommand {
 	description: string,
 	commandCategory: string,
 	aliases?: Array<string>,
+	premium?: boolean,
+	guildonly?: boolean,
 	minArgs?: number,
 	maxArgs?: number,
 	expectedArgs?: string,

@@ -72,6 +72,8 @@ client.on("messageCreate", async (message: Message) => {
 			devOnly = false,
 			botPermissions = [],
 			userPermissions = [],
+			premium = false,
+			guildonly = true,
 			callback,
 		} = command
 

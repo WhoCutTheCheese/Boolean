@@ -9,12 +9,11 @@ const command: BooleanCommand = {
 	command: "stealemoji",
 	aliases: ["steal"],
 	description: "Steal an emoji and put it in your server",
+	minArgs: 1,
 	botPermissions: [PermissionsBitField.Flags.ManageEmojisAndStickers],
 	userPermissions: [PermissionsBitField.Flags.ManageEmojisAndStickers],
 	commandCategory: "Fun",
 	callback: async (client: Client, message: Message, args: string[]) => {
-		if (!args.length) return new EmbedUtils().sendErrorEmbed((message.channel as TextChannel), message, { errorEmoji: true, replyToMessage: true, deleteMsg: true }, { description: `No emojis provided` });
-
 		for (const rawEmoji of args) {
 			const parsedEmoji = parseEmoji(rawEmoji)
 			if (!parsedEmoji || !parsedEmoji.id) continue;
