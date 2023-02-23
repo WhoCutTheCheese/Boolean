@@ -29,13 +29,13 @@ const command: BooleanCommand = {
 
 		let muteRoleSet = settings.modSettings?.muteRole ? yes : no;
 		let modLogChannelSet = settings.modSettings?.modLogChannel ? yes : recommended;
-		let joinRoleSet = settings.guildSettings?.joinRole ? yes : recommended;
+		let joinRolesSet = settings.guildSettings?.joinRoles ? yes : recommended;
 		let manageChannels = message.guild?.members.me?.permissions.has(PermissionsBitField.Flags.ManageChannels) ? yes : no;
 
 
 		const checkEmbed = new EmbedBuilder()
 			.setAuthor({ name: "Setup Check", iconURL: message.author.displayAvatarURL() || undefined })
-			.setDescription(`This is a comprehensive list of everything Boolean needs to run smoothly.\n**No Action Needed:** ${yes}\n**Action Needed:** ${no}\n**Recommended Setting:** ${recommended}\n\n**Bot Permissions:** Permissions Boolean needs to run\n> [Manage Roles: ${manageRoles}]\n> [Manage Nicknames: ${manageNicknames}]\n> [Manage Messages: ${manageMessages}]\n> [Manage Channels: ${manageChannels}]\n> [Timeout Users: ${moderateMembers}]\n> [Ban Members: ${banMembers}]\n> [Kick Members: ${kickMembers}]\n> [Administrator: ${admin}]\n\n**Configuration Settings:** Configuration settings\n> [Mute Role: ${muteRoleSet}]\n> [Mod Logs Channel: ${modLogChannelSet}]\n> [Join Role: ${joinRoleSet}]`)
+			.setDescription(`This is a comprehensive list of everything Boolean needs to run smoothly.\n**No Action Needed:** ${yes}\n**Action Needed:** ${no}\n**Recommended Setting:** ${recommended}\n\n**Bot Permissions:** Permissions Boolean needs to run\n> [Manage Roles: ${manageRoles}]\n> [Manage Nicknames: ${manageNicknames}]\n> [Manage Messages: ${manageMessages}]\n> [Manage Channels: ${manageChannels}]\n> [Timeout Users: ${moderateMembers}]\n> [Ban Members: ${banMembers}]\n> [Kick Members: ${kickMembers}]\n> [Administrator: ${admin}]\n\n**Configuration Settings:** Configuration settings\n> [Mute Role: ${muteRoleSet}]\n> [Mod Logs Channel: ${modLogChannelSet}]\n> [Join Role(s): ${joinRolesSet}]`)
 			.setFooter({ text: `Requested by ${message.author.tag}`, iconURL: message.author.displayAvatarURL() || undefined })
 			.setColor(color)
 		message.channel.send({ embeds: [checkEmbed] })

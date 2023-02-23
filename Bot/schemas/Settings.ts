@@ -10,7 +10,7 @@ let Schema = new mongoose.Schema({
 		premium: Boolean,
 		premiumHolder: String,
 		totalCases: Number,
-		joinRole: String,
+		joinRoles: Array,
 		embedColor: String,
 	},
 	modSettings: {
@@ -23,7 +23,7 @@ let Schema = new mongoose.Schema({
 		warnsBeforeMute: Number,
 		deleteCommandUsage: Boolean
 	},
-	modRole: Array,
+	modRoles: Array,
 	adminRole: Array,
 })
 
