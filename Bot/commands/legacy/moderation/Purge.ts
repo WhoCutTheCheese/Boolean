@@ -1,5 +1,5 @@
 import { Client, ColorResolvable, Message, PermissionsBitField, TextChannel, AttachmentBuilder, GuildMember } from 'discord.js';
-import { EmbedUtils } from '../../../utils/EmbedUtils';
+import { EmbedType, EmbedUtils } from '../../../utils/EmbedUtils';
 import { Utilities } from '../../../utils/Utilities';
 import fs from 'fs'
 import os from 'os'
@@ -88,9 +88,9 @@ async function deleteMsgs(count: number, member: GuildMember, orgMessage: Messag
 					} catch (err) { }
 				}
 			})
-			new EmbedUtils().sendSuccessEmbed(channel, null, { successEmoji: true, replyToMessage: false, deleteMsg: true }, { description: `Successfully deleted ${msgsDeletedSize} messages` })
+			new EmbedUtils().sendEmbed(EmbedType.success, channel, { emoji: true, deleteMsg: true }, { description: `Successfully deleted ${msgsDeletedSize} messages` })
 		} catch (err) {
-			new EmbedUtils().sendErrorEmbed(channel, null, { errorEmoji: true, replyToMessage: false }, { title: "Command error", description: "There was an error executing this command, please try again soon.", footer: "Contact boolean support if this error prosists." })
+			new EmbedUtils().sendEmbed(EmbedType.error, channel, { emoji: true, replyToMessage: false }, { title: "Command error", description: "There was an error executing this command, please try again soon.", footer: { text: "Contact boolean support if this error prosists." } })
 			console.error(err)
 			return;
 		}
@@ -127,7 +127,7 @@ async function deleteMsgs(count: number, member: GuildMember, orgMessage: Messag
 			try {
 				await channel.bulkDelete(filteredMsgs || 100, true)
 			} catch (err) {
-				new EmbedUtils().sendErrorEmbed(channel, null, { errorEmoji: true, replyToMessage: false }, { title: "Command error", description: "There was an error executing this command, please try again soon.", footer: "Contact boolean support if this error prosists." })
+				new EmbedUtils().sendEmbed(EmbedType.error, channel, { emoji: true, replyToMessage: false }, { title: "Command error", description: "There was an error executing this command, please try again soon.", footer: { text: "Contact boolean support if this error prosists." } })
 				console.error(err)
 				return;
 			}
@@ -158,9 +158,9 @@ async function deleteMsgs(count: number, member: GuildMember, orgMessage: Messag
 
 		try {
 			await channel.bulkDelete(await getMessagesWithFilter(remainder, channel, filter) || remainder, true)
-			new EmbedUtils().sendSuccessEmbed(channel, null, { successEmoji: true, replyToMessage: false, deleteMsg: true }, { description: `Successfully deleted ${msgsDeletedSize} messages` })
+			new EmbedUtils().sendEmbed(EmbedType.success, channel, { emoji: true, deleteMsg: true }, { description: `Successfully deleted ${msgsDeletedSize} messages` })
 		} catch (err) {
-			new EmbedUtils().sendErrorEmbed(channel, null, { errorEmoji: true, replyToMessage: false }, { title: "Command error", description: "There was an error executing this command, please try again soon.", footer: "Contact boolean support if this error prosists." })
+			new EmbedUtils().sendEmbed(EmbedType.error, channel, { emoji: true, replyToMessage: false }, { title: "Command error", description: "There was an error executing this command, please try again soon.", footer: { text: "Contact boolean support if this error prosists." } })
 			console.error(err)
 			return;
 		}

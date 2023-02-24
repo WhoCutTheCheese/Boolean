@@ -23,9 +23,9 @@ let Schema = new mongoose.Schema({
 		warnsBeforeMute: Number,
 		deleteCommandUsage: Boolean
 	},
+	bans: Object,
 	modRoles: Array,
 	adminRole: Array,
 })
-
 
 export default mongoose.model('settings', Schema);

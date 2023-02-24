@@ -1,5 +1,5 @@
 import { Client, Message, TextChannel, PermissionsBitField } from 'discord.js';
-import { EmbedUtils } from '../../../utils/EmbedUtils';
+import { EmbedType, EmbedUtils } from '../../../utils/EmbedUtils';
 import Settings from '../../../schemas/Settings';
 import { BooleanCommand } from '../../../interface/BooleanCommand';
 
@@ -22,11 +22,11 @@ const command: BooleanCommand = {
 				}
 			});
 
-			return new EmbedUtils().sendSuccessEmbed((message.channel as TextChannel), message, { successEmoji: true, replyToMessage: true }, { description: `You reset the prefix to \`!!\`` });
+			return new EmbedUtils().sendEmbed(EmbedType.success, (message.channel as TextChannel), { message: message, emoji: true, replyToMessage: true }, { description: `You reset the prefix to \`!!\`` });
 		}
 
 		if (args[0].length > 5)
-			return new EmbedUtils().sendErrorEmbed((message.channel as TextChannel), message, { errorEmoji: true, replyToMessage: true, deleteMsg: true }, { description: `Prefixes can only be 5 characters long!` });
+			return new EmbedUtils().sendEmbed(EmbedType.error, (message.channel as TextChannel), { message: message, emoji: true, replyToMessage: true, deleteMsg: true }, { description: `Prefixes can only be 5 characters long!` });
 
 		await Settings.findOneAndUpdate({
 			guildID: message.guild?.id
@@ -36,7 +36,7 @@ const command: BooleanCommand = {
 			}
 		});
 
-		new EmbedUtils().sendSuccessEmbed((message.channel as TextChannel), message, { successEmoji: true, replyToMessage: true }, { description: `You set the prefix to \`${args[0]}\`!` });
+		new EmbedUtils().sendEmbed(EmbedType.success, (message.channel as TextChannel), { message: message, emoji: true, replyToMessage: true }, { description: `You set the prefix to \`${args[0]}\`!` });
 	},
 }
 

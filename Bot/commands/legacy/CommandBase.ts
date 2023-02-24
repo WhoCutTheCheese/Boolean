@@ -4,7 +4,7 @@ let prefix: string | undefined
 import Maintenance from "../../schemas/Maintenance";
 import * as config from '../../config.json'
 import { Utilities } from "../../utils/Utilities";
-import { EmbedUtils } from '../../utils/EmbedUtils';
+import { EmbedType, EmbedUtils } from '../../utils/EmbedUtils';
 import { Main } from '../../index';
 import { BooleanCommand } from '../../interface/BooleanCommand';
 import { Log, LogLevel } from '../../utils/Log';
@@ -44,7 +44,7 @@ client.on("messageCreate", async (message: Message) => {
 		const args = message.content.split(/[ ]+/)
 		const name = args.shift()!.toLowerCase();
 
-		if (name.trim().toLowerCase() === `<@${client.user!.id}>`) return new EmbedUtils().sendSuccessEmbed((message.channel as TextChannel), message, { successEmoji: false, replyToMessage: true }, { title: "Prefix", description: `The current guild prefix is \`${prefix}\`` })
+		if (name.trim().toLowerCase() === `<@${client.user!.id}>`) return new EmbedUtils().sendEmbed(EmbedType.error, (message.channel as TextChannel), { message: message, replyToMessage: true }, { title: "Prefix", description: `The current guild prefix is \`${prefix}\`` })
 
 		if (!name.startsWith(prefix)) return;
 		const maintenance = await Maintenance.findOne({
@@ -54,7 +54,7 @@ client.on("messageCreate", async (message: Message) => {
 		if (maintenance) {
 			if (maintenance.maintenance == true) {
 				if (!devs.includes(message.author.id)) {
-					new EmbedUtils().sendErrorEmbed(message.channel as TextChannel, message, { errorEmoji: false, replyToMessage: true }, { title: "Uh oh!", description: `Boolean is currently under maintenance!\n**__Details:__** ${maintenance.maintainDetails}` })
+					new EmbedUtils().sendEmbed(EmbedType.error, message.channel as TextChannel, { message: message, replyToMessage: true }, { title: "Uh oh!", description: `Boolean is currently under maintenance!\n**__Details:__** ${maintenance.maintainDetails}` })
 					return;
 				}
 			}
@@ -79,8 +79,7 @@ client.on("messageCreate", async (message: Message) => {
 
 		if (devOnly == true) {
 			if (!devs.includes(message.author.id)) {
-				message.channel.send({ content: "This command is for developers only." })
-				return
+				return new EmbedUtils().sendEmbed(EmbedType.error, (message.channel as TextChannel), { message: message, replyToMessage: true }, { title: "No permissions", description: `This command is for developers only.` })
 			}
 		}
 
@@ -121,14 +120,14 @@ client.on("messageCreate", async (message: Message) => {
 			}
 
 			if (missingPerm) {
-				new EmbedUtils().sendErrorEmbed((message.channel as TextChannel), message, { errorEmoji: false, replyToMessage: true, deleteMsg: true }, { title: "No permissions", description: `You do not have the correct permissions required to run this command.` })
+				new EmbedUtils().sendEmbed(EmbedType.error, (message.channel as TextChannel), { message: message, replyToMessage: true, deleteMsg: true }, { title: "No permissions", description: `You do not have the correct permissions required to run this command.` })
 				return;
 			}
 
 		}
 
 		if (args.length < minArgs || (maxArgs !== null && args.length > maxArgs)) {
-			new EmbedUtils().sendErrorEmbed((message.channel as TextChannel), message, { errorEmoji: false, replyToMessage: false, deleteMsg: true }, { title: "Invalid syntax", description: `Please use \`${name} ${expectedArgs}\`` })
+			new EmbedUtils().sendEmbed(EmbedType.error, (message.channel as TextChannel), { deleteMsg: true }, { title: "Invalid syntax", description: `Please use \`${name} ${expectedArgs}\`` })
 			return;
 		}
 
@@ -145,7 +144,7 @@ client.on("messageCreate", async (message: Message) => {
 				let remainingTime = timestamps!.get(userId)! + cooldown - now;
 
 				if (remainingTime > 0) {
-					message.channel.send({ content: `You must wait \`${remainingTime} second(s)\` before using this command again!` })
+					new EmbedUtils().sendEmbed(EmbedType.error, (message.channel as TextChannel), { deleteMsg: true, deleteTimerTime: 3000 }, { title: "Cooldown", description: `You must wait \`${remainingTime} second(s)\` before using this command again!` })
 					return;
 				} else {
 					timestamps?.delete(userId)
@@ -159,11 +158,9 @@ client.on("messageCreate", async (message: Message) => {
 			if ((message.channel as TextChannel).permissionsFor(message.guild.members.me!)?.has(PermissionsBitField.Flags.ManageMessages)) {
 				if (settings.modSettings?.deleteCommandUsage == true) {
 					if (message.deletable) {
-						setTimeout(() => {
-							try {
-								message.delete
-							} catch (err) { }
-						}, 3000)
+						try {
+							message.delete()
+						} catch (err) { }
 					}
 				}
 			}
@@ -173,7 +170,6 @@ client.on("messageCreate", async (message: Message) => {
 
 	} catch (err) {
 		if (message.guild?.members.me?.permissions.has(PermissionsBitField.Flags.SendMessages)) {
-			message.channel.send({ content: "I encountered an error! Please try again. If this persists, join our support server!" })
 			Log.error((err as any))
 			return;
 		}

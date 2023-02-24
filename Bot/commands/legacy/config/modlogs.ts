@@ -2,7 +2,7 @@ import { Client, ColorResolvable, EmbedBuilder, Message, TextChannel, Permission
 import { Utilities } from '../../../utils/Utilities';
 import GuildSettings from '../../../schemas/Settings';
 import * as config from '../../../config.json'
-import { EmbedUtils } from '../../../utils/EmbedUtils';
+import { EmbedType, EmbedUtils } from '../../../utils/EmbedUtils';
 import { BooleanCommand } from '../../../interface/BooleanCommand';
 
 const command: BooleanCommand = {
@@ -39,7 +39,7 @@ const command: BooleanCommand = {
 					}
 				});
 
-				new EmbedUtils().sendSuccessEmbed(message.channel as TextChannel, message, { successEmoji: true, replyToMessage: true }, { description: `You set the mod logging channel to \`#${(channel as TextChannel).name}\`!` });
+				new EmbedUtils().sendEmbed(EmbedType.success, (message.channel as TextChannel), { message: message, emoji: true, replyToMessage: true }, { description: `You set the mod logging channel to \`#${(channel as TextChannel).name}\`!` });
 
 				break;
 			case "reset":
@@ -52,7 +52,7 @@ const command: BooleanCommand = {
 					}
 				});
 
-				new EmbedUtils().sendSuccessEmbed(message.channel as TextChannel, message, { successEmoji: true, replyToMessage: true }, { description: `ModLog channel has been reset` });
+				new EmbedUtils().sendEmbed(EmbedType.success, (message.channel as TextChannel), { message: message, emoji: true, replyToMessage: true }, { description: `ModLog channel has been reset` });
 
 				break;
 			case "view":

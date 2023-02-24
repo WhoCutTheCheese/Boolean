@@ -1,5 +1,5 @@
 import { Utilities } from "../../../utils/Utilities";
-import { EmbedUtils } from "../../../utils/EmbedUtils";
+import { EmbedType, EmbedUtils } from "../../../utils/EmbedUtils";
 import { Client, ColorResolvable, EmbedBuilder, Message, PermissionsBitField, TextChannel } from 'discord.js';
 import { BooleanCommand } from "../../../interface/BooleanCommand";
 import { Log, LogLevel } from '../../../utils/Log';
@@ -21,13 +21,13 @@ const command: BooleanCommand = {
 		}
 
 		const member = message.mentions.members?.first() || message.guild?.members.cache.get(args[0]);
-		if (!member) return new EmbedUtils().sendErrorEmbed((message.channel as TextChannel), message, { errorEmoji: true, replyToMessage: true, deleteMsg: true }, { description: `I was unable to find that member!` })
+		if (!member) return new EmbedUtils().sendEmbed(EmbedType.error, (message.channel as TextChannel), { message: message, emoji: true, replyToMessage: true, deleteMsg: true }, { description: `I was unable to find that member!` })
 
-		if (member.id === message.author.id) return new EmbedUtils().sendErrorEmbed((message.channel as TextChannel), message, { errorEmoji: true, replyToMessage: true, deleteMsg: true }, { description: `You cannot ban yourself!` })
-		if (member.id === message.guild?.ownerId) return new EmbedUtils().sendErrorEmbed((message.channel as TextChannel), message, { errorEmoji: true, replyToMessage: true, deleteMsg: true }, { description: `You cannot ban this user!` })
-		if (member.id === client.user?.id) return new EmbedUtils().sendErrorEmbed((message.channel as TextChannel), message, { errorEmoji: true, replyToMessage: true, deleteMsg: true }, { description: `You cannot ban me. My power levels are too high!` })
+		if (member.id === message.author.id) return new EmbedUtils().sendEmbed(EmbedType.error, (message.channel as TextChannel), { message: message, emoji: true, replyToMessage: true, deleteMsg: true }, { description: `You cannot ban yourself!` })
+		if (member.id === message.guild?.ownerId) return new EmbedUtils().sendEmbed(EmbedType.error, (message.channel as TextChannel), { message: message, emoji: true, replyToMessage: true, deleteMsg: true }, { description: `You cannot ban this user!` })
+		if (member.id === client.user?.id) return new EmbedUtils().sendEmbed(EmbedType.error, (message.channel as TextChannel), { message: message, emoji: true, replyToMessage: true, deleteMsg: true }, { description: `You cannot ban me. My power levels are too high!` })
 		if (member) {
-			if (message.guild.members.me.roles.highest.position < member.roles.highest.position) return new EmbedUtils().sendErrorEmbed((message.channel as TextChannel), message, { errorEmoji: true, replyToMessage: true, deleteMsg: true }, { description: `This member is above me! I cannot ban them.` })
+			if (message.guild.members.me.roles.highest.position < member.roles.highest.position) return new EmbedUtils().sendEmbed(EmbedType.error, (message.channel as TextChannel), { message: message, emoji: true, replyToMessage: true, deleteMsg: true }, { description: `This member is above me! I cannot ban them.` })
 		}
 
 		const caseNumberSet = await new Utilities().incrementCaseCount(message.guild)

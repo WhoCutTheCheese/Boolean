@@ -1,7 +1,7 @@
 import { Client, Message, TextChannel, Embed } from 'discord.js';
 import { BooleanCommand } from "../../../interface/BooleanCommand";
-import { EmbedUtils } from '../../../utils/EmbedUtils';
-import { Log, LogLevel } from '../../../utils/Log';
+import { EmbedType, EmbedUtils } from '../../../utils/EmbedUtils';
+import { Log } from '../../../utils/Log';
 import { Utilities } from '../../../utils/Utilities';
 
 const command: BooleanCommand = {
@@ -18,7 +18,7 @@ const command: BooleanCommand = {
 
 		const commandName = args[0].trim().toLowerCase();
 		let commandpath = client.legacycommandfilepath.get(commandName)! || client.legacycommandfilepath.get(client.legacycommandalias.get(commandName)!)!
-		if (!commandpath) return new EmbedUtils().sendErrorEmbed((message.channel as TextChannel), message, { errorEmoji: false, replyToMessage: true, deleteMsg: true }, { title: "Unknown command", description: "That command does not exist" })
+		if (!commandpath) return new EmbedUtils().sendEmbed(EmbedType.error, (message.channel as TextChannel), { message: message, replyToMessage: true, deleteMsg: true }, { title: "Unknown command", description: "That command does not exist" })
 		let command = client.legacycommands.get(commandName)! || client.legacycommands.get(client.legacycommandalias.get(commandName)!)!
 
 		Log.info(`[Loading] | Legacy Command | ${command.command}`)
@@ -27,11 +27,11 @@ const command: BooleanCommand = {
 
 		if (loaded) {
 			Log.info(`[Loaded]  | Legacy Command | ${command.command}`)
-			return new EmbedUtils().sendSuccessEmbed((message.channel as TextChannel), message, { successEmoji: true, replyToMessage: true }, { description: `Successfully reloaded \`${command.command}\`` })
+			return new EmbedUtils().sendEmbed(EmbedType.success, (message.channel as TextChannel), { message: message, emoji: true, replyToMessage: true }, { description: `Successfully reloaded \`${command.command}\`` })
 		}
 		else {
 			Log.error(`There was an error loading ${command.command}`)
-			return new EmbedUtils().sendErrorEmbed((message.channel as TextChannel), message, { errorEmoji: true, replyToMessage: true }, { description: `There was an error reloading \`${command.command}\`` })
+			return new EmbedUtils().sendEmbed(EmbedType.error, (message.channel as TextChannel), { message: message, emoji: true, replyToMessage: true }, { description: `There was an error reloading \`${command.command}\`` })
 		}
 	},
 }

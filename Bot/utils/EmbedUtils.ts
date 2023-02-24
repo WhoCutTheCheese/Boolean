@@ -1,22 +1,46 @@
-import { Collection, Guild, PermissionsBitField, REST, Routes, ColorResolvable, Embed, EmbedBuilder, MessageType, Message, Channel, TextChannel, GuildMember, User, Attachment, AttachmentBuilder, PermissionResolvable, ActionRowBuilder, ButtonBuilder, ButtonStyle } from 'discord.js';
+import { Collection, Guild, PermissionsBitField, REST, Routes, ColorResolvable, Embed, EmbedBuilder, Message, Channel, TextChannel, GuildMember, User, Attachment, AttachmentBuilder, PermissionResolvable, ActionRowBuilder, ButtonBuilder, ButtonStyle, EmbedFooterOptions } from 'discord.js';
 import { Utilities } from './Utilities';
-import { Document } from 'mongoose';
+import * as config from '../config.json'
 
-export enum messageType {
-	String,
-	Embed
+export enum EmbedType {
+	error,
+	success
 }
 
 export class EmbedUtils {
-	async sendModerationSuccessEmbed(channel: TextChannel, orgMessage: Message | null, settings: { arrowEmoji: boolean, replyToMessage: boolean, deleteMsg?: boolean, deleteTimerTime?: number }, args: { mod: GuildMember, user: GuildMember, caseNumberSet: number, duration?: string, reason: string, customContent: string }) {
+
+	async sendEmbed(embedType: EmbedType, channel: TextChannel, settings: { message?: Message, emoji?: boolean, replyToMessage?: boolean, deleteMsg?: boolean, deleteTimerTime?: number }, args: { title?: string, description: string, footer?: EmbedFooterOptions }) {
+		let embed = await new EmbedBuilder()
+			.setTitle(args.title || (embedType == EmbedType.success ? "Success" : "Error"))
+			.setDescription(`${(settings.emoji ? (embedType == EmbedType.success ? config.yesEmoji : config.noEmoji) : "")} ${args.description}`)
+			.setFooter(args.footer || { text: " " })
+			.setColor(await new Utilities().getEmbedColor(channel.guild))
+
+
+		let newMSG: Message;
+		if (settings.replyToMessage && settings.message) {
+			newMSG = await settings.message.reply({ embeds: [embed] });
+		} else newMSG = await channel.send({ embeds: [embed] })
+
+		if (settings.deleteMsg) {
+			setTimeout(() => {
+				try {
+					newMSG.delete()
+				} catch (err) { }
+
+			}, settings.deleteTimerTime || 5000);
+		}
+	}
+
+	async sendModerationSuccessEmbed(channel: TextChannel, orgMessage: Message | null, settings: { arrowEmoji?: boolean, replyToMessage?: boolean, deleteMsg?: boolean, deleteTimerTime?: number }, args: { mod: GuildMember, user: GuildMember, caseNumberSet: number, duration?: string, reason: string, customContent: string }) {
 		let embed = new EmbedBuilder()
 			.setDescription(`**Case:** #${args.caseNumberSet} | **Mod:** ${args.mod.user.tag} | **Reason:** ${args.reason} ${args.duration ? `| **Duration:** ${args.duration}` : ""}`)
 			.setColor(await new Utilities().getEmbedColor(channel.guild))
 
 		let newMSG: Message;
 		if (settings.replyToMessage && orgMessage) {
-			newMSG = await orgMessage.reply({ content: `${(settings.arrowEmoji ? "<:arrow_right:967329549912248341>" : "")} ${args.customContent}`, embeds: [embed] });
-		} else newMSG = await channel.send({ content: `${(settings.arrowEmoji ? "<:arrow_right:967329549912248341>" : "")} ${args.customContent}`, embeds: [embed] })
+			newMSG = await orgMessage.reply({ content: `${(settings.arrowEmoji ? config.arrowEmoji : "")} ${args.customContent}`, embeds: [embed] });
+		} else newMSG = await channel.send({ content: `${(settings.arrowEmoji ? config.arrowEmoji : "")} ${args.customContent}`, embeds: [embed] })
 
 		if (settings.deleteMsg) {
 			setTimeout(() => {
@@ -28,48 +52,48 @@ export class EmbedUtils {
 		}
 	}
 
-	async sendSuccessEmbed(channel: TextChannel, orgMessage: Message | null, settings: { successEmoji: boolean, replyToMessage: boolean, deleteMsg?: boolean, deleteTimerTime?: number }, args: { title?: string, description: string, footer?: string }) {
-		let embed = await new EmbedBuilder()
-			.setTitle(args.title || "Success")
-			.setDescription(`${(settings.successEmoji ? "<:yes:979193272612298814>" : "")} ${args.description}`)
-			.setFooter({ text: args.footer || " " })
-			.setColor(await new Utilities().getEmbedColor(channel.guild))
+	// async sendSuccessEmbed(channel: TextChannel, orgMessage: Message | null, settings: { successEmoji?: boolean, replyToMessage?: boolean, deleteMsg?: boolean, deleteTimerTime?: number }, args: { title?: string, description: string, footer?: string }) {
+	// 	let embed = await new EmbedBuilder()
+	// 		.setTitle(args.title || "Success")
+	// 		.setDescription(`${(settings.successEmoji ? "<:yes:979193272612298814>" : "")} ${args.description}`)
+	// 		.setFooter({ text: args.footer || " " })
+	// 		.setColor(await new Utilities().getEmbedColor(channel.guild))
 
-		let newMSG: Message;
-		if (settings.replyToMessage && orgMessage) {
-			newMSG = await orgMessage.reply({ embeds: [embed] });
-		} else newMSG = await channel.send({ embeds: [embed] })
+	// 	let newMSG: Message;
+	// 	if (settings.replyToMessage && orgMessage) {
+	// 		newMSG = await orgMessage.reply({ embeds: [embed] });
+	// 	} else newMSG = await channel.send({ embeds: [embed] })
 
-		if (settings.deleteMsg) {
-			setTimeout(() => {
-				try {
-					newMSG.delete()
-				} catch (err) { }
+	// 	if (settings.deleteMsg) {
+	// 		setTimeout(() => {
+	// 			try {
+	// 				newMSG.delete()
+	// 			} catch (err) { }
 
-			}, settings.deleteTimerTime || 5000);
-		}
-	}
+	// 		}, settings.deleteTimerTime || 5000);
+	// 	}
+	// }
 
-	async sendErrorEmbed(channel: TextChannel, orgMessage: Message | null, settings: { errorEmoji: boolean, replyToMessage: boolean, deleteMsg?: boolean, deleteTimerTime?: number }, args: { title?: string, description: string, footer?: string }) {
-		let embed = await new EmbedBuilder()
-			.setTitle(args.title || "Error")
-			.setDescription(`${(settings.errorEmoji ? "<:no:979193272784265217> " : "")} ${args.description}`)
-			.setFooter({ text: args.footer || " " })
-			.setColor(await new Utilities().getEmbedColor(channel.guild))
+	// async sendErrorEmbed(channel: TextChannel, orgMessage: Message | null, settings: { emoji?: boolean, replyToMessage?: boolean, deleteMsg?: boolean, deleteTimerTime?: number }, args: { title?: string, description: string, footer?: string }) {
+	// 	let embed = await new EmbedBuilder()
+	// 		.setTitle(args.title || "Error")
+	// 		.setDescription(`${(settings.emoji ? "<:no:979193272784265217> " : "")} ${args.description}`)
+	// 		.setFooter({ text: args.footer || " " })
+	// 		.setColor(await new Utilities().getEmbedColor(channel.guild))
 
-		let newMSG: Message;
-		if (settings.replyToMessage && orgMessage) {
-			newMSG = await orgMessage.reply({ embeds: [embed] });
-		} else newMSG = await channel.send({ embeds: [embed] })
+	// 	let newMSG: Message;
+	// 	if (settings.replyToMessage && orgMessage) {
+	// 		newMSG = await orgMessage.reply({ embeds: [embed] });
+	// 	} else newMSG = await channel.send({ embeds: [embed] })
 
-		if (settings.deleteMsg) {
-			setTimeout(() => {
-				try {
-					newMSG.delete()
-				} catch (err) { }
-			}, settings.deleteTimerTime || 5000);
-		}
-	}
+	// 	if (settings.deleteMsg) {
+	// 		setTimeout(() => {
+	// 			try {
+	// 				newMSG.delete()
+	// 			} catch (err) { }
+	// 		}, settings.deleteTimerTime || 5000);
+	// 	}
+	// }
 
 	async sendArgsErrorEmbed(message: Message, argPlacement: number, cmdExports: typeof module.exports, args?: { description: string }) {
 		let description: string = `${args && args.description ? args.description : `Invalid argument found at position \`${argPlacement}\``}\n\nCMD Args: \`${cmdExports.expectedArgs}\``; if (cmdExports.subCommands) description = description.concat(`\nSub commands: \`${cmdExports.subCommands.join(", ")}\``)
