@@ -6,9 +6,9 @@ import { Main } from "../index";
 import Settings from "../schemas/Settings";
 import * as config from '../config.json'
 import Cases from '../schemas/Cases';
-import { Log, LogLevel } from './Log';
+import { Log } from './Log';
 import { BooleanCommand } from '../interface/BooleanCommand';
-import convert, { convertMany } from 'convert';
+import { convertMany } from 'convert';
 
 declare module "discord.js" {
 	export interface Client {
@@ -272,8 +272,8 @@ export class Utilities {
 	}
 
 	convertShortToLongTime(shortTime: string): string {
-		const timeParts = shortTime.match(/^(\d+)([hms])$/);
-		if (!timeParts) { Log.error(`Invalid sort time: ${shortTime}`); return "" };
+		const timeParts = shortTime.match(/^(\d+)([ywdhms]|mo)$/);
+		if (!timeParts) { return ""; }
 
 		const value = parseInt(timeParts[1], 10);
 		const unit = timeParts[2];
@@ -281,6 +281,10 @@ export class Utilities {
 		switch (unit) {
 			case 'y':
 				return `${value} year(s)`;
+			case 'mo':
+				return `${value} month(s)`;
+			case 'w':
+				return `${value} week(s)`;
 			case 'd':
 				return `${value} day(s)`;
 			case 'h':
