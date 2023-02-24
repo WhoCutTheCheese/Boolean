@@ -1,6 +1,5 @@
 import { Client, ColorResolvable, EmbedBuilder, Message, PermissionsBitField } from "discord.js";
 import { Utilities } from '../../../utils/Utilities';
-import * as config from '../../../config.json'
 import { BooleanCommand } from '../../../interface/BooleanCommand';
 
 const command: BooleanCommand = {
@@ -14,6 +13,8 @@ const command: BooleanCommand = {
 		let settings = await new Utilities().getGuildSettings(message.guild)
 		if (!settings) return;
 		let color: ColorResolvable = await new Utilities().getEmbedColor(message.guild)
+
+		let config = new Utilities().getConfig();
 
 		let yes = config.yesEmoji;
 		let no = config.noEmoji;

@@ -2,8 +2,7 @@ import { Client, Collection, ColorResolvable, Message, PermissionsBitField, Text
 import Settings from "../../schemas/Settings";
 let prefix: string | undefined
 import Maintenance from "../../schemas/Maintenance";
-import * as config from '../../config.json'
-import { Utilities } from "../../utils/Utilities";
+import { Utilities } from '../../utils/Utilities';
 import { EmbedType, EmbedUtils } from '../../utils/EmbedUtils';
 import { Main } from '../../index';
 import { BooleanCommand } from '../../interface/BooleanCommand';
@@ -19,7 +18,7 @@ declare module "discord.js" {
 }
 
 const client: Client<boolean> = new Main().getClient();
-const devs = config.devs
+const devs = new Utilities().getConfig().devs
 
 const cooldowns: Map<string, Map<string, number>> = new Map();
 client.on("messageCreate", async (message: Message) => {

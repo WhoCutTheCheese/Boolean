@@ -1,7 +1,6 @@
 import { Client, ColorResolvable, EmbedBuilder, Message, TextChannel, PermissionsBitField } from 'discord.js';
 import { Utilities } from '../../../utils/Utilities';
 import GuildSettings from '../../../schemas/Settings';
-import * as config from '../../../config.json'
 import { EmbedType, EmbedUtils } from '../../../utils/EmbedUtils';
 import { BooleanCommand } from '../../../interface/BooleanCommand';
 

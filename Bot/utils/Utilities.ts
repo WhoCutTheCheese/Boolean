@@ -252,6 +252,10 @@ export class Utilities {
 
 	}
 
+	getConfig() {
+		return config;
+	}
+
 	getLenthFromString(string: string): [number, string] | null {
 		let lengthString = string
 		if (Number(string)) lengthString = `${string}s`

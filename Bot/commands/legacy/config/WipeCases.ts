@@ -1,7 +1,6 @@
 import { APIButtonComponent, ActionRowBuilder, ButtonBuilder, ButtonInteraction, ButtonStyle, Client, ColorResolvable, EmbedBuilder, Message, PermissionsBitField } from "discord.js";
 import { BooleanCommand } from "../../../interface/BooleanCommand";
 import { Utilities } from "../../../utils/Utilities";
-import * as config from '../../../config.json'
 import Cases from "../../../schemas/Cases";
 import Settings from "../../../schemas/Settings";
 

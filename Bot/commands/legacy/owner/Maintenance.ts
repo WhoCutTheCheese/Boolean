@@ -1,7 +1,7 @@
 import { Client, Message } from "discord.js";
 import Maintenance from "../../../schemas/Maintenance";
-import * as config from '../../../config.json'
 import { BooleanCommand } from "../../../interface/BooleanCommand";
+import { Utilities } from "../../../utils/Utilities";
 
 const command: BooleanCommand = {
 	command: 'maintenance',
@@ -12,7 +12,7 @@ const command: BooleanCommand = {
 	devOnly: true,
 	callback: async (client: Client, message: Message, args: string[]) => {
 
-		if (!config.devs.includes(message.author.id))
+		if (!new Utilities().getConfig().devs.includes(message.author.id))
 			return;
 
 		const maintenance = await Maintenance.findOne({
