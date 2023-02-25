@@ -256,13 +256,13 @@ export class Utilities {
 		return config;
 	}
 
-	getLenthFromString(string: string): [number, string] | null {
+	getLenthFromString(string: string): [number, string] | [null, null] {
 		let lengthString = string
 		if (Number(string)) lengthString = `${string}s`
 		let length = new Utilities().conertStringToTime(lengthString, 's')
-		if (!length) return null;
+		if (!length) return [null, null];
 		lengthString = new Utilities().convertShortToLongTime(lengthString)
-		if (!lengthString) return null;
+		if (!lengthString) return [null, null];
 
 		return [length, lengthString]
 	}
