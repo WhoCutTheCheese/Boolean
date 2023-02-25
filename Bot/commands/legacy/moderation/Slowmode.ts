@@ -20,13 +20,13 @@ const command: BooleanCommand = {
 		if (!getLenthFromString) return new EmbedUtils().sendEmbed(EmbedType.error, message.channel, { message: message, emoji: true, replyToMessage: true, deleteMsg: true }, { description: `Invalid time provided` });
 		let [length, lengthString] = getLenthFromString
 
-		if (length < 0) return new EmbedUtils().sendEmbed(EmbedType.error, message.channel, { message: message, emoji: true, replyToMessage: true, deleteMsg: true }, { description: `Slowmode must be at least 1 second!` });
-		if (length > 21600) return new EmbedUtils().sendEmbed(EmbedType.error, message.channel, { message: message, emoji: true, replyToMessage: true, deleteMsg: true }, { description: `Slowmode must be under 6 hours!` });
+		if (length! < 0) return new EmbedUtils().sendEmbed(EmbedType.error, message.channel, { message: message, emoji: true, replyToMessage: true, deleteMsg: true }, { description: `Slowmode must be at least 1 second!` });
+		if (length! > 21600) return new EmbedUtils().sendEmbed(EmbedType.error, message.channel, { message: message, emoji: true, replyToMessage: true, deleteMsg: true }, { description: `Slowmode must be under 6 hours!` });
 
 		channel = (channel as TextChannel || message.channel as TextChannel)
 
 		try {
-			await channel.setRateLimitPerUser(length, `Slowmode set by ${message.author.tag}`);
+			await channel.setRateLimitPerUser(length!, `Slowmode set by ${message.author.tag}`);
 			new EmbedUtils().sendEmbed(EmbedType.success, message.channel, { message: message, emoji: true, replyToMessage: true }, { title: "Set slowmode", description: `Slowmode set to **${lengthString}**` });
 			new EmbedUtils().sendModLogs({ guild: message.guild!, mod: message.member!, action: "Channel Slowmode" }, { title: "Channel slowmode", channel: channel, actionInfo: `**Duration:** ${lengthString}` })
 		} catch (err) { }
