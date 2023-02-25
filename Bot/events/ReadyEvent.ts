@@ -3,7 +3,7 @@ import mongoose from "mongoose";
 import dotEnv from "dotenv";
 import fs from "fs";
 import path from "path";
-import { Log, LogLevel } from "../utils/Log";
+import { Log } from "../utils/Log";
 dotEnv.config()
 
 let statuses = ["nothing", "the Aether", "you", "the stars", "space", "your server"]

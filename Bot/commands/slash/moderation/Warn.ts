@@ -1,7 +1,7 @@
 import { SlashCommandBuilder, PermissionFlagsBits, ChatInputCommandInteraction, Client, ColorResolvable, GuildMember, PermissionsBitField, EmbedBuilder } from "discord.js";
 import { Utilities } from "../../../utils/Utilities";
 const ms = require("ms");
-import { Log, LogLevel } from "../../../utils/Log";
+import { Log } from "../../../utils/Log";
 import Cases from "../../../schemas/Cases";
 import { EmbedUtils } from "../../../utils/EmbedUtils";
 

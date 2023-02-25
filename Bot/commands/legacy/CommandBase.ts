@@ -6,7 +6,7 @@ import { Utilities } from '../../utils/Utilities';
 import { EmbedType, EmbedUtils } from '../../utils/EmbedUtils';
 import { Main } from '../../index';
 import { BooleanCommand } from '../../interface/BooleanCommand';
-import { Log, LogLevel } from '../../utils/Log';
+import { Log } from '../../utils/Log';
 
 declare module "discord.js" {
 	export interface Client {

@@ -2,7 +2,7 @@ import { Utilities } from "../../../utils/Utilities";
 import { EmbedType, EmbedUtils } from "../../../utils/EmbedUtils";
 import { Client, ColorResolvable, EmbedBuilder, Message, PermissionsBitField, TextChannel } from 'discord.js';
 import { BooleanCommand } from "../../../interface/BooleanCommand";
-import { Log, LogLevel } from '../../../utils/Log';
+import { Log } from '../../../utils/Log';
 
 const command: BooleanCommand = {
 	command: "softban",

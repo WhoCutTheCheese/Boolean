@@ -3,7 +3,7 @@ import { Utilities } from "../../../utils/Utilities";
 import Cases from "../../../schemas/Cases";
 import { EmbedType, EmbedUtils } from "../../../utils/EmbedUtils";
 import { BooleanCommand } from "../../../interface/BooleanCommand";
-import { Log, LogLevel } from "../../../utils/Log";
+import { Log } from "../../../utils/Log";
 const ms = require("ms");
 
 const command: BooleanCommand = {

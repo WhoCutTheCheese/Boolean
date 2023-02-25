@@ -5,7 +5,7 @@ import * as config from '../config.json'
 import { Guild } from 'discord.js';
 import ServerSchema from '../schema/ServerSchema';
 import client from '../bot';
-import { Log, LogLevel } from './Log';
+import { Log } from './Log';
 
 function checkManager(permissions: string): boolean {
 	const manageServerFlag = 0x00000020;

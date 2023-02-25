@@ -4,7 +4,7 @@ import 'colors';
  * The severity of a log entry.
  * @enum {number}
  */
-export enum LogLevel {
+enum LogLevel {
 	/** Information severity. */
 	Info,
 	/** Debugging severity. */
