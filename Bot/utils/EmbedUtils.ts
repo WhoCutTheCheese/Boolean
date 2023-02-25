@@ -9,7 +9,8 @@ export enum EmbedType {
 
 export class EmbedUtils {
 
-	async sendEmbed(embedType: EmbedType, channel: TextChannel, settings: { message?: Message, emoji?: boolean, replyToMessage?: boolean, deleteMsg?: boolean, deleteTimerTime?: number }, args: { title?: string, description: string, footer?: EmbedFooterOptions }) {
+	async sendEmbed(embedType: EmbedType, channel: Channel, settings: { message?: Message, emoji?: boolean, replyToMessage?: boolean, deleteMsg?: boolean, deleteTimerTime?: number }, args: { title?: string, description: string, footer?: EmbedFooterOptions }) {
+		channel = channel as TextChannel
 		let embed = await new EmbedBuilder()
 			.setTitle(args.title || (embedType == EmbedType.success ? "Success" : "Error"))
 			.setDescription(`${(settings.emoji ? (embedType == EmbedType.success ? config.yesEmoji : config.noEmoji) : "")} ${args.description}`)

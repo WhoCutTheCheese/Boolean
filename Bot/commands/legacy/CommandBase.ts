@@ -43,7 +43,7 @@ client.on("messageCreate", async (message: Message) => {
 		const args = message.content.split(/[ ]+/)
 		const name = args.shift()!.toLowerCase();
 
-		if (name.trim().toLowerCase() === `<@${client.user!.id}>`) return new EmbedUtils().sendEmbed(EmbedType.error, (message.channel as TextChannel), { message: message, replyToMessage: true }, { title: "Prefix", description: `The current guild prefix is \`${prefix}\`` })
+		if (name.trim().toLowerCase() === `<@${client.user!.id}>`) return new EmbedUtils().sendEmbed(EmbedType.error, message.channel, { message: message, replyToMessage: true }, { title: "Prefix", description: `The current guild prefix is \`${prefix}\`` })
 
 		if (!name.startsWith(prefix)) return;
 		const maintenance = await Maintenance.findOne({
@@ -78,7 +78,7 @@ client.on("messageCreate", async (message: Message) => {
 
 		if (devOnly == true) {
 			if (!devs.includes(message.author.id)) {
-				return new EmbedUtils().sendEmbed(EmbedType.error, (message.channel as TextChannel), { message: message, replyToMessage: true }, { title: "No permissions", description: `This command is for developers only.` })
+				return new EmbedUtils().sendEmbed(EmbedType.error, message.channel, { message: message, replyToMessage: true }, { title: "No permissions", description: `This command is for developers only.` })
 			}
 		}
 
@@ -119,14 +119,14 @@ client.on("messageCreate", async (message: Message) => {
 			}
 
 			if (missingPerm) {
-				new EmbedUtils().sendEmbed(EmbedType.error, (message.channel as TextChannel), { message: message, replyToMessage: true, deleteMsg: true }, { title: "No permissions", description: `You do not have the correct permissions required to run this command.` })
+				new EmbedUtils().sendEmbed(EmbedType.error, message.channel, { message: message, replyToMessage: true, deleteMsg: true }, { title: "No permissions", description: `You do not have the correct permissions required to run this command.` })
 				return;
 			}
 
 		}
 
 		if (args.length < minArgs || (maxArgs !== null && args.length > maxArgs)) {
-			new EmbedUtils().sendEmbed(EmbedType.error, (message.channel as TextChannel), { deleteMsg: true }, { title: "Invalid syntax", description: `Please use \`${name} ${expectedArgs}\`` })
+			new EmbedUtils().sendEmbed(EmbedType.error, message.channel, { deleteMsg: true }, { title: "Invalid syntax", description: `Please use \`${name} ${expectedArgs}\`` })
 			return;
 		}
 
@@ -143,7 +143,7 @@ client.on("messageCreate", async (message: Message) => {
 				let remainingTime = timestamps!.get(userId)! + cooldown - now;
 
 				if (remainingTime > 0) {
-					new EmbedUtils().sendEmbed(EmbedType.error, (message.channel as TextChannel), { deleteMsg: true, deleteTimerTime: 3000 }, { title: "Cooldown", description: `You must wait \`${remainingTime} second(s)\` before using this command again!` })
+					new EmbedUtils().sendEmbed(EmbedType.error, message.channel, { deleteMsg: true, deleteTimerTime: 3000 }, { title: "Cooldown", description: `You must wait \`${remainingTime} second(s)\` before using this command again!` })
 					return;
 				} else {
 					timestamps?.delete(userId)

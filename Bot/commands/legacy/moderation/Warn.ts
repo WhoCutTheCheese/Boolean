@@ -22,14 +22,14 @@ const command: BooleanCommand = {
 		let color: ColorResolvable = await new Utilities().getEmbedColor(message.guild!);
 
 		const user = message.mentions.members?.first() || message.guild?.members.cache.get(args[0]);
-		if (!user) return new EmbedUtils().sendEmbed(EmbedType.error, (message.channel as TextChannel), { message: message, emoji: true, replyToMessage: true, deleteMsg: true }, { description: `Unable to fetch that member! Please try again.` });
+		if (!user) return new EmbedUtils().sendEmbed(EmbedType.error, message.channel, { message: message, emoji: true, replyToMessage: true, deleteMsg: true }, { description: `Unable to fetch that member! Please try again.` });
 
 		let reason = args.splice(1).join(" ") || "No reason provided.";
-		if (reason.length > 250) return new EmbedUtils().sendEmbed(EmbedType.error, (message.channel as TextChannel), { message: message, emoji: true, replyToMessage: true, deleteMsg: true }, { description: `Punishment reason cannot exceed 250 characters.` })
+		if (reason.length > 250) return new EmbedUtils().sendEmbed(EmbedType.error, message.channel, { message: message, emoji: true, replyToMessage: true, deleteMsg: true }, { description: `Punishment reason cannot exceed 250 characters.` })
 
-		if (user.id === message.author.id) return new EmbedUtils().sendEmbed(EmbedType.error, (message.channel as TextChannel), { message: message, emoji: true, replyToMessage: true, deleteMsg: true }, { description: `You cannot ban yourself!` })
-		if (user.id === message.guild?.ownerId) return new EmbedUtils().sendEmbed(EmbedType.error, (message.channel as TextChannel), { message: message, emoji: true, replyToMessage: true, deleteMsg: true }, { description: `You cannot ban this user!` })
-		if (user.id === client.user?.id) return new EmbedUtils().sendEmbed(EmbedType.error, (message.channel as TextChannel), { message: message, emoji: true, replyToMessage: true, deleteMsg: true }, { description: `You cannot ban me. My power levels are too high!` })
+		if (user.id === message.author.id) return new EmbedUtils().sendEmbed(EmbedType.error, message.channel, { message: message, emoji: true, replyToMessage: true, deleteMsg: true }, { description: `You cannot ban yourself!` })
+		if (user.id === message.guild?.ownerId) return new EmbedUtils().sendEmbed(EmbedType.error, message.channel, { message: message, emoji: true, replyToMessage: true, deleteMsg: true }, { description: `You cannot ban this user!` })
+		if (user.id === client.user?.id) return new EmbedUtils().sendEmbed(EmbedType.error, message.channel, { message: message, emoji: true, replyToMessage: true, deleteMsg: true }, { description: `You cannot ban me. My power levels are too high!` })
 
 		const warns = await new Utilities().warnCount(user.user);
 
@@ -44,7 +44,7 @@ const command: BooleanCommand = {
 		if (settings.modSettings?.warnsBeforeMute == 0) {
 			remainder = 1
 		}
-		if (!caseNumberSet) return new EmbedUtils().sendEmbed(EmbedType.error, (message.channel as TextChannel), { message: message, emoji: true, replyToMessage: true, deleteMsg: true }, { description: `An error occurred, if this error persists please contact support.` })
+		if (!caseNumberSet) return new EmbedUtils().sendEmbed(EmbedType.error, message.channel, { message: message, emoji: true, replyToMessage: true, deleteMsg: true }, { description: `An error occurred, if this error persists please contact support.` })
 
 		if (remainder == 0 && message.guild?.members.me?.roles.highest.position! > user.roles.highest.position && message.guild?.members.me?.permissions.has([PermissionsBitField.Flags.ModerateMembers])) {
 

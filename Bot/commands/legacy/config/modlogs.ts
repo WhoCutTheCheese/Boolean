@@ -38,7 +38,7 @@ const command: BooleanCommand = {
 					}
 				});
 
-				new EmbedUtils().sendEmbed(EmbedType.success, (message.channel as TextChannel), { message: message, emoji: true, replyToMessage: true }, { description: `You set the mod logging channel to \`#${(channel as TextChannel).name}\`!` });
+				new EmbedUtils().sendEmbed(EmbedType.success, message.channel, { message: message, emoji: true, replyToMessage: true }, { description: `You set the mod logging channel to \`#${(channel as TextChannel).name}\`!` });
 
 				break;
 			case "reset":
@@ -51,7 +51,7 @@ const command: BooleanCommand = {
 					}
 				});
 
-				new EmbedUtils().sendEmbed(EmbedType.success, (message.channel as TextChannel), { message: message, emoji: true, replyToMessage: true }, { description: `ModLog channel has been reset` });
+				new EmbedUtils().sendEmbed(EmbedType.success, message.channel, { message: message, emoji: true, replyToMessage: true }, { description: `ModLog channel has been reset` });
 
 				break;
 			case "view":

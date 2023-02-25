@@ -18,7 +18,7 @@ const command: BooleanCommand = {
 
 		const commandName = args[0].trim().toLowerCase();
 		let commandpath = client.legacycommandfilepath.get(commandName)! || client.legacycommandfilepath.get(client.legacycommandalias.get(commandName)!)!
-		if (!commandpath) return new EmbedUtils().sendEmbed(EmbedType.error, (message.channel as TextChannel), { message: message, replyToMessage: true, deleteMsg: true }, { title: "Unknown command", description: "That command does not exist" })
+		if (!commandpath) return new EmbedUtils().sendEmbed(EmbedType.error, message.channel, { message: message, replyToMessage: true, deleteMsg: true }, { title: "Unknown command", description: "That command does not exist" })
 		let command = client.legacycommands.get(commandName)! || client.legacycommands.get(client.legacycommandalias.get(commandName)!)!
 
 		Log.info(`[Loading] | Legacy Command | ${command.command}`)
@@ -27,11 +27,11 @@ const command: BooleanCommand = {
 
 		if (loaded) {
 			Log.info(`[Loaded]  | Legacy Command | ${command.command}`)
-			return new EmbedUtils().sendEmbed(EmbedType.success, (message.channel as TextChannel), { message: message, emoji: true, replyToMessage: true }, { description: `Successfully reloaded \`${command.command}\`` })
+			return new EmbedUtils().sendEmbed(EmbedType.success, message.channel, { message: message, emoji: true, replyToMessage: true }, { description: `Successfully reloaded \`${command.command}\`` })
 		}
 		else {
 			Log.error(`There was an error loading ${command.command}`)
-			return new EmbedUtils().sendEmbed(EmbedType.error, (message.channel as TextChannel), { message: message, emoji: true, replyToMessage: true }, { description: `There was an error reloading \`${command.command}\`` })
+			return new EmbedUtils().sendEmbed(EmbedType.error, message.channel, { message: message, emoji: true, replyToMessage: true }, { description: `There was an error reloading \`${command.command}\`` })
 		}
 	},
 }
