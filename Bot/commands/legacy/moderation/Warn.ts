@@ -78,7 +78,7 @@ const command: BooleanCommand = {
 			}
 
 			await new EmbedUtils().sendModerationSuccessEmbed((message.channel as TextChannel), message, { arrowEmoji: true, replyToMessage: true }, {
-				mod: message.member!, user, caseNumberSet,
+				mod: message.member!, caseNumberSet,
 				reason,
 				duration: "10 Minutes",
 				customContent: `**${user.user.tag}** has been automatically muted! (Warns **${warns}**)`
@@ -133,7 +133,7 @@ const command: BooleanCommand = {
 			}
 		}
 
-		await new EmbedUtils().sendModerationSuccessEmbed((message.channel as TextChannel), message, { arrowEmoji: true, replyToMessage: true }, { mod: message.member!, user, caseNumberSet, reason, customContent: `**${user.user.tag}** has been warned! (Warns **${warns}**)` })
+		await new EmbedUtils().sendModerationSuccessEmbed((message.channel as TextChannel), message, { arrowEmoji: true, replyToMessage: true }, { mod: message.member!, caseNumberSet, reason, customContent: `**${user.user.tag}** has been warned! (Warns **${warns}**)` })
 
 		// const warned = new EmbedBuilder()
 		// 	.setDescription(`**Case:** #${caseNumberSet} | **Mod:** ${message.author.tag} | **Reason:** ${reason}`)

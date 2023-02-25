@@ -44,7 +44,6 @@ const command: BooleanCommand = {
 
 		await new EmbedUtils().sendModerationSuccessEmbed((message.channel as TextChannel), message, { arrowEmoji: true, replyToMessage: true }, {
 			mod: message.member!,
-			user: member,
 			caseNumberSet: caseNumberSet!,
 			reason,
 			customContent: `**${member.user.tag}** has been Soft-Banned!`

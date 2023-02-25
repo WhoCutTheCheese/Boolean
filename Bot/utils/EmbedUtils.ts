@@ -33,7 +33,7 @@ export class EmbedUtils {
 		}
 	}
 
-	async sendModerationSuccessEmbed(channel: TextChannel, orgMessage: Message | null, settings: { arrowEmoji?: boolean, replyToMessage?: boolean, deleteMsg?: boolean, deleteTimerTime?: number }, args: { mod: GuildMember, user: GuildMember, caseNumberSet: number, duration?: string, reason: string, customContent: string }) {
+	async sendModerationSuccessEmbed(channel: TextChannel, orgMessage: Message | null, settings: { arrowEmoji?: boolean, replyToMessage?: boolean, deleteMsg?: boolean, deleteTimerTime?: number }, args: { mod: GuildMember, caseNumberSet: number, duration?: string, reason: string, customContent: string }) {
 		let embed = new EmbedBuilder()
 			.setDescription(`**Case:** #${args.caseNumberSet} | **Mod:** ${args.mod.user.tag} | **Reason:** ${args.reason} ${args.duration ? `| **Duration:** ${args.duration}` : ""}`)
 			.setColor(await new Utilities().getEmbedColor(channel.guild))
