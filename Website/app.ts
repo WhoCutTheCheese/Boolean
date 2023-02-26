@@ -39,7 +39,6 @@ import WebUsers from './schema/WebUsers';
 import ServerSchema from './schema/ServerSchema';
 import { Utilities } from './utils/Utilities';
 import client from './bot';
-import { LogLevel } from '../Bot/utils/Log';
 import { Log } from './utils/Log';
 
 // * Important setup * \\

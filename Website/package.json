@@ -3,7 +3,8 @@
 	"version": "0.0.0",
 	"private": true,
 	"scripts": {
-		"start": "nodemon app.ts js,pug,ts,json,env,css"
+		"start": "ts-node app.ts",
+		"dev": "nodemon app.ts js,pug,ts,json,env,css"
 	},
 	"dependencies": {
 		"@types/debug": "^4.1.7",
