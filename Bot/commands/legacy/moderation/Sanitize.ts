@@ -23,7 +23,7 @@ const command: BooleanCommand = {
         }
 
         let color: ColorResolvable = await new Utilities().getEmbedColor(message.guild!);
-        const reason = args.splice(1).join(" ") ?? "No reason provided.";
+        const reason = args.splice(1).join(" ") || "No reason provided.";
         const user = message.mentions.members?.first() ||
             (await message.guild?.members.fetch(args[0]).catch(() => { }));
         if (!user)
@@ -51,7 +51,7 @@ const command: BooleanCommand = {
 
         const sanitized = new EmbedBuilder().setDescription(`You have santized \`${user.user.tag}\`'s name.\n**New Nickname:** ${after}`).setColor(color);
         message.channel.send({ embeds: [sanitized] });
-
+        if (after.startsWith(" ")) after = after.substring(1);
         new EmbedUtils().sendModLogs(
             {
                 guild: message.guild,
