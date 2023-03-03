@@ -35,9 +35,6 @@ client.on("messageCreate", async (message: Message) => {
 			return;
 		}
 
-		let color: ColorResolvable = "5865F2" as ColorResolvable;
-		if (settings.guildSettings?.embedColor) color = settings.guildSettings.embedColor as ColorResolvable;
-
 		prefix = settings.guildSettings?.prefix || "!!";
 
 		const args = message.content.split(/[ ]+/)

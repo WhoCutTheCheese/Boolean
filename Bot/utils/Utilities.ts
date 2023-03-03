@@ -209,7 +209,7 @@ export class Utilities {
 
 	async getEmbedColor(guild: Guild | null): Promise<ColorResolvable> {
 		const settings = await this.getGuildSettings(guild!)
-		let color: ColorResolvable = "5865F2" as ColorResolvable;
+		let color: ColorResolvable = config.defaultEmbedColor as ColorResolvable;
 		if (!settings) return color;
 		if (settings.guildSettings?.embedColor) color = settings.guildSettings.embedColor as ColorResolvable;
 		return color

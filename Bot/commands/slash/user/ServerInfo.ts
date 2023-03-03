@@ -1,6 +1,6 @@
 import { ChatInputCommandInteraction, Client, ColorResolvable, EmbedBuilder, GuildMember, GuildVerificationLevel, Message, SlashCommandBuilder, TextChannel } from "discord.js";
 import Settings from "../../../schemas/Settings";
-import { Utilities } from "../../../utils/Utilities";
+import { Utilities } from '../../../utils/Utilities';
 
 module.exports = {
 	data: new SlashCommandBuilder()
@@ -9,17 +9,6 @@ module.exports = {
 		.setDMPermission(false),
 	async execute(interaction: ChatInputCommandInteraction, client: Client) {
 		if (!interaction.inCachedGuild()) return interaction.reply({ content: "You must be inside a cached guild to use this command!", ephemeral: true })
-
-		const settings = await Settings.findOne({
-			guildID: interaction.guild?.id
-		})
-		if (!settings) {
-			await new Utilities().createFile({ guild: interaction.guild! });
-			interaction.reply({ content: "Sorry, your settings file doesn't exist! If this error persists contact support", ephemeral: true });
-			return;
-		}
-		let color: ColorResolvable = "5865F2" as ColorResolvable;
-		if (settings.guildSettings?.embedColor) color = settings.guildSettings.embedColor as ColorResolvable;
 
 		const fetchedMembers = interaction.guild.members.fetch();
 		const totalMembers = (await fetchedMembers).size.toLocaleString();
@@ -36,7 +25,7 @@ module.exports = {
 		const serverInfoEmbed = new EmbedBuilder()
 			.setAuthor({ name: `${interaction.guild.name} Information`, iconURL: interaction.guild.iconURL() || undefined })
 			.setThumbnail(interaction.guild.iconURL() || null)
-			.setColor(color)
+			.setColor(await new Utilities().getEmbedColor(interaction.guild!))
 			.addFields(
 				{ name: "Name:", value: `${interaction.guild?.name}`, inline: true },
 				{ name: "ID:", value: `${interaction.guild?.id}`, inline: true },
