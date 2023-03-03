@@ -33,6 +33,7 @@ new Utilities().registerEvents({ eventFolder: "events", typescript: true });
 new Utilities().registerLegacyCommands({ client, commandsFolder: "commands/legacy", token: token! })
 new Utilities().registerShashCommands({ client, commandsFolder: "commands/slash", typescript: true, token: token! });
 import './commands/legacy/CommandBase'
+import './Tasks/BanCheck'
 
 process.on('unhandledRejection', (error: Error) => new Utilities().handleError(error));
 process.on('uncaughtException', (error: Error) => new Utilities().handleError(error));
