@@ -6,11 +6,11 @@ import { BooleanCommand } from "../../../interface/BooleanCommand";
 const command: BooleanCommand = {
 	command: "nick",
 	aliases: ["nickname"],
-	description: "Set the nickname of a user",
+	description: "Set the nickname of a user.",
 	minArgs: 1,
-	expectedArgs: "[@User/User ID] [Reset/New Nickname]",
-	botPermissions: [PermissionsBitField.Flags.ChangeNickname],
-	userPermissions: [PermissionsBitField.Flags.ChangeNickname],
+	expectedArgs: "[@User/User ID] (New Nickname)",
+	botPermissions: [PermissionsBitField.Flags.ManageNicknames],
+	userPermissions: [PermissionsBitField.Flags.ManageNicknames],
 	commandCategory: "Moderation",
 	callback: async (client: Client, message: Message, args: string[]) => {
 		if (!message.guild?.members?.me) {
