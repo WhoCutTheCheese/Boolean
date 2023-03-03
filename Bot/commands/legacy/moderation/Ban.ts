@@ -2,7 +2,6 @@ import { EmbedType, EmbedUtils } from "../../../utils/EmbedUtils";
 import { Client, EmbedBuilder, Message, PermissionsBitField, TextChannel, messageLink, Utils, Channel, GuildBasedChannel, User } from 'discord.js';
 import { BooleanCommand } from "../../../interface/BooleanCommand";
 import { Utilities } from '../../../utils/Utilities';
-import { convertMany } from "convert";
 import { Log } from "../../../utils/Log";
 import Bans from "../../../schemas/Bans";
 
@@ -31,8 +30,8 @@ const command: BooleanCommand = {
 
 		let caseNumber = await new Utilities().incrementCaseCount(message.guild!);
 		if (!caseNumber) return new EmbedUtils().sendEmbed(EmbedType.error, message.channel, {}, { title: "Fatal error", description: "There was an error getting a case number", footer: { text: `Please contact boolean developers about this! (${await new Utilities().getGuildPrefix(message.guild!) || "!!"}support)` } })
-		let getLenthFromString = new Utilities().getLenthFromString(args[1]);
-		let [lengthNum, lengthString] = getLenthFromString;
+		let getLengthFromString = new Utilities().getLengthFromString(args[1]);
+		let [lengthNum, lengthString] = getLengthFromString;
 		let reason = lengthNum ? args.splice(2).join(" ") : args.splice(1).join(" ");
 
 		if (reason.trim() === "") reason = "No reason provided"

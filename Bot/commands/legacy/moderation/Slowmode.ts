@@ -16,7 +16,7 @@ const command: BooleanCommand = {
 	callback: async (client: Client, message: Message, args: string[]) => {
 		let channel = message.mentions.channels?.first() || await message.guild?.channels.cache.get(args[0]) || null;
 
-		let getLenthFromString = new Utilities().getLenthFromString(channel ? args[1] : args[0]);
+		let getLenthFromString = new Utilities().getLengthFromString(channel ? args[1] : args[0]);
 		if (!getLenthFromString) return new EmbedUtils().sendEmbed(EmbedType.error, message.channel, { message: message, emoji: true, replyToMessage: true, deleteMsg: true }, { description: `Invalid time provided` });
 		let [length, lengthString] = getLenthFromString
 

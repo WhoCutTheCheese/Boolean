@@ -256,7 +256,7 @@ export class Utilities {
 		return config;
 	}
 
-	getLenthFromString(string: string): [number, string] | [null, null] {
+	getLengthFromString(string: string): [number, string] | [null, null] {
 		let lengthString = string
 		if (Number(string)) lengthString = `${string}s`
 		let length = new Utilities().conertStringToTime(lengthString, 's')
