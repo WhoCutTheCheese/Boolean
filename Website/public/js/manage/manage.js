@@ -11,7 +11,8 @@ $(document).ready(function () {
 		$("#savebotinfo").addClass('is-loading');
 		let nickname = $("#nickname").val()
 		let prefix = $("#prefix").val()
-		socket.emit('manage-botinfo-updateguild', guildId, { nickname, prefix })
+		let embedcolor = $("#embedcolor").val()
+		socket.emit('manage-botinfo-updateguild', guildId, { nickname, prefix, embedcolor })
 	})
 });
 

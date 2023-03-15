@@ -16,20 +16,19 @@ aside.sidebar
 			h3.title.is-5.is-white Boolean
 
 	.menu
-		p.menu-label
-			span.icon.is-medium
-				i.fas.fa-cog 
-			| General
 		ul.menu-list
-			li.menu-li
-				button.main-item(data-href="modules") Modules
-			li.menu-li
-				button.main-item(data-href="permit") Permit
-		p.menu-label
-			span.icon.is-medium.has-text-centered
-				i.fa-solid.fa-wrench
-			| Modules
-		p.menu-label
-			span.icon.is-medium
-				i.fa-solid.fa-sliders
-			| Commands
+			li
+				a.is-nav(href='./')
+					span.nav-icon.is-link
+						i.fas.fa-cog
+					span.text.is-white  Dashboard
+			li
+				a.is-nav(href='./modules')
+					span.nav-icon.is-link
+						i.fa-solid.fa-wrench
+					span.text.is-white  Modules
+			li
+				a.is-nav(href='./commands')
+					span.nav-icon.is-link
+						i.fa-solid.fa-sliders
+					span.text.is-white  Commands

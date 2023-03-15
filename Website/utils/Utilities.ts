@@ -27,7 +27,11 @@ export class Utilities {
 	}
 
 	sendToInvite(guild: string | null, req: Request, res: Response) {
-		res.redirect(config.botInvite.replace('[id]', process.env.client_id!).replace('[redirect]', config.inviteCallback))
+		try {
+			res.redirect(config.botInvite.replace('[id]', process.env.client_id!).replace('[redirect]', config.inviteCallback))
+		} catch (err) {
+			res.redirect('/dashboard')
+		}
 	}
 
 	async updateGuilds(guilds: any) {

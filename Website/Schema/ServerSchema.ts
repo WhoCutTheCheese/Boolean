@@ -3,10 +3,7 @@ import mongoose from 'mongoose'
 let Schema = new mongoose.Schema({
 	guildID: String,
 	guildSettings: {
-		prefix: {
-			type: String,
-			default: "!!"
-		},
+		prefix: String,
 		premium: Boolean,
 		premiumHolder: String,
 		totalCases: Number,

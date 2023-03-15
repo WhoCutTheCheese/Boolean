@@ -4,5 +4,8 @@
 	"inviteCallback": "http://localhost:3000/dashboard",
 	"botInvite": "https://discord.com/oauth2/authorize?&client_id=[id]&scope=applications.commands+bot&permissions=307089505783&response_type=code&redirect_uri=[redirect]",
 	"discordInvite": "https://discord.gg/G2EhQCZZfh",
-	"botLogo": "https://cdn.discordapp.com/avatars/966634522106036265/24f34ce68c53b1969494cdce8056e8c8.webp?size=512"
+	"botLogo": "https://cdn.discordapp.com/avatars/966634522106036265/24f34ce68c53b1969494cdce8056e8c8.webp?size=512",
+	"defaultEmbedColor": "5865F2",
+	"maxPrefixLength": 5,
+	"maxNicknameLength": 32
 }

@@ -47,8 +47,6 @@ main {
 	text-align: center;
 }
 
-
-
 input::placeholder {
 	color: gray !important;
 }
@@ -56,5 +54,12 @@ input::placeholder {
 input {
 	background-color: #272b34 !important;
 	color: white !important;
+}
 
+i.premium {
+	color: gold;
+}
+
+.colorpicker {
+	width: 150px;
 }
