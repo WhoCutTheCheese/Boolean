@@ -18,34 +18,42 @@ router.get('/:id', async (req: Request, res: Response, next: NextFunction) => {
 	if (!session.passport || !session.passport.user) return res.redirect("/")
 	let user = session.passport.user
 
-	let dbserver = await ServerSchema.findOne({ guildID: req.params.id })
-	let server = await (await client.guilds.fetch(req.params.id)).toJSON()
-	let userServer = user.guilds.find(gld => gld.id === req.params.id)
+	try {
+		let dbserver = await ServerSchema.findOne({ guildID: req.params.id })
+		let server = await (await client.guilds.fetch(req.params.id)).toJSON()
+		let userServer = user.guilds.find(gld => gld.id === req.params.id)
 
-	if (!dbserver || !server) return new Utilities().sendToInvite(req.params.id, req, res)
+		if (!dbserver || !server) return new Utilities().sendToInvite(req.params.id, req, res)
 
-	res.render('manage/index', { ...{ config }, ...{ dbserver }, ...{ server }, ...{ user }, ...{ userServer }, ...{ showminnavbar: true } })
+		res.render('manage/index', { ...{ config }, ...{ dbserver }, ...{ server }, ...{ user }, ...{ userServer }, ...{ showminnavbar: true } })
+	} catch (err) {
+		return new Utilities().sendToInvite(req.params.id, req, res)
+	}
 });
 
-router.get('/:id/:module', async (req: Request, res: Response, next: NextFunction) => {
+router.get('/:id/:module/', async (req: Request, res: Response, next: NextFunction) => {
 	let session: BooleanSession = req.session as BooleanSession
 	if (!session.passport || !session.passport.user) return res.redirect("/")
 	let user = session.passport.user
 
-	let dbserver = await ServerSchema.findOne({ guildID: req.params.id })
-	let server = await (await client.guilds.fetch(req.params.id)).toJSON()
-	let userServer = user.guilds.find(gld => gld.id === req.params.id)
+	try {
+		let dbserver = await ServerSchema.findOne({ guildID: req.params.id })
+		let server = await (await client.guilds.fetch(req.params.id)).toJSON()
+		let userServer = user.guilds.find(gld => gld.id === req.params.id)
 
-	if (!dbserver || !server) return new Utilities().sendToInvite(req.params.id, req, res)
+		if (!dbserver || !server) return new Utilities().sendToInvite(req.params.id, req, res)
 
-	let module = req.params.module.toLowerCase()
+		let module = req.params.module.toLowerCase()
 
-	var viewPath = path.join(req.app.get('views'), "/manage", module);
+		var viewPath = path.join(req.app.get('views'), "/manage", module);
 
-	if (fs.existsSync(viewPath)) {
-		res.render(module, { ...{ config }, ...{ dbserver }, ...{ server }, ...{ config }, ...{ user }, ...{ userServer }, ...{ showminnavbar: true } })
-	} else {
-		res.render('error', { ...{ config }, ...{ user } })
+		if (fs.existsSync(viewPath)) {
+			res.render(module, { ...{ config }, ...{ dbserver }, ...{ server }, ...{ config }, ...{ user }, ...{ userServer }, ...{ showminnavbar: true } })
+		} else {
+			res.render('error', { ...{ config }, ...{ user } })
+		}
+	} catch (err) {
+		return new Utilities().sendToInvite(req.params.id, req, res)
 	}
 });
 

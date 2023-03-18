@@ -40,6 +40,11 @@ import ServerSchema from './schema/ServerSchema';
 import { Utilities } from './utils/Utilities';
 import client from './bot';
 import { Log } from './utils/Log';
+import { Presence } from 'discord.js';
+
+// * Other vars * \\
+
+const validHexColorRegex = /^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/;
 
 // * Important setup * \\
 
@@ -84,6 +89,16 @@ app.use("/public", express.static(__dirname + "/public"));
 app.use("/favicon.ico", express.static(path.join(__dirname, "/public/img/favicon.ico")));
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
+
+app.use((req, res, next) => {
+	if (req.path.slice(-1) !== '/' && req.path.length > 1) {
+		const query = req.url.slice(req.path.length)
+		res.redirect(301, req.path + '/' + query)
+	} else {
+		next()
+	}
+})
+
 
 app.use('/', indexRouter);
 app.use('/auth', authRouter);
@@ -142,6 +157,7 @@ function getSessionUser(socket: Socket.Socket<DefaultEventsMap, DefaultEventsMap
 	return user || null;
 }
 
+
 io.use(sharedsession(appSession));
 
 io.on("connection", (socket) => {
@@ -177,24 +193,45 @@ io.on("connection", (socket) => {
 
 	socket.on("manage-botinfo-getnickname", async (guildID) => {
 		try {
-			Log.debug(guildID)
 			socket.emit("manage-botinfo-getnickname-return", (await client.guilds.fetch(guildID)).members.me?.nickname || "Boolean")
 		} catch (err) {
 			console.error(err)
 		}
 	});
 
-	socket.on('manage-botinfo-updateguild', async (guildID, data: { nickname: string, prefix: string }) => {
-		(await client.guilds.fetch(guildID)).members.me?.setNickname(data.nickname.trim() || "Boolean")
-		await ServerSchema.findOneAndUpdate({
-			guildID: guildID
-		}, {
-			guildSettings: {
-				prefix: data.prefix.trim() || "!!"
-			}
-		})
-		socket.emit('manage-botinfo-updateguild-return')
-		socket.emit("toastr-success-message", "Success", "Successfully updated guild info")
+	socket.on('manage-botinfo-updateguild', async (guildID: string, data: { nickname: string, prefix: string, embedcolor: string }) => {
+
+		function returnError(err?: string) {
+			socket.emit("manage-botinfo-updateguild-return")
+			socket.emit("toastr-error-message", "Error", err || "Something went wrong. Please try again.")
+		}
+
+		// Server side checks
+		if (!guildID || !data || !data.nickname || !data.prefix) { return returnError() }
+		if (!await client.guilds.fetch(guildID)) { return returnError() }
+		if (data.nickname.length > config.maxNicknameLength) { return returnError("Nickname too long") }
+		if (data.prefix.length > config.maxPrefixLength) { return returnError("Prefix too long") }
+		if (!validHexColorRegex.test(data.embedcolor)) { return returnError("Invalid embed color") }
+
+		let guild = await ServerSchema.findOne({ guildID: guildID });
+		if (!guild) { return returnError(); }
+		let hasPremium = guild.guildSettings && guild.guildSettings.premium
+
+		try {
+			(await client.guilds.fetch(guildID)).members.me?.setNickname(data.nickname.trim() || "Boolean")
+			await ServerSchema.findOneAndUpdate({
+				guildID: guildID
+			}, {
+				guildSettings: {
+					prefix: data.prefix.trim() || "!!",
+					embedColor: hasPremium ? data.embedcolor.replace("#", "") : undefined
+				}
+			})
+			socket.emit('manage-botinfo-updateguild-return')
+			socket.emit("toastr-success-message", "Success", "Updated server settings")
+		} catch (err) {
+			return returnError()
+		}
 	})
 });
 

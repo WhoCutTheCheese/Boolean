@@ -33,13 +33,21 @@ main
 							span.is-white=` ${server.bans.length}`
 		.column.is-full
 			.box.match-background
-				h3.title.is-3.is-white Bot Info
+				h3.title.is-3.is-white Server settings
 				.columns.is-multiline
-					.column.is-one-half
-						p(style='color: gray;') Nickname
-						input#nickname.input(type='text' maxlength=32 value="Boolean")
-					.column.is-one-half
+					.column.is-half
+						p(style='color: gray;') Nickname:
+						input#nickname.input(type='text' maxlength=config.maxNicknameLength value="Boolean")
+					.column.is-half
 						p(style='color: gray;') Prefix:
-						input#prefix.input(type='text' maxlength=5 value=`${(dbserver.guildSettings && dbserver.guildSettings.prefix) ? dbserver.guildSettings.prefix : "!!"}`)
-				button#savebotinfo.button.is-blurple.is-info.is-outlined Save
-//- include ../footer.pug
+						input#prefix.input(type='text' maxlength=config.maxPrefixLength value=`${(dbserver.guildSettings && dbserver.guildSettings.prefix) ? dbserver.guildSettings.prefix : "!!"}`)
+					.column.is-half
+						span.icon-text
+							span.icon
+								i.premium.fa-solid.fa-crown
+							span(style='color: gray;') Embed Color:
+						br
+						input#embedcolor.colorpicker.input(disabled type='color' value=`#${(dbserver.guildSettings && dbserver.guildSettings.embedColor) ? dbserver.guildSettings.embedColor : config.defaultEmbedColor}`)
+						br
+						br
+						button#savebotinfo.button.is-blurple.is-info.is-outlined Save

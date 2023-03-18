@@ -8,8 +8,6 @@ body {
 	width: 250px;
 	height: 100vh;
 	position: fixed;
-	/* top: 60px; */
-	/* Add space on the top */
 	left: 0;
 	padding-left: 0.75rem;
 	padding-right: 1.5rem;
@@ -17,8 +15,6 @@ body {
 	padding-top: 1.5rem;
 	padding-bottom: 1.5rem;
 	z-index: 9999;
-	/* margin-top: -57px; */
-	/* Make sure the sidebar is displayed on top of other elements */
 }
 
 .sidebar-header {
@@ -49,6 +45,7 @@ body {
 	color: white;
 	text-transform: uppercase;
 	letter-spacing: 1px;
+	padding: 10px;
 }
 
 .menu-list button {
@@ -62,13 +59,28 @@ body {
 	transition: all 0.2s ease-in-out;
 }
 
-.menu-list button:hover {
-	/* background-color: #34495e; */
-	color: #2e4d77;
-	/* color: #fff; */
+.menu-list a:hover {
+	background-color: #1a2634;
+	color: #4488e7;
+}
+
+.menu-list a:hover span.text {
+	color: white;
 }
 
 .menu-li {
 	margin: 10px;
 	margin-left: 30px;
+}
+
+.menu-list span.text {
+	transition: all 0.2s ease-in-out;
+	color: #bcc2d2;
+}
+
+.menu-list a {
+	transition: all 0.2s ease-in-out;
+	color: #34495e;
+	font-size: 20px;
+	padding: 16px;
 }
