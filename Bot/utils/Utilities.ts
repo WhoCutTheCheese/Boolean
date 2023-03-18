@@ -259,7 +259,7 @@ export class Utilities {
 	getLengthFromString(string: string): [number, string] | [null, null] {
 		let lengthString = string
 		if (Number(string)) lengthString = `${string}s`
-		let length = new Utilities().conertStringToTime(lengthString, 's')
+		let length = new Utilities().convertStringToTime(lengthString)
 		if (!length) return [null, null];
 		lengthString = new Utilities().convertShortToLongTime(lengthString)
 		if (!lengthString) return [null, null];
@@ -267,10 +267,13 @@ export class Utilities {
 		return [length, lengthString]
 	}
 
-	conertStringToTime(string: string, time: string): number | null {
+	convertStringToTime(string: string): number | null {
 		let lengthNum: number | null = null;
+
+		if (string.replace(/\d/g, "") == "m") string = string.replace(/\D/g, '').concat("min")
+
 		try { lengthNum = convertMany(string).to('s'); }
-		catch (err) { };
+		catch (err) { Log.error(err) };
 
 		return lengthNum;
 	}
@@ -293,7 +296,7 @@ export class Utilities {
 				return `${value} day(s)`;
 			case 'h':
 				return `${value} hour(s)`;
-			case 'm':
+			case 'm' || "min":
 				return `${value} minute(s)`;
 			case 's':
 				return `${value} second(s)`;
