@@ -1,9 +1,10 @@
 import { Main } from "..";
 import Bans from "../schemas/Bans";
-import { Log } from "../utils/Log";
 
 export async function checkBans() {
-	let bans = await Bans.find({});
+	let bans = await Bans.find({
+		banExpiredUnix: { $lt: Date.now() }
+	});
 
 	if (bans.length <= 0) return;
 
@@ -17,7 +18,7 @@ export async function checkBans() {
 		let guild = await client.guilds.fetch(ban.guildID!).catch(() => { });
 		if (!guild) return;
 
-		guild.members.unban(user, "Ban expired");
+		guild.members.unban(user, "Ban expired.");
 		await ban.delete();
 	}
 }

@@ -30,13 +30,13 @@ export class Main {
 }
 
 new Utilities().registerEvents({ eventFolder: "events", typescript: true });
-new Utilities().registerLegacyCommands({ client, commandsFolder: "commands/legacy", token: token! })
+new Utilities().registerLegacyCommands({ client, commandsFolder: "commands/legacy", token: token! });
 new Utilities().registerShashCommands({ client, commandsFolder: "commands/slash", typescript: true, token: token! });
-import './commands/legacy/CommandBase'
-import './Tasks/BanCheck'
+import './commands/legacy/CommandBase';
+import "../Bot/tasks/BanCheck";
 
 process.on('unhandledRejection', (error: Error) => new Utilities().handleError(error));
 process.on('uncaughtException', (error: Error) => new Utilities().handleError(error));
-client.on("error", (error: Error) => new Utilities().handleError(error))
+client.on("error", (error: Error) => new Utilities().handleError(error));
 
 client.login(token);

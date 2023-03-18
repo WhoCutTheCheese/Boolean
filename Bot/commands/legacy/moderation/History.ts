@@ -65,7 +65,7 @@ const command: BooleanCommand = {
 			.setColor(color)
 			.setDescription(`${historyArray[numbers]}`)
 			.setFooter({ text: `Requsted by ${message.author.username}`, iconURL: message.author.displayAvatarURL() || undefined });
-		const histReply = await message.channel.send({ embeds: [historyEmbed], components: [row as ActionRowBuilder<ButtonBuilder>] });
+		const histReply = await message.channel.send({ embeds: [historyEmbed], components: [row] });
 
 		const filter = (i: any) => i.user.id === message.author.id;
 
@@ -135,6 +135,6 @@ const command: BooleanCommand = {
 
 
 	},
-}
+};
 
 export = command;
