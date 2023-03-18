@@ -24,28 +24,32 @@ const command: BooleanCommand = {
 			return new EmbedUtils().sendEmbed(EmbedType.error, message.channel, { deleteMsg: true, emoji: true }, { description: "Invalid user" });
 		}
 
-		if (user.id === message.author.id) return new EmbedUtils().sendEmbed(EmbedType.error, message.channel, { message: message, emoji: true, replyToMessage: true, deleteMsg: true }, { description: `You cannot ban yourself!` })
-		if (user.id === message.guild?.ownerId) return new EmbedUtils().sendEmbed(EmbedType.error, message.channel, { message: message, emoji: true, replyToMessage: true, deleteMsg: true }, { description: `This user is unable to be banned!` })
-		if (user.id === client.user?.id) return new EmbedUtils().sendEmbed(EmbedType.error, message.channel, { message: message, emoji: true, replyToMessage: true, deleteMsg: true }, { description: `You cannot ban me. My power levels are too high!` })
+		if (user.id === message.author.id) return new EmbedUtils().sendEmbed(EmbedType.error, message.channel, { message: message, emoji: true, replyToMessage: true, deleteMsg: true }, { description: `You cannot ban yourself!` });
+		if (user.id === message.guild?.ownerId) return new EmbedUtils().sendEmbed(EmbedType.error, message.channel, { message: message, emoji: true, replyToMessage: true, deleteMsg: true }, { description: `This user is unable to be banned!` });
+		if (user.id === client.user?.id) return new EmbedUtils().sendEmbed(EmbedType.error, message.channel, { message: message, emoji: true, replyToMessage: true, deleteMsg: true }, { description: `You cannot ban me. My power levels are too high!` });
 
 		let caseNumber = await new Utilities().incrementCaseCount(message.guild!);
-		if (!caseNumber) return new EmbedUtils().sendEmbed(EmbedType.error, message.channel, {}, { title: "Fatal error", description: "There was an error getting a case number", footer: { text: `Please contact boolean developers about this! (${await new Utilities().getGuildPrefix(message.guild!) || "!!"}support)` } })
+		if (!caseNumber) return new EmbedUtils().sendEmbed(EmbedType.error, message.channel, {}, { title: "Fatal error", description: "There was an error getting a case number", footer: { text: `Please contact boolean developers about this! (${await new Utilities().getGuildPrefix(message.guild!) || "!!"}support)` } });
 		let getLengthFromString = new Utilities().getLengthFromString(args[1]);
 		let [lengthNum, lengthString] = getLengthFromString;
 		let reason = lengthNum ? args.splice(2).join(" ") : args.splice(1).join(" ");
 
-		if (reason.trim() === "") reason = "No reason provided"
-		if (!lengthString) lengthString = "Forever"
+		if (reason.trim() === "") reason = "No reason provided";
+		if (!lengthString) lengthString = "Forever";
 
-		await message.guild?.members.ban(user, { reason: `Banned by ${message.author.tag}\nReason: ${reason}` })
+		await message.guild?.members.ban(user, { reason: `Banned by ${message.author.tag}\nReason: ${reason}` });
 		if ((lengthNum && lengthNum > 0)) {
-			Log.debug(`created ban file for ${user.tag}`)
-			await Bans.create({ guildID: message.guild?.id, userID: user.id, banExpireUnix: (Math.floor(Date.now() / 1000) + lengthNum), caseNumber: caseNumber! })
+			Log.debug(`created ban file for ${user.tag}`);
+			await Bans.create({ guildID: message.guild?.id, userID: user.id, banExpireUnix: (Math.floor(Date.now() / 1000) + lengthNum), caseNumber: caseNumber! });
+		} else {
+			await Bans.deleteMany({
+				userID: user.id
+			});
 		}
 
-		await new EmbedUtils().sendModLogs({ guild: message.guild!, mod: message.member!, targetUser: user, action: "Ban" }, { title: "User Banned", actionInfo: `**Reason:** ${reason}\n> **Duration:** ${lengthString}\n> **Case ID:** ${caseNumber}`, channel: message.channel })
+		await new EmbedUtils().sendModLogs({ guild: message.guild!, mod: message.member!, targetUser: user, action: "Ban" }, { title: "User Banned", actionInfo: `**Reason:** ${reason}\n> **Duration:** ${lengthString}\n> **Case ID:** ${caseNumber}`, channel: message.channel });
 
-		return new EmbedUtils().sendModerationSuccessEmbed((message.channel as TextChannel), message, { arrowEmoji: true }, { mod: message.member!, caseNumberSet: caseNumber!, reason: reason, duration: lengthString, customContent: `**${user.tag}** has been banned` })
+		return new EmbedUtils().sendModerationSuccessEmbed((message.channel as TextChannel), message, { arrowEmoji: true }, { mod: message.member!, caseNumberSet: caseNumber!, reason: reason, duration: lengthString, customContent: `**${user.tag}** has been banned` });
 	},
 };
 
