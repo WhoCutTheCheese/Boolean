@@ -1,4 +1,4 @@
-import mongoose from 'mongoose'
+import mongoose from 'mongoose';
 
 let Schema = new mongoose.Schema({
 	guildID: String,
@@ -18,10 +18,11 @@ let Schema = new mongoose.Schema({
 			default: true
 		},
 		warnsBeforeMute: Number,
-		deleteCommandUsage: Boolean
+		deleteCommandUsage: Boolean,
+		autoSanitize: Boolean,
 	},
 	modRoles: Array,
 	adminRole: Array,
-})
+});
 
 export default mongoose.model('settings', Schema);
